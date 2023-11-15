@@ -109,7 +109,7 @@ const joinForm = () => {
   align-items: center;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
-  height: 94vh;
+  height: 100vh;
   width:100vw;
   /* margin: -20px 0 50px; */
 }

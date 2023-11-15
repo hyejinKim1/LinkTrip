@@ -3,7 +3,7 @@ import HomeText from '../components/home/HomeText.vue';
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-div">
     <!-- cloud -->
     <cloud class="cloud"></cloud>
     <cloud class="cloud"></cloud>
@@ -61,10 +61,10 @@ import HomeText from '../components/home/HomeText.vue';
   padding: 0;
 }
 
-.container {
+.container-div {
   background: #aad9ff;
   width: 100vw;
-  height: 94vh;
+  height: 100vh;
   position: absolute;
   overflow: hidden;
 }

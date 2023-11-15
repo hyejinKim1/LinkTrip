@@ -1,11 +1,4 @@
 <script setup>
-import { useRouter } from "vue-router";
-const router = useRouter();
-const login = () => {
-  router.push({
-    path: "/login",
-  });
-};
 </script>
 
 <template>
@@ -15,7 +8,7 @@ const login = () => {
   <div class="bottom">
     <div class="btn-div">
     <router-link to="/login">
-      <button class="button" @click="login()">Start</button>
+      <router-link to="/makeplan" class="nav-link"> <button class="button">Start</button></router-link>
     </router-link>
     </div>
     <div class="text-div">

@@ -15,6 +15,31 @@ const router = createRouter({
       name: 'login',
       component: UserLogin
     },
+    {
+      path: '/myplan',
+      name: 'myplan',
+      component: () => import('../components/plan/MyPlan.vue')
+    },
+    {
+      path: '/makeplan',
+      name: 'makeplan',
+      component: () => import('../components/plan/MakePlan.vue')
+    },
+    {
+      path: '/savedplan',
+      name: 'savedplan',
+      component: () => import('../components/plan/SavedPlan.vue')
+    },
+    {
+      path: '/community',
+      name: 'community',
+      component: () => import('../views/CommunityPage.vue')
+    },
+    {
+      path: '/recommend',
+      name: 'recommend',
+      component: () => import('../views/RecommendPage.vue')
+    },
     // {
     //   path: '/about',
     //   name: 'about',
