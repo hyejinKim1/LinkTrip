@@ -11,10 +11,4 @@ import Navbar from "./components/layout/Navbar.vue"
 </template>
 
 <style scoped> 
-/* .wrapper{
-  width: 100%;
-  height: 100%;
-  margin : 0;
-  padding:0;
-} */
 </style>

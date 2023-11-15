@@ -109,8 +109,9 @@ const joinForm = () => {
   align-items: center;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
-  height: 100vh;
-  margin: -20px 0 50px;
+  height: 94vh;
+  width:100vw;
+  /* margin: -20px 0 50px; */
 }
 
 h1 {
