@@ -29,6 +29,11 @@ const router = createRouter({
       path: '/savedplan',
       name: 'savedplan',
       component: () => import('../components/plan/SavedPlan.vue')
+    }, 
+    {
+      path: '/updateplan',
+      name: 'updateplan',
+      component: () => import('../components/plan/UpdatePlan.vue')
     },
     {
       path: '/community',
