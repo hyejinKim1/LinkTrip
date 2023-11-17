@@ -33,12 +33,12 @@ const router = createRouter({
     {
       path: '/community',
       name: 'community',
-      component: () => import('../views/CommunityPage.vue')
+      component: () => import('../views/CommunityView.vue')
     },
     {
       path: '/recommend',
       name: 'recommend',
-      component: () => import('../views/RecommendPage.vue')
+      component: () => import('../views/RecommendView.vue')
     },
     // {
     //   path: '/about',
