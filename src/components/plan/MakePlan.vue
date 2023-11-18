@@ -1,45 +1,101 @@
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
+// import Calender from "./Calender.vue";
 
 const planname = ref('');
+const datePage = ref(false);
+const savePage = ref(false);
+
 const startdate = ref(null);
 const enddate = ref(null);
 
-const savePlan = () => {
+const todate = () => {
+  datePage.value = true;
+  savePage.value = false;
+}
+
+const tosave = () => {
+  datePage.value = false;
+  savePage.value = true;
+}
+
+const setstartDate = (e) =>{
+  startdate.value = e.target.value;
+}
+
+const setendDate = (e) =>{
+  enddate.value = e.target.value;
+}
+
+const savePlan = (e) => {
 
 };
 </script>
 
 <template>
   <div class="makeplan-wrapper">
-    <div class="name-div slider">
-      <div class="title">새로 만들 Plan의 이름을 입력해주세요!</div>
-      <div>
-        <input type="title" class="name" v-model="planname"/>
+    <div class="slider-wrapper" id="sliderWrap" :class="{todate:datePage}, {tosave:savePage}">
+      <div class="name-div slider">
+        <div class="title">새로운 여행의 이름을 입력해주세요!</div>
+        <div>
+          <input type="title" class="name" v-model="planname" />
+        </div>
+        <div v-show="planname != ''">
+          <button class="button" @click="todate">Next</button>
+        </div>
       </div>
-      <div v-show="planname != ''">
-        <button class="button">Next</button>
+      <div class="date-div slider">
+        <div class="title">여행 기간이 어떻게 되시나요?</div>
+        <!-- <Calender/> -->
+        <Input type="date" @input="setstartDate($event)"/>
+        ~
+        <Input type="date" @input="setendDate($event)"/>
+        <div v-show="startdate != null && enddate != null">
+          <button class="button" @click="tosave">Next</button>
+        </div>
       </div>
-    </div>
-    <div class="date-div slider">
-      <div class="title">일정을 선택해주세요!</div>
-      <div v-show="planname != ''">
-        <button class="button">Next</button>
+      <div class="save-div slider">
+        <div class="title">저장 버튼을 누르고 나만의 여행 일정을 만들어 보세요!</div>
+        <div class="result-div">
+          <p>Plan Name : {{ planname }}</p>
+          <p>여행 일정 : {{ startdate }} ~ {{ enddate }}</p>
+        </div>
+        <router-link to="/updateplan" class="nav-link"><button class="button"
+            @click="savePlan">save</button></router-link>
       </div>
-    </div>
-    <div class="save-div slider">
-      <div class="title">저장 버튼을 누르고 여행 일정을 편집해 보세요!</div>
-      <div>
-        Plan Name : {{ planname }}
-        여행 일정 : {{ startdate }} ~ {{ enddate }}
-      </div>
-      <router-link to="/updateplan" class="nav-link"><button class="button" @click="savePlan">save</button></router-link>
     </div>
   </div>
 </template>
 
 <style scoped>
-.makeplan-wrapper{
+.todate{
+  transform: translate(-100vw);
+}
+
+.tosave{
+  transform: translate(-200vw);
+}
+
+.makeplan-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#sliderWrap{
+  transition: transform 1s; 
+}
+
+.result-div{
+  padding: 10px;
+}
+
+.result-div p{
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.slider-wrapper {
   width: 300vw;
   height: 100vh;
   display: flex;
@@ -48,22 +104,23 @@ const savePlan = () => {
   overflow: hidden;
 }
 
-.slider{
+.slider {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
 
-.title{
+.title {
   margin-top: 30vh;
   font-size: 50px;
   font-weight: 700;
 }
 
-.name-div input{
+.name-div input {
   margin: 50px;
-  width: 50vw;
+  width: 40vw;
   padding: 40px;
+  border: 4px solid black;
   border-radius: 20px;
   font-size: 30px;
 }
@@ -86,11 +143,12 @@ const savePlan = () => {
   cursor: pointer;
   outline: none;
   margin-top: 30px;
-  }
-  .button:hover {
+}
+
+.button:hover {
   background-color: rgb(163, 217, 248);
   box-shadow: 0px 15px 20px rgba(145, 211, 255, 0.4);
   color: #fff;
   transform: translateY(-7px);
-  }
+}
 </style>

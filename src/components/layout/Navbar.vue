@@ -8,6 +8,7 @@
 //   document.getElementById("mySidenav").style.width = "0";
 //   document.getElementById("main").style.marginLeft = "0";
 // }
+
 </script>
 
 <template>
@@ -20,7 +21,7 @@
         <ul class="navbar-nav me-auto" style="--bs-scroll-height: 100px">
           <li class="nav-item">
             <div class="dropdown">
-              <p class="dropbtn">일정</p>
+              <p class="dropbtn nav-btn">일정</p>
               <div class="dropdown-content">
                 <router-link to="/makeplan" class="nav-link"><p>일정 생성</p></router-link>
                 <router-link to="/myplan" class="nav-link"><p>내 일정</p></router-link>
@@ -30,12 +31,12 @@
           </li>
           <li class="nav-item">
             <router-link to="/community" class="nav-link">
-              <p>커뮤니티</p>
+              <p class="nav-btn">커뮤니티</p>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/recommend" class="nav-link">
-              <p>추천여행지</p>
+              <p class="nav-btn">추천여행지</p>
             </router-link>
           </li>
         </ul>
