@@ -1,4 +1,7 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+
 // function openMenu() {
 //   document.getElementById("mySidenav").style.width = "250px";
 //   document.getElementById("main").style.marginLeft = "250px";
@@ -8,6 +11,9 @@
 //   document.getElementById("mySidenav").style.width = "0";
 //   document.getElementById("main").style.marginLeft = "0";
 // }
+
+const memberStore = useMemberStore();
+const { isLogin } = storeToRefs(memberStore);
 
 </script>
 
@@ -41,9 +47,18 @@
           </li>
         </ul>
         <div class="header-dropdown">
-          <router-link to="/login">
+          <template v-if="isLogin">
+            <router-link to="/myPage">
             <img src="@/assets/img/user.png" alt="user" style="width:45px;" />
           </router-link>
+
+          </template>
+          <template v-else>
+            <router-link to="/login">
+              <img src="@/assets/img/user.png" alt="user" style="width:45px;" />
+            </router-link>
+          </template>
+          
         </div>
       </div>
     </div>

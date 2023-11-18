@@ -1,8 +1,24 @@
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+import { useMemberStore } from "@/stores/member";
+import { useMenuStore } from "@/stores/menu";
+
 import axios from "axios";
-import router from "../../router";
+// import router from "../../router";
 const isActive = ref(false);
+const router = useRouter();
+const memberStore = useMemberStore();
+
+const { isLogin } = storeToRefs(memberStore);
+const { userLogin, getUserInfo } = memberStore;
+const { changeMenuState } = useMenuStore();
+
+const loginUser = ref({
+  userId: "",
+  userPwd: "",
+});
 
 const toSignup = () => {
   isActive.value = true;
@@ -12,23 +28,32 @@ const toSignin = () => {
   isActive.value = false;
 };
 
-const loginForm = () => {
-  let baseUrl = "http://localhost/mem/login?";
-  let userid = document.getElementById("loginid")?.value;
-  let userpwd = document.getElementById("loginpw")?.value;
+const loginForm = async() => {
+  // let baseUrl = "http://localhost/mem/login?";
+  // let userid = document.getElementById("loginid")?.value;
+  // let userpwd = document.getElementById("loginpw")?.value;
 
-  baseUrl += "&userid=" + userid + "&userpwd=" + userpwd;
-  console.log(baseUrl);
+  // baseUrl += "&userid=" + userid + "&userpwd=" + userpwd;
+  // console.log(baseUrl);
 
-  axios.post(baseUrl)
-    .then((res) => {
-      if(res.data.resdata == 1){
-        router.replace({path:'/home'});
-        console.log("로그인 성공");
-      }else{
-        console.log("로그인 실패");
-      }
-    });
+  // axios.post(baseUrl)
+  //   .then((res) => {
+  //     if(res.data.resdata == 1){
+  //       router.replace({path:'/home'});
+  //       console.log("로그인 성공");
+  //     }else{
+  //       console.log("로그인 실패");
+  //     }
+  //   });
+  console.log(loginUser.value)
+
+  await userLogin(loginUser.value);
+  let token = sessionStorage.getItem("accessToken");
+  if (isLogin) {
+    getUserInfo(token);
+    changeMenuState();
+  }
+  router.push("/");
 };
 
 const joinForm = () => {
@@ -70,8 +95,8 @@ const joinForm = () => {
   <div class="form-container sign-in-container">
     <form v-on:submit.prevent="loginForm">
       <h1>Sign in</h1>
-      <input type="text" placeholder="ID"  id="loginid" required/>
-      <input type="password" placeholder="Password" id="loginpw" required/>
+      <input v-model="loginUser.userId" type="text" placeholder="ID"  id="loginid" required/>
+      <input v-model="loginUser.userPwd" type="password" placeholder="Password" id="loginpw" required/>
       <button type="submit">Sign in</button>
     </form>
   </div>
