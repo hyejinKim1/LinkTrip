@@ -3,7 +3,7 @@ import KakaoMap from "@/components/map/KakaoMap.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
-import { ConsoleWriter } from "istanbul-lib-report";
+
 
 const planData = ref({
   "placeOrder":[], 
