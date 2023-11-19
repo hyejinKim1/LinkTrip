@@ -134,4 +134,6 @@ export const useMemberStore = defineStore("memberStore", () => {
     tokenRegenerate,
     userLogout,
   };
-});
+},{ persist: { storage: localStorage } })
+
+;

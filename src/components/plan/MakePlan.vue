@@ -11,10 +11,8 @@ const datePage = ref(false);
 const savePage = ref(false);
 const region = ref('대전');
 
-const startdate = ref(new Date());
-const enddate = ref(new Date());
-
-const planIdx = ref(0);
+const startdate = ref(new Date().toISOString());
+const enddate = ref(new Date().toISOString());
 
 const todate = () => {
   datePage.value = true;
@@ -50,31 +48,30 @@ const savePlan = () => {
   console.log(baseUrl);
 
 
-  function toTimestamp(strDate){
+function toTimestamp(strDate){
    var datum = Date.parse(strDate);
    return datum/1000;
 }
     // axios.post(baseUrl)
     // .then((res) => console.log(res.data));
 
-  console.log(memberStore.userInfo.value);
-
+  console.log(memberStore.userInfo.userId);
+  
     axios.post(baseUrl, {
       planTitle:planname.value,
       region: region.value,
       period:period,
-      startDate:startdate.value.toISOString().split('T')[0],
-      userId: memberStore.userInfo.value
+      startDate:startdate.value.split('T')[0],
+      userId: memberStore.userInfo.userId
     }
     ).then((res) => {
-      console.log(res.data)
-      planIdx.value = res.data.planIdx;
+      router.push({
+      name: 'updateplan',  
+      params: {pname: planname.value, sdate: startdate.value, edate: enddate.value, region: region.value, planIdx:res.data.planIdx}
+  })
     });
 
-  router.push({
-    name: 'updateplan',  
-    params: {pname: planname.value, sdate: startdate.value, edate: enddate.value, region: region.value, planIdx:planIdx.value}
-  })
+
 }
 
 const getDateDiff = (d1, d2) => {
@@ -83,20 +80,9 @@ const getDateDiff = (d1, d2) => {
   
   const diffDate = date1.getTime() - date2.getTime();
   
-  return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+  return Math.abs(diffDate / (1000 * 60 * 60 * 24))+1; // 밀리세컨 * 초 * 분 * 시 = 일
 }
 </script>
-
-<!-- <script>
-    export default {
-        name: 'MakePlan',
-        methods: {
-            savePlan () {
-                this.$router.push({ name: 'updateplan', params: {pname: planname.value, sdate: startdate.value, edate: enddate.value}})
-            }
-        }
-      }
-</script> -->
 
 <template>
   <div class="makeplan-wrapper">
@@ -148,11 +134,8 @@ const getDateDiff = (d1, d2) => {
           <p>Plan 이름 : {{ planname }}</p>
           <p>여행 일정 : {{ startdate }} ~ {{ enddate }}</p>
         </div>
-        <router-link 
-        :to="{ name: 'updateplan', params: {pname: planname, sdate: startdate, edate: enddate, region: region, planIdx:planIdx}}" class="nav-link">
         <button class="button"
             @click="savePlan">save</button>
-          </router-link>
       </div>
     </div>
   </div>

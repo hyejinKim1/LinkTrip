@@ -4,9 +4,23 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 
-console.log(useRoute().params)
+const planData = ref({
+  "placeOrder":[], 
+  "planDTO": {
+            "planIdx": 0,
+            "planTitle": "",
+            "region": "",
+            "startDate": "",
+            "period": 0,
+            "userIdx": 0,
+            "scrap": "F",
+            "createAt": "",
+            "updateAt": null,
+            "deleteAt": null
+        }
+  });
 
-const planData = ref(null);
+const query = ref('');
 
 //plan 보여주기
 
@@ -15,19 +29,34 @@ onMounted(() => {
 })
 
 const getPlan = () => {
+  console.log(useRoute().params.planIdx);
   let baseUrl = "http://localhost/plan/viewPlan?"+"&planIdx=" + useRoute().params.planIdx;
   console.log(baseUrl);
 
   axios.get(baseUrl)
     .then((res) =>{
       console.log(res.data);
-      planData.value = res.data;
+      planData.value = res.data.data;
+      console.log(res.data.data);
+      console.log(planData.value.placeOrder);
+      console.log(planData.value.placeOrder.length);
     } );
 }
-
+function handleSearchInput() {
+  this.ps.keywordSearch(this.searchQuery, this.placesSearchCB);
+}
+function getRecommend() {
+  query.value = this.region + " 명소";
+}
+function getRestaurant() {
+  query.value = this.region + " 식당";
+}
+function getCafe() {
+  query.value = this.region + " 카페";
+}
 </script>
 
-<script>
+<!-- <script>
 export default {
   name: 'params',
   props: {
@@ -48,34 +77,71 @@ export default {
     }
   },
 }
-</script>
+</script> -->
 
 <template>
   <div class="update-wrapper">
-    <div class="search-div">
-      update
-      {{ pname }}
-      {{ sdate }}~{{ edate }}
-      <!-- <div class="search">
-        <input type="text" @input="searchPlace" v-model="keyword">
-      </div> -->
-
-      <div v-for="(plan, index) in planData" :key="index">
-        planData
+    <div class="plan-div split">
+      <div class="title-div">{{ planData.planDTO.planTitle }}</div>
+      <div>{{ planData.planDTO.startDate }}</div>
+      <div v-for="(day, index) in planData.placeOrder" :key="index" class="day-div">
+        {{ index+1 }}일차 <button>추가</button>
+        <div v-show="day.length==0">
+          <p style="font-size:7px;">추가 버튼을 눌러 일정을 추가해주세요!</p>
+        </div>
+        <div v-show="day.length>0">
+          <div v-for="(place, index) in day" :key="place">
+          {{ place }}
+          </div>
+        </div>
       </div>
-      <KakaoMap />
+    </div>
+    <div class="search-div">
+      <input type="text" id="place-search" v-model="searchQuery" placeholder="장소 검색" @input="handleSearchInput" />
+      <!-- <button @click="handleSearchInput">검색</button> -->
+      <div class="search-btn-div">
+        <button @click="getRecommend">명소</button>
+        <button @click="getRestaurant">식당</button>
+        <button @click="getCafe">카페</button>
+      </div>
+      <div v-if="places.length">
+        <h2>검색 결과:</h2>
+        <div v-for="(place, index) in places" :key="index" class="place-item-div">
+          {{ place.place_name }}<br />
+          {{ place.address_name }}
+        </div>
+      </div>
+    </div>
+    <div class="search-div split">
+      <KakaoMap :region="useRoute().params.region" :query="query"/>
     </div>
   </div>
 </template>
 
 <style scoped>
+
+.day-div{
+  min-height: 10vh;
+}
 .update-wrapper {
   width: 100vw;
   height: 100vh;
+  display: flex;
   text-align: center;
+  padding-top: 15vh;
 }
 
-.search-div {
-  margin-top: 20vh;
+.split{
+  height:100vh;
 }
+
+.plan-div {
+  width: 20vw;
+}
+.search-div {
+  width: 80vw;
+}
+
+
+
 </style>

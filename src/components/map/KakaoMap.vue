@@ -12,11 +12,19 @@ export default {
       locations: [],
     }
   },
-  // props: {
-  //   keword: {
-  //     type: String
-  //   }
-  // },
+  props: {
+    // region: {
+    //   type: String
+    // },
+    query: {
+      type: String
+    }
+  },
+  computed:{
+    searchQuery(){
+      return this.query;
+    }
+  },
   mounted() {
     window.kakao && window.kakao.maps
       ? this.initMap()
@@ -39,20 +47,18 @@ export default {
         level: 5 //지도의 레벨(확대, 축소 정도)
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-      this.ps = new kakao.maps.services.Places(); 
+      this.ps = new kakao.maps.services.Places();
       // this.infowindow = new kakao.maps.InfoWindow({zIndex:1});
     },
     handleSearchInput() {
-      // 검색어 입력이 변경될 때 호출되는 메서드
-
-      this.ps.keywordSearch(this.searchQuery, this.placesSearchCB); 
+      this.ps.keywordSearch(this.searchQuery, this.placesSearchCB);
     },
-    placesSearchCB (data, status) {
-    if (status === kakao.maps.services.Status.OK) {
+    placesSearchCB(data, status) {
+      if (status === kakao.maps.services.Status.OK) {
         this.places = [];
         this.places = data;
         this.makeList(this.places);
-    } 
+      }
     },
     makeList(data) {
       this.positions = [];
@@ -95,50 +101,47 @@ export default {
       // 첫번째 검색 정보를 이용하여 지도 중심을 이동 시킵니다
       this.map.setCenter(this.positions[0].latlng);
     },
-    displayLink(){
+    displayLink() {
 
       var polyline = new kakao.maps.Polyline({
-      path: this.locations, // 선을 구성하는 좌표배열 입니다
-      strokeWeight: 5, // 선의 두께 입니다
-      strokeColor: '#FFAE00', // 선의 색깔입니다
-      strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-      strokeStyle: 'solid' // 선의 스타일입니다
-      }) ;
+        path: this.locations, // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 5, // 선의 두께 입니다
+        strokeColor: '#FFAE00', // 선의 색깔입니다
+        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid' // 선의 스타일입니다
+      });
 
       // 지도에 선을 표시합니다 
-      polyline.setMap(this.map);  
+      polyline.setMap(this.map);
     }
   }
 };
 </script>
 
 <template>
-  <div>
-    <div>
-    <label for="place-search">장소 검색:</label>
-    <input
-      type="text"
-      id="place-search"
-      v-model="searchQuery"
-      @input="handleSearchInput"
-    />
-    <button @click="searchPlaces">검색</button>
-
-    <div v-if="places.length">
-      <h2>검색 결과:</h2>
-      <ul>
-        <li v-for="(place, index) in places" :key="index">
-          {{ place.place_name }} - {{ place.address_name }}
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- kakao map start -->
-  <div id="map" class="mt-3" style="width: 90vw; height: 70vh"></div>
-  <!-- kakao map end -->
+  <div class="place-div">
+    <!-- kakao map start -->
+    <div id="map" class="map-div" style="width: 90vw; height: 80vh"></div>
+    <!-- kakao map end -->
   </div>
 </template>
 
 <style scoped>
+.place-div {
+  display: flex;
+}
 
+.search-div {
+  width: 20vw;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.map-div {
+  width: 50vw;
+}
+
+.place-item-div {
+  border: 1px solid black;
+}
 </style>
