@@ -35,12 +35,15 @@ const router = createRouter({
     //   ]
     // },
 
-
-    
     {
       path: '/myplan',
       name: 'myplan',
       component: () => import('../components/plan/MyPlan.vue')
+    },
+    {
+      path: '/detailPlan/:planIdx',
+      name: 'detailPlan',
+      component: () => import('../components/plan/UpdatePlan.vue')
     },
     {
       path: '/makeplan',

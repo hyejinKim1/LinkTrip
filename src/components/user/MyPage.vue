@@ -13,12 +13,14 @@ const logout = async () => {
 </script>
 
 <template>
-    <div>
+    <div class="logout">
         <h1>My Page</h1>
         <button type="button" @click="logout">로그아웃</button>
     </div>
 </template>
 
 <style scoped>
-
+.logout{
+    padding: 100px;
+}
 </style>
