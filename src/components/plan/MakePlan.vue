@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from "vue";
 // import Calender from "./Calender.vue";
+import router from "../../router";
 
-const planname = ref('');
+const planname = ref('여행');
 const datePage = ref(false);
 const savePage = ref(false);
 
-const startdate = ref(null);
-const enddate = ref(null);
+const startdate = ref(new Date().toLocaleDateString());
+const enddate = ref(new Date().toLocaleDateString());
 
 const todate = () => {
   datePage.value = true;
@@ -27,10 +28,37 @@ const setendDate = (e) =>{
   enddate.value = e.target.value;
 }
 
-const savePlan = (e) => {
+const savePlan = () => {
+  let baseUrl = "http://localhost/plan/createPlan?";
+      let areaCode = document.getElementById("search-area")?.value;
+      let contentTypeId = document.getElementById("search-content-id")?.value;
+      let keyword = document.getElementById("search-keyword")?.value;
 
-};
+        if (areaCode != "") baseUrl += "&areaCode=" + areaCode;
+        if (contentTypeId != "") baseUrl += "&contentTypeId=" + contentTypeId;
+        if (keyword != "") baseUrl += "&keyword=" + keyword;
+
+        console.log(baseUrl);
+
+        axios.get(baseUrl)
+          .then((res) => this.makeList(res.data));
+  router.push({
+    name: 'updateplan',  
+    params: {pname: planname.value, sdate: startdate.value, edate: enddate.value}
+  })
+}
 </script>
+
+<!-- <script>
+    export default {
+        name: 'MakePlan',
+        methods: {
+            savePlan () {
+                this.$router.push({ name: 'updateplan', params: {pname: planname.value, sdate: startdate.value, edate: enddate.value}})
+            }
+        }
+      }
+</script> -->
 
 <template>
   <div class="makeplan-wrapper">
@@ -60,8 +88,11 @@ const savePlan = (e) => {
           <p>Plan Name : {{ planname }}</p>
           <p>여행 일정 : {{ startdate }} ~ {{ enddate }}</p>
         </div>
-        <router-link to="/updateplan" class="nav-link"><button class="button"
-            @click="savePlan">save</button></router-link>
+        <router-link 
+        :to="{ name: 'updateplan', params: {pname: planname, sdate: startdate, edate: enddate}}" class="nav-link">
+        <button class="button"
+            @click="savePlan">save</button>
+          </router-link>
       </div>
     </div>
   </div>

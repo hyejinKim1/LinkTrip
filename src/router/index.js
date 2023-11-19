@@ -51,11 +51,12 @@ const router = createRouter({
       path: '/savedplan',
       name: 'savedplan',
       component: () => import('../components/plan/SavedPlan.vue')
-    }, 
+    },
     {
-      path: '/updateplan',
+      path: '/updateplan/:pname/:sdate/:edate',
       name: 'updateplan',
-      component: () => import('../components/plan/UpdatePlan.vue')
+      component: () => import('../components/plan/UpdatePlan.vue'),
+      props: true
     },
     {
       path: '/community',
