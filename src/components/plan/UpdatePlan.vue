@@ -1,10 +1,27 @@
 <script setup>
 import KakaoMap from "@/components/map/KakaoMap.vue";
-import {ref} from "vue";
-const keyword = ref("");
-const searchPlace = () => {
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
+const planData = ref(null);
+
+//plan 보여주기
+
+onMounted(() => {
+  getPlan();
+})
+
+const getPlan = () => {
+  let baseUrl = "http://localhost/plan/viewPlan?"+"&planIdx=" + planIdx;
+  console.log(baseUrl);
+
+  axios.get(baseUrl)
+    .then((res) =>{
+      console.log(res.data);
+      planData.value = res.data;
+    } );
 }
+
 </script>
 
 <script>
@@ -19,6 +36,12 @@ export default {
     },
     edate: {
       type: String
+    },
+    region: {
+      type: String
+    },
+    planIdx: {
+      type: Number
     }
   },
 }
@@ -33,6 +56,10 @@ export default {
       <!-- <div class="search">
         <input type="text" @input="searchPlace" v-model="keyword">
       </div> -->
+
+      <div v-for="(plan, index) in planData" :key="index">
+        planData
+      </div>
       <KakaoMap />
     </div>
   </div>

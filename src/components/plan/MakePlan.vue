@@ -2,13 +2,17 @@
 import { ref } from "vue";
 // import Calender from "./Calender.vue";
 import router from "../../router";
+import axios from "axios";
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
 
 const planname = ref('여행');
 const datePage = ref(false);
 const savePage = ref(false);
+const region = ref('대전');
 
-const startdate = ref(new Date().toLocaleDateString());
-const enddate = ref(new Date().toLocaleDateString());
+const startdate = ref(new Date());
+const enddate = ref(new Date());
 
 const todate = () => {
   datePage.value = true;
@@ -30,22 +34,51 @@ const setendDate = (e) =>{
 
 const savePlan = () => {
   let baseUrl = "http://localhost/plan/createPlan?";
-      let areaCode = document.getElementById("search-area")?.value;
-      let contentTypeId = document.getElementById("search-content-id")?.value;
-      let keyword = document.getElementById("search-keyword")?.value;
 
-        if (areaCode != "") baseUrl += "&areaCode=" + areaCode;
-        if (contentTypeId != "") baseUrl += "&contentTypeId=" + contentTypeId;
-        if (keyword != "") baseUrl += "&keyword=" + keyword;
+  const period = getDateDiff(startdate.value, enddate.value);
 
-        console.log(baseUrl);
+  // var str = startdate.value;
+  // str = str.substring(2);
 
-        axios.get(baseUrl)
-          .then((res) => this.makeList(res.data));
+  // baseUrl += "&planname=" + planname.value;
+  // baseUrl += "&region=" + region.value;
+  // baseUrl += "&period="+period;
+  // baseUrl += "&startDate=" + startdate.value;
+
+  console.log(baseUrl);
+
+
+  function toTimestamp(strDate){
+   var datum = Date.parse(strDate);
+   return datum/1000;
+}
+    // axios.post(baseUrl)
+    // .then((res) => console.log(res.data));
+
+  console.log(memberStore.userInfo.value);
+
+    axios.post(baseUrl, {
+      planTitle:planname.value,
+      region: region.value,
+      period:period,
+      startDate:startdate.value.toISOString().split('T')[0],
+      userId: memberStore.userInfo.value
+    }
+    ).then((res) => console.log(res.data));
+
   router.push({
     name: 'updateplan',  
-    params: {pname: planname.value, sdate: startdate.value, edate: enddate.value}
+    params: {pname: planname.value, sdate: startdate.value, edate: enddate.value, region: region.value}
   })
+}
+
+const getDateDiff = (d1, d2) => {
+  const date1 = new Date(d1);
+  const date2 = new Date(d2);
+  
+  const diffDate = date1.getTime() - date2.getTime();
+  
+  return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
 }
 </script>
 
@@ -84,12 +117,34 @@ const savePlan = () => {
       </div>
       <div class="save-div slider">
         <div class="title">저장 버튼을 누르고 나만의 여행 일정을 만들어 보세요!</div>
+        <div>
+          <select v-model="region">
+          <option value="">지역</option>
+          <option value="서울">서울</option>
+          <option value="인천">인천</option>
+          <option value="대전">대전</option>
+          <option value="대구">대구</option>
+          <option value="광주">광주</option>
+          <option value="부산">부산</option>
+          <option value="울산">울산</option>
+          <option value="세종특별자치시">세종특별자치시</option>
+          <option value="경기도">경기도</option>
+          <option value="강원도">강원도</option>
+          <option value="충청북도">충척북도</option>
+          <option value="충청남도">충청남도</option>
+          <option value="경상북도">경상북도</option>
+          <option value="경상남도">경상남도</option>
+          <option value="전라북도">전라북도</option>
+          <option value="전라남도">전라남도</option>
+          <option value="제주도">제주도</option>
+        </select>
+        </div>
         <div class="result-div">
-          <p>Plan Name : {{ planname }}</p>
+          <p>Plan 이름 : {{ planname }}</p>
           <p>여행 일정 : {{ startdate }} ~ {{ enddate }}</p>
         </div>
         <router-link 
-        :to="{ name: 'updateplan', params: {pname: planname, sdate: startdate, edate: enddate}}" class="nav-link">
+        :to="{ name: 'updateplan', params: {pname: planname, sdate: startdate, edate: enddate, region: region}}" class="nav-link">
         <button class="button"
             @click="savePlan">save</button>
           </router-link>
@@ -143,7 +198,7 @@ const savePlan = () => {
 
 .title {
   margin-top: 30vh;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 700;
 }
 
