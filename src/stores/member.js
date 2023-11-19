@@ -27,10 +27,7 @@ export const useMemberStore = defineStore("memberStore", () => {
           isLogin.value = true;
           isLoginError.value = false;
           isValidToken.value = true;
-<<<<<<< HEAD
           //userInfo.value = loginUser.userId
-=======
->>>>>>> 4b0c9ca4d309ed7055be3d20f0838a0073358c5b
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("refreshToken", refreshToken);
         } else {
