@@ -1,27 +1,30 @@
 <script>
-import axios from "axios";
+// import { getCurrentInstance } from "vue";
+// const { emit } = getCurrentInstance();
 export default {
+  // emits: ["searchPlaces"],
   data() {
     return {
       map: null,
       positions: [],
       ps: null,
       infowindow: null,
-      searchQuery: '',
       places: [],
       locations: [],
     }
   },
   props: {
-    // region: {
-    //   type: String
-    // },
+    region: {
+      type: String
+    },
     query: {
       type: String
     }
   },
-  computed:{
-    searchQuery(){
+  watch:{
+    query: function(){
+      console.log(this.query);
+      this.ps.keywordSearch(this.region+this.query, this.placesSearchCB);
       return this.query;
     }
   },
@@ -50,13 +53,11 @@ export default {
       this.ps = new kakao.maps.services.Places();
       // this.infowindow = new kakao.maps.InfoWindow({zIndex:1});
     },
-    handleSearchInput() {
-      this.ps.keywordSearch(this.searchQuery, this.placesSearchCB);
-    },
     placesSearchCB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
         this.places = [];
         this.places = data;
+        this.$emit("searchPlaces", this.places);
         this.makeList(this.places);
       }
     },
