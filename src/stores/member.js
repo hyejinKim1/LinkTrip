@@ -50,6 +50,7 @@ export const useMemberStore = defineStore("memberStore", () => {
         if (response.status === httpStatusCode.OK) {
           userInfo.value = response.data.userInfo;
           onSuccess(userInfo.value)
+          console.log(userInfo.value);
         } else {
           console.log("유저 정보 없음!!!!");
         }
