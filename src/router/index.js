@@ -53,7 +53,7 @@ const router = createRouter({
       component: () => import('../components/plan/SavedPlan.vue')
     },
     {
-      path: '/updateplan/:pname/:sdate/:edate/:region',
+      path: '/updateplan/:pname/:sdate/:edate/:region/:planIdx',
       name: 'updateplan',
       component: () => import('../components/plan/UpdatePlan.vue'),
       props: true

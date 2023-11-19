@@ -7,12 +7,14 @@ import { userConfirm, findById, tokenRegeneration, logout } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
 export const useMemberStore = defineStore("memberStore", () => {
+
   const router = useRouter();
 
   const isLogin = ref(false);
   const isLoginError = ref(false);
   const userInfo = ref(null);
   const isValidToken = ref(false);
+
 
   const userLogin = async (loginUser) => {
     await userConfirm(
@@ -25,7 +27,7 @@ export const useMemberStore = defineStore("memberStore", () => {
           isLogin.value = true;
           isLoginError.value = false;
           isValidToken.value = true;
-          userInfo.value = loginUser.userId;
+          //userInfo.value = loginUser.userId
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("refreshToken", refreshToken);
         } else {
@@ -40,13 +42,14 @@ export const useMemberStore = defineStore("memberStore", () => {
     );
   };
 
-  const getUserInfo = (token) => {
+  const getUserInfo = (token, onSuccess) => {
     let decodeToken = jwtDecode(token);
     findById(
       decodeToken.userId,
       (response) => {
         if (response.status === httpStatusCode.OK) {
           userInfo.value = response.data.userInfo;
+          onSuccess(userInfo.value)
         } else {
           console.log("유저 정보 없음!!!!");
         }

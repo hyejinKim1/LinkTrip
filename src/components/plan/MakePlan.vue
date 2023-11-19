@@ -14,6 +14,8 @@ const region = ref('대전');
 const startdate = ref(new Date());
 const enddate = ref(new Date());
 
+const planIdx = ref(0);
+
 const todate = () => {
   datePage.value = true;
   savePage.value = false;
@@ -64,11 +66,14 @@ const savePlan = () => {
       startDate:startdate.value.toISOString().split('T')[0],
       userId: memberStore.userInfo.value
     }
-    ).then((res) => console.log(res.data));
+    ).then((res) => {
+      console.log(res.data)
+      planIdx.value = res.data.planIdx;
+    });
 
   router.push({
     name: 'updateplan',  
-    params: {pname: planname.value, sdate: startdate.value, edate: enddate.value, region: region.value}
+    params: {pname: planname.value, sdate: startdate.value, edate: enddate.value, region: region.value, planIdx:planIdx.value}
   })
 }
 
@@ -144,7 +149,7 @@ const getDateDiff = (d1, d2) => {
           <p>여행 일정 : {{ startdate }} ~ {{ enddate }}</p>
         </div>
         <router-link 
-        :to="{ name: 'updateplan', params: {pname: planname, sdate: startdate, edate: enddate, region: region}}" class="nav-link">
+        :to="{ name: 'updateplan', params: {pname: planname, sdate: startdate, edate: enddate, region: region, planIdx:planIdx}}" class="nav-link">
         <button class="button"
             @click="savePlan">save</button>
           </router-link>

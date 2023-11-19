@@ -2,6 +2,9 @@
 import KakaoMap from "@/components/map/KakaoMap.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useRoute } from "vue-router";
+
+console.log(useRoute().params)
 
 const planData = ref(null);
 
@@ -12,7 +15,7 @@ onMounted(() => {
 })
 
 const getPlan = () => {
-  let baseUrl = "http://localhost/plan/viewPlan?"+"&planIdx=" + planIdx;
+  let baseUrl = "http://localhost/plan/viewPlan?"+"&planIdx=" + useRoute().params.planIdx;
   console.log(baseUrl);
 
   axios.get(baseUrl)

@@ -1,5 +1,6 @@
 <script setup>
 import HomeText from '../components/home/HomeText.vue';
+
 </script>
 
 <template>

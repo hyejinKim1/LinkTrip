@@ -11,9 +11,11 @@ const isActive = ref(false);
 const router = useRouter();
 const memberStore = useMemberStore();
 
+
 const { isLogin } = storeToRefs(memberStore);
 const { userLogin, getUserInfo } = memberStore;
 const { changeMenuState } = useMenuStore();
+
 
 const loginUser = ref({
   userId: "",
@@ -45,13 +47,16 @@ const loginForm = async() => {
   //       console.log("로그인 실패");
   //     }
   //   });
-  console.log(loginUser.value)
+  console.log(loginUser.value);
+  console.log(loginUser.userId);
+  console.log(loginUser.userPwd);
 
   await userLogin(loginUser.value);
   let token = sessionStorage.getItem("accessToken");
   if (isLogin) {
     getUserInfo(token);
     changeMenuState();
+    console.log(memberStore.userInfo)
   }
   router.push("/");
 };
