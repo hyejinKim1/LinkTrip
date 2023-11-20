@@ -26,7 +26,8 @@ const inputQuery = ref('');
 const places = ref([]);
 const dayAdd = ref(null);
 
-const mapData = ref([]);
+const edit = ref(false);
+
 //plan 보여주기
 
 onMounted(() => {
@@ -75,13 +76,43 @@ function closeDayAddBtn(){
   dayAdd.value = null;
 }
 
+const mapData = ref({
+  "placeIdx": 0,
+  "lat": 0,
+  "lon": 0,
+  "placeName": '',
+  "createAt": null
+});
+
 function placeAddBtn(index){
-  planData.value.placeOrder[dayAdd.value].push(places.value[index]);
+  console.log("places ");
+  console.log(places.value[index]);
+  
+  // console.log("placeOrder ");
+  // console.log(planData.value.placeOrder[dayAdd.value]);
+  // mapData.value = planData.value.placeOrder[dayAdd.value];
+
   console.log("placeOrder ");
   console.log(planData.value.placeOrder[dayAdd.value]);
-  mapData.value = planData.value.placeOrder[dayAdd.value];
+  planData.value.placeOrder[dayAdd.value].push({
+    "placeIdx": 0,
+    "lat":  places.value[index].x,
+    "lon": places.value[index].y,
+    "placeName": places.value[index].place_name,
+    "createAt": null
+  });
+
+  mapData.value.placeIdx = useRoute().params.planIdx;
+  mapData.value.placeName = places.value[index].place_name;
+  mapData.value.lat = places.value[index].x;
+  mapData.value.lon = places.value[index].y;
   console.log("mapData ");
   console.log(mapData.value);
+}
+
+function savePlan(){
+  edit.value=false;
+  dayAdd.value = null;
 }
 
 </script>
@@ -91,26 +122,28 @@ function placeAddBtn(index){
     <div class="plan-div split">
       <div class="title-div">{{ planData.planDTO.planTitle }}</div>
       <div>{{ planData.planDTO.startDate }}</div>
+      <div v-show="!edit"><button @click="edit=!edit">편집</button></div>
+      <div v-show="edit"><button @click="savePlan">저장</button></div>
       <div v-for="(day, index) in planData.placeOrder" :key="index" class="day-div">
-        {{ index+1 }}일차 
-        <span v-show="dayAdd!=index">
+        Day{{ index+1 }}
+        <span v-show="dayAdd!=index && edit">
           <button @click="dayAddBtn(index)">추가</button>
         </span>
-        <span v-show="dayAdd==index">
+        <span v-show="dayAdd==index && edit">
           <button @click="closeDayAddBtn()">닫기</button>
         </span>
         <div v-show="day.length==0">
-          <p style="font-size:10px;">추가 버튼을 눌러 일정을 추가해주세요!</p>
+          <p style="font-size:10px;">day{{index+1}} 일정이 없습니다</p>
         </div>
         <div v-show="day.length>0">
           <div v-for="(place, index) in day" :key="place">
-          {{ place.place_name }}
+          {{ place.placeName }}
           </div>
         </div>
       </div>
     </div>
     <div class="search-div" v-show="dayAdd!=null">
-      {{ dayAdd+1 }}일차 장소 검색
+      Day{{ dayAdd+1 }} 장소 검색
       <input type="text" id="place-search" v-model="inputQuery" placeholder="검색어를 입력해주세요" @input="handleSearchInput" />
       <!-- <button @click="handleSearchInput">검색</button> -->
       <div class="search-btn-div">
@@ -156,6 +189,8 @@ function placeAddBtn(index){
 
 .plan-div {
   width: 15%;
+  height: 85vh;
+  overflow-y: scroll;
 }
 .search-div {
   width: 15%;
