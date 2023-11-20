@@ -41,11 +41,12 @@ init();
 <style scoped>
 .div{
   padding: 100px;
-  
-
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
 }
 
 .container{
-  width: 800px;
+  width: 80%;
 }
 </style>
