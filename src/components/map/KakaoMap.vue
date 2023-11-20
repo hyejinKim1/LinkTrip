@@ -14,9 +14,6 @@ export default {
     }
   },
   props: {
-    region: {
-      type: String
-    },
     query: {
       type: String
     }
@@ -24,7 +21,7 @@ export default {
   watch:{
     query: function(){
       console.log(this.query);
-      this.ps.keywordSearch(this.region+this.query, this.placesSearchCB);
+      this.ps.keywordSearch(this.query, this.placesSearchCB);
       return this.query;
     }
   },

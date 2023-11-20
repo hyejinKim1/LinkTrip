@@ -67,7 +67,7 @@ function toTimestamp(strDate){
     ).then((res) => {
       router.push({
       name: 'updateplan',  
-      params: {pname: planname.value, sdate: startdate.value, edate: enddate.value, region: region.value, planIdx:res.data.planIdx}
+      params: {planIdx:res.data.planIdx}
   })
     });
 
