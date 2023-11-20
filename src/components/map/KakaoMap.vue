@@ -15,10 +15,10 @@ export default {
   },
   props: {
     query: {
-      type: String
+      type: String  
     },
     mapData:{
-      type: Object
+      type: Array
     }
   },
   watch:{
@@ -27,13 +27,17 @@ export default {
       this.ps.keywordSearch(this.query, this.placesSearchCB);
       return this.query;
     },
-    mapData: function(){
+      mapData: {
+      handler() {
       console.log("mapData: ");
       console.log(this.mapData);
       console.log("map데이터 바뀜");
       this.makeList(this.mapData);
       return this.mapData;
-    }
+      },
+      deep : true
+    },
+
   },
   mounted() {
     window.kakao && window.kakao.maps

@@ -76,11 +76,7 @@ function closeDayAddBtn(){
 }
 
 function placeAddBtn(index){
-  console.log("place "+index);
-  console.log(places.value);
   planData.value.placeOrder[dayAdd.value].push(places.value[index]);
-  console.log("planData ");
-  console.log(planData.value.placeOrder);
   console.log("placeOrder ");
   console.log(planData.value.placeOrder[dayAdd.value]);
   mapData.value = planData.value.placeOrder[dayAdd.value];
