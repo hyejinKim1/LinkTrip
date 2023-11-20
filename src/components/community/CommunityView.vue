@@ -23,26 +23,28 @@ init();
 
 <template>
   <div class="outer">
-    <h1>community</h1>
+    <!-- <h1>community</h1> -->
 
     <div class="container">
-      <template v-for="article in articleList"
-      :key="article.articleIdx">
-      <ArticleListItem :article="article">
-      </ArticleListItem>
+      <div class="container d-flex row">
+      <template v-for="article in articleList" :key="article.articleIdx">
+      <ArticleListItem class="col-4" :article="article"> </ArticleListItem>
       </template>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .outer{
-  padding: 100px;
+  /* padding: 150px; */
+  margin-top: 170px;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 .container{
-  width: 80%;
+  /* width: 100%; */
 }
 
 </style>

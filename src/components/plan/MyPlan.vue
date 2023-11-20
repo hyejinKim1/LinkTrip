@@ -24,29 +24,48 @@ init();
 </script>
 
 <template>
-  <div class="div">
-    <h1>MyPlan</h1>
+  <div class="outer">
+    <!-- <h1>MyPlan</h1> -->
 
-    <div class="container">
+    <!-- <div class="container">
       <template  v-for="planList in planLists"
         :key="planList.planIdx">
       <PlanListItem :planList="planList">
       </PlanListItem>
     </template>
-    </div>
+    </div> -->
     
+    <div class="container">
+      <div class="container d-flex row">
+      <template  v-for="planList in planLists" :key="planList.planIdx">
+      <PlanListItem :planList="planList"> </PlanListItem>
+      </template>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <style scoped>
-.div{
+/* .div{
   padding: 100px;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
 }
 
 .container{
   width: 80%;
+} */
+
+.outer{
+  /* padding: 150px; */
+  margin-top: 170px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.container{
+  /* width: 100%; */
 }
 </style>

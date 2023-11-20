@@ -21,7 +21,7 @@ init();
 
 <template>
   <div class="div">
-    <h1>SavedPlan</h1>
+    <!-- <h1>SavedPlan</h1> -->
 
     <div class="container">
       <template  v-for="planList in planLists"
@@ -36,7 +36,7 @@ init();
 
 <style scoped>
 .div{
-  padding: 100px;
+  margin-top: 170px;
   display: flex;
   justify-content: center;
 

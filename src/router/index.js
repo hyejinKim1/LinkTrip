@@ -53,13 +53,19 @@ const router = createRouter({
     {
       path: '/community',
       name: 'community',
-      component: () => import('../views/CommunityView.vue')
+      component: () => import('@/components/community/CommunityView.vue')
     },
     {
       path: '/recommend',
       name: 'recommend',
       component: () => import('../views/RecommendView.vue')
     },
+    {
+      path: '/community/detailArticle/:articleIdx',
+      name: 'detailArticle',
+      component: () => import('@/components/community/detailArticle.vue')
+    }
+
     // {
     //   path: '/about',
     //   name: 'about',
