@@ -24,7 +24,9 @@ const planData = ref({
 const query = ref('');
 const inputQuery = ref('');
 const places = ref([]);
-const day = ref(0);
+const dayAdd = ref(null);
+
+const mapData = ref([]);
 //plan 보여주기
 
 onMounted(() => {
@@ -45,6 +47,7 @@ const getPlan = () => {
       console.log(planData.value.placeOrder.length);
     } );
 }
+
 function handleSearchInput() {
   query.value = planData.value.planDTO.region+" "+inputQuery.value;
 }
@@ -65,12 +68,24 @@ function searchPlacesResult(result){
 
 function dayAddBtn(index){
   console.log("day "+index);
-  day.value = index;
+  dayAdd.value = index;
+}
+
+function closeDayAddBtn(){
+  dayAdd.value = null;
 }
 
 function placeAddBtn(index){
   console.log("place "+index);
   console.log(places.value);
+  planData.value.placeOrder[dayAdd.value].push(places.value[index]);
+  console.log("planData ");
+  console.log(planData.value.placeOrder);
+  console.log("placeOrder ");
+  console.log(planData.value.placeOrder[dayAdd.value]);
+  mapData.value = planData.value.placeOrder[dayAdd.value];
+  console.log("mapData ");
+  console.log(mapData.value);
 }
 
 </script>
@@ -81,19 +96,26 @@ function placeAddBtn(index){
       <div class="title-div">{{ planData.planDTO.planTitle }}</div>
       <div>{{ planData.planDTO.startDate }}</div>
       <div v-for="(day, index) in planData.placeOrder" :key="index" class="day-div">
-        {{ index+1 }}일차 <button @click="dayAddBtn(index+1)">추가</button>
+        {{ index+1 }}일차 
+        <span v-show="dayAdd!=index">
+          <button @click="dayAddBtn(index)">추가</button>
+        </span>
+        <span v-show="dayAdd==index">
+          <button @click="closeDayAddBtn()">닫기</button>
+        </span>
         <div v-show="day.length==0">
-          <p style="font-size:7px;">추가 버튼을 눌러 일정을 추가해주세요!</p>
+          <p style="font-size:10px;">추가 버튼을 눌러 일정을 추가해주세요!</p>
         </div>
         <div v-show="day.length>0">
           <div v-for="(place, index) in day" :key="place">
-          {{ place }}
+          {{ place.place_name }}
           </div>
         </div>
       </div>
     </div>
-    <div class="search-div" v-show="day>0">
-      <input type="text" id="place-search" v-model="inputQuery" placeholder="장소 검색" @input="handleSearchInput" />
+    <div class="search-div" v-show="dayAdd!=null">
+      {{ dayAdd+1 }}일차 장소 검색
+      <input type="text" id="place-search" v-model="inputQuery" placeholder="검색어를 입력해주세요" @input="handleSearchInput" />
       <!-- <button @click="handleSearchInput">검색</button> -->
       <div class="search-btn-div">
         <button @click="getRecommend">명소</button>
@@ -101,11 +123,10 @@ function placeAddBtn(index){
         <button @click="getCafe">카페</button>
       </div>
       <div v-if="places.length">
-        <h2>검색 결과:</h2>
         <div v-for="(place, index) in places" :key="index" class="place-item-div">
-          {{ place.place_name }}<br />
-          {{ place.address_name }}<br />
-          <button @click="placeAddBtn(index+1)">+</button>
+          <a :href="place.place_url" target="_blank" rel="noopener noreferrer">{{ place.place_name }}</a>
+          <div class="address-div">{{ place.address_name }}</div>
+          <button @click="placeAddBtn(index)">+</button>
         </div>
       </div>
     </div>
@@ -113,6 +134,7 @@ function placeAddBtn(index){
       <KakaoMap 
       :region="useRoute().params.region" 
       :query="query"
+      :mapData="mapData"
       @search-places="searchPlacesResult"/>
     </div>
   </div>
@@ -124,6 +146,7 @@ function placeAddBtn(index){
   min-height: 10vh;
 }
 .update-wrapper {
+  font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -136,13 +159,13 @@ function placeAddBtn(index){
 }
 
 .plan-div {
-  width: 20vw;
+  width: 15%;
 }
 .search-div {
-  width: 20vw;
+  width: 15%;
 }
 .map-div{
-  width:60vw;
+  width:63%;
 }
 .search-div {
   width: 20vw;
@@ -151,6 +174,24 @@ function placeAddBtn(index){
 }
 .place-item-div {
   border: 1px solid black;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.place-item-div a{
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
+}
+
+.place-item-div a:hover{
+  font-weight: 1000;
+  color:cornflowerblue;
+}
+
+.address-div{
+  color: gray;
+  font-size: 10px;
 }
 
 </style>

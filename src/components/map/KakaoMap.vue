@@ -16,6 +16,9 @@ export default {
   props: {
     query: {
       type: String
+    },
+    mapData:{
+      type: Object
     }
   },
   watch:{
@@ -23,6 +26,13 @@ export default {
       console.log(this.query);
       this.ps.keywordSearch(this.query, this.placesSearchCB);
       return this.query;
+    },
+    mapData: function(){
+      console.log("mapData: ");
+      console.log(this.mapData);
+      console.log("map데이터 바뀜");
+      this.makeList(this.mapData);
+      return this.mapData;
     }
   },
   mounted() {
@@ -55,12 +65,12 @@ export default {
         this.places = [];
         this.places = data;
         this.$emit("searchPlaces", this.places);
-        this.makeList(this.places);
       }
     },
     makeList(data) {
       this.positions = [];
       this.locations = [];
+      console.log("length"+data.length);
       data.forEach((area) => {
         console.log(area);
 
@@ -119,7 +129,7 @@ export default {
 <template>
   <div class="place-div">
     <!-- kakao map start -->
-    <div id="map" class="map-div" style="width: 90vw; height: 80vh"></div>
+    <div id="map" class="map-div"></div>
     <!-- kakao map end -->
   </div>
 </template>
@@ -129,14 +139,9 @@ export default {
   display: flex;
 }
 
-.search-div {
-  width: 20vw;
-  height: 100vh;
-  overflow: scroll;
-}
-
 .map-div {
-  width: 50vw;
+  width: 100%;
+  height: 80vh;
 }
 
 .place-item-div {
