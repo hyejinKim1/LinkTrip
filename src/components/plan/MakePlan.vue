@@ -66,12 +66,10 @@ function toTimestamp(strDate){
     }
     ).then((res) => {
       router.push({
-      name: 'updateplan',  
+      name: 'detailPlan',  
       params: {planIdx:res.data.planIdx}
   })
     });
-
-
 }
 
 const getDateDiff = (d1, d2) => {

@@ -21,20 +21,6 @@ const router = createRouter({
       name: 'myPage',
       component: MyPage
     },
-
-    // {
-    //   path: "/user",
-    //   name: "user",
-    //   component: UserLogin,
-    //   children: [
-    //     {
-    //       path: "login",
-    //       name: "user-login",
-    //       component: () => import("@/components/users/UserLogin.vue"),
-    //     },
-    //   ]
-    // },
-
     {
       path: '/myplan',
       name: 'myplan',
@@ -43,7 +29,8 @@ const router = createRouter({
     {
       path: '/detailPlan/:planIdx',
       name: 'detailPlan',
-      component: () => import('../components/plan/UpdatePlan.vue')
+      component: () => import('../components/plan/UpdatePlan.vue'),
+      props: true
     },
     {
       path: '/makeplan',
@@ -55,12 +42,12 @@ const router = createRouter({
       name: 'savedplan',
       component: () => import('../components/plan/SavedPlan.vue')
     },
-    {
-      path: '/updateplan/:planIdx',
-      name: 'updateplan',
-      component: () => import('../components/plan/UpdatePlan.vue'),
-      props: true
-    },
+    // {
+    //   path: '/updateplan/:planIdx',
+    //   name: 'updateplan',
+    //   component: () => import('../components/plan/UpdatePlan.vue'),
+    //   props: true
+    // },
     {
       path: '/community',
       name: 'community',
