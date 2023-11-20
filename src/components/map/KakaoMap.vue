@@ -11,31 +11,35 @@ export default {
       infowindow: null,
       places: [],
       locations: [],
+      markers: [],
+      polylines: [],
     }
   },
   props: {
     query: {
-      type: String  
+      type: String
     },
-    mapData:{
+    mapData: {
       type: Array
     }
   },
-  watch:{
-    query: function(){
+  watch: {
+    query: function () {
       console.log(this.query);
       this.ps.keywordSearch(this.query, this.placesSearchCB);
       return this.query;
     },
-      mapData: {
+    mapData: {
       handler() {
-      console.log("mapData: ");
-      console.log(this.mapData);
-      console.log("map데이터 바뀜");
-      this.makeList(this.mapData);
-      return this.mapData;
+        console.log("mapData: ");
+        console.log(this.mapData);
+        console.log("map데이터 바뀜");
+        this.removeMarker();
+        this.removePolyline();
+        this.makeList(this.mapData);
+        return this.mapData;
       },
-      deep : true
+      deep: true
     },
 
   },
@@ -58,7 +62,7 @@ export default {
       var options = {
         //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-        level: 5 //지도의 레벨(확대, 축소 정도)
+        level: 8 //지도의 레벨(확대, 축소 정도)
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
       this.ps = new kakao.maps.services.Places();
@@ -74,10 +78,12 @@ export default {
     makeList(data) {
       this.positions = [];
       this.locations = [];
-      console.log("length"+data.length);
+      console.log("length" + data.length);
+      var bounds = new kakao.maps.LatLngBounds();
       data.forEach((area) => {
         console.log(area);
 
+        bounds.extend(new kakao.maps.LatLng(area.y, area.x));
         this.locations.push(new kakao.maps.LatLng(area.y, area.x))
 
         let markerInfo = {
@@ -88,6 +94,7 @@ export default {
       });
       this.displayMarker();
       this.displayLink();
+      this.map.setBounds(bounds);
     },
     displayMarker() {
       // 마커 이미지의 이미지 주소입니다
@@ -101,20 +108,29 @@ export default {
         // 마커 이미지를 생성합니다
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-          map: this.map, // 마커를 표시할 지도
-          position: this.positions[i].latlng, // 마커를 표시할 위치
-          title: this.positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image: markerImage, // 마커 이미지
+        var content = `<div class ="label"><span class="left"></span><span class="center">${i+1}</span><span class="right"></span></div>`;
+
+        // 커스텀 오버레이를 생성합니다
+        var customOverlay = new kakao.maps.CustomOverlay({
+          position: this.positions[i].latlng,
+          content: content
         });
-        marker.setMap(this.map);
+
+        // 커스텀 오버레이를 지도에 표시합니다
+        customOverlay.setMap(this.map);
+
+        // // 마커를 생성합니다
+        // var marker = new kakao.maps.Marker({
+        //   map: this.map, // 마커를 표시할 지도
+        //   position: this.positions[i].latlng, // 마커를 표시할 위치
+        //   title: this.positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        //   image: markerImage, // 마커 이미지
+        // });
+        // marker.setMap(this.map);
+        this.markers.push( customOverlay);
       }
-      // 첫번째 검색 정보를 이용하여 지도 중심을 이동 시킵니다
-      this.map.setCenter(this.positions[0].latlng);
     },
     displayLink() {
-
       var polyline = new kakao.maps.Polyline({
         path: this.locations, // 선을 구성하는 좌표배열 입니다
         strokeWeight: 5, // 선의 두께 입니다
@@ -122,9 +138,21 @@ export default {
         strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
         strokeStyle: 'solid' // 선의 스타일입니다
       });
-
-      // 지도에 선을 표시합니다 
       polyline.setMap(this.map);
+      this.polylines.push(polyline);
+    },
+    // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+    removeMarker() {
+      for (var i = 0; i < this.markers.length; i++) {
+        this.markers[i].setMap(null);
+      }
+      this.markers = [];
+    },
+    removePolyline() {
+      for (var i = 0; i < this.polylines.length; i++) {
+        this.polylines[i].setMap(null);
+      }
+      this.polylines = [];
     }
   }
 };
