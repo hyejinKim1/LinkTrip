@@ -83,7 +83,7 @@ export default {
         this.locations.push(new kakao.maps.LatLng(area.lon, area.lat))
 
         let markerInfo = {
-          title: area.place_name,
+          title: area.placeName,
           latlng: new kakao.maps.LatLng(area.lon, area.lat),
         };
         this.positions.push(markerInfo);
