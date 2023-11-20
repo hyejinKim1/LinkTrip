@@ -2,7 +2,7 @@
 import {getMyPlanList} from "@/api/planlist";
 import { ref } from "vue";
 import { useMemberStore } from "../../stores/member";
-import PlanListItem from "./item/PlanListItem.vue";
+import PlanListItem from "@/components/plan/item/PlanListItem.vue";
 
 const ms = useMemberStore();
 
@@ -30,8 +30,8 @@ init();
     <div class="container">
       <template  v-for="planList in planLists"
         :key="planList.planIdx">
-      <PlanLIstItem :planList="planList">
-      </PlanLIstItem>
+      <PlanListItem :planList="planList">
+      </PlanListItem>
     </template>
     </div>
     
