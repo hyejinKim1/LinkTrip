@@ -1,6 +1,6 @@
 <script setup>
 import { useMemberStore } from "@/stores/member";
-import { deleteComment } from "@/api/community";
+import { deleteComment, createComment } from "@/api/community";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -16,8 +16,20 @@ const props = defineProps({
 const userId = ref('');
 userId.value = memberStore.userInfo.userId;
 
-function submitComment() {
-    console.log(submitComment);
+const newComment = ref();
+
+async function submitComment() {
+
+    console.log('submit');
+
+    await createComment({
+        content: newComment.value,
+        articleIdx: props.articleIdx,
+        userId : userId.value
+    })
+
+    console.log("@@@@@");
+    router.go(0);
 }
 
 async function onDeleteComment(commentIdx) {
@@ -27,8 +39,11 @@ async function onDeleteComment(commentIdx) {
 
     console.log("***************~!!", props.articleIdx);
     // router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
-    router.go(0)
+    router.go(0);
 }
+
+
+console.log(userId.value);
 
 </script>
 <template>
@@ -54,6 +69,7 @@ async function onDeleteComment(commentIdx) {
         <template v-for="commentOne in comment" :key="commentOne">
             <div class="comment-item">
             <!-- {{ commentIdx }} -->
+            
           <p class="user-id">{{ commentOne.userId }}</p>
           <p class="comment-content">{{ commentOne.content }}</p>
           <p class="comment-date">{{ commentOne.createAt }}</p>

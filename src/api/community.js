@@ -10,10 +10,22 @@ async function getArticleList(param) {
 
 async function deleteComment(param) {
     console.log(param);
-    await local.delete(`community/deleteComment`, { params: param  });
+    await local.delete(`community/deleteComment`, { params: param });
+}
+
+async function createComment(param) {
+    console.log(param);
+    await local.post(`community/createComment`, param);
+}
+
+async function createLike(param) {
+    console.log(param);
+    await local.post(`community/createLikeArticle`, param);
 }
 
 export {
     getArticleList,
-    deleteComment
+    deleteComment,
+    createComment,
+    createLike
 }
