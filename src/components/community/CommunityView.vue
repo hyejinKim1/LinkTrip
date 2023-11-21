@@ -41,7 +41,7 @@ init();
     <div class="container">
       <div class="container d-flex row">
       <template v-for="article in articleList.articleList" :key="article.articleIdx">
-      <ArticleListItem class="col-4" :article="article"> </ArticleListItem>
+      <ArticleListItem class="col-4" :article="article" :pgno="pgno"> </ArticleListItem>
       </template>
       </div>
       <page-navigation 
@@ -49,7 +49,7 @@ init();
         :current-page="currentPage" 
         @click-button="changeCurrentPage"
       >
-        
+      
       </page-navigation>
     </div>
   </div>
