@@ -160,23 +160,12 @@ export default {
 </script>
 
 <template>
-  <div class="place-div">
     <!-- kakao map start -->
     <div id="map" class="map-div"></div>
     <!-- kakao map end -->
-  </div>
 </template>
 
 <style scoped>
-.place-div {
-  display: flex;
-}
-
-.map-div {
-  width: 100%;
-  height: 80vh;
-}
-
 .place-item-div {
   border: 1px solid black;
 }

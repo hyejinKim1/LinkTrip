@@ -6,20 +6,20 @@ import { useRoute } from "vue-router";
 import draggable from 'vuedraggable';
 
 const planData = ref({
-  "placeOrder":[], 
+  "placeOrder": [],
   "planDTO": {
-            "planIdx": 0,
-            "planTitle": "",
-            "region": "",
-            "startDate": "",
-            "period": 0,
-            "userIdx": 0,
-            "scrap": "F",
-            "createAt": "",
-            "updateAt": null,
-            "deleteAt": null
-        }
-  });
+    "planIdx": 0,
+    "planTitle": "",
+    "region": "",
+    "startDate": "",
+    "period": 0,
+    "userIdx": 0,
+    "scrap": "F",
+    "createAt": "",
+    "updateAt": null,
+    "deleteAt": null
+  }
+});
 
 const query = ref('');
 const inputQuery = ref('');
@@ -39,11 +39,11 @@ onMounted(() => {
 
 const getPlan = () => {
   console.log(useRoute().params.planIdx);
-  let baseUrl = "http://localhost/plan/viewPlan?"+"&planIdx=" + useRoute().params.planIdx;
+  let baseUrl = "http://localhost/plan/viewPlan?" + "&planIdx=" + useRoute().params.planIdx;
   console.log(baseUrl);
 
   axios.get(baseUrl)
-    .then((res) =>{
+    .then((res) => {
       // planData.value = res.data.data;
       planDTO.value = res.data.data.planDTO;
       placeOrder.value = res.data.data.placeOrder;
@@ -53,38 +53,48 @@ const getPlan = () => {
       mapData.value = placeOrder.value[0];
       // console.log(planData.value.placeOrder);
       // console.log(planData.value.placeOrder.length);
-    } );
+    });
 }
 
 function handleSearchInput() {
-  query.value = planDTO.value.region+" "+inputQuery.value;
+  query.value = planDTO.value.region + " " + inputQuery.value;
 }
 function getRecommend() {
-  query.value = planDTO.value.region+" 명소";
+  query.value = planDTO.value.region + " 명소";
 }
 function getRestaurant() {
-  query.value = planDTO.value.region+" 식당";
+  query.value = planDTO.value.region + " 식당";
 }
 function getCafe() {
-  query.value = planDTO.value.region+" 카페";
+  query.value = planDTO.value.region + " 카페";
 }
-function searchPlacesResult(result){+
+function searchPlacesResult(result) {
+  +
   console.log("emit result:");
   console.log(result);
   places.value = result;
 }
 
-function dayAddBtn(index){
-  console.log("day "+index);
+function dayAddBtn(index) {
+  console.log("day " + index);
   dayAdd.value = index;
   mapData.value = placeOrder.value[dayAdd.value];
+  var map = document.getElementsByClassName("map-div");
+  for(var i = 0; i <map.length; i++){
+    map[i].style.width = "66vw";
+  }
+  
 }
 
-function closeDayAddBtn(){
+function closeDayAddBtn() {
   dayAdd.value = null;
+  var map = document.getElementsByClassName("map-div");
+  for(var i = 0; i <map.length; i++){
+    map[i].style.width = "83vw";
+  }
 }
 
-function viewRoute(index){
+function viewRoute(index) {
   mapData.value = placeOrder.value[index];
 }
 
@@ -96,12 +106,12 @@ const mapData = ref({
   // "createAt": null
 });
 
-function placeAddBtn(index){
-  console.log("placeOrder day"+index);
+function placeAddBtn(index) {
+  console.log("placeOrder day" + index);
   console.log(placeOrder.value[dayAdd.value]);
   placeOrder.value[dayAdd.value].push({
     // "placeIdx": 0,
-    "lat":  places.value[index].x,
+    "lat": places.value[index].x,
     "lon": places.value[index].y,
     "placeName": places.value[index].place_name,
     "placeUrl": places.value[index].place_url
@@ -112,33 +122,33 @@ function placeAddBtn(index){
   console.log(mapData.value);
 }
 
-function savePlan(){
-  edit.value=false;
+function savePlan() {
+  edit.value = false;
   dayAdd.value = null;
 
-//   int planIdx;
-// 	String startDate;
-// 	int period;
-// 	List<PlaceDTO>[] placeList;
+  //   int planIdx;
+  // 	String startDate;
+  // 	int period;
+  // 	List<PlaceDTO>[] placeList;
 
   let baseUrl = "http://localhost/plan/savePlan?";
   console.log(baseUrl);
   console.log("placeOrder 저장")
   console.log(placeOrder.value);
   axios.post(baseUrl, {
-      planIdx:planDTO.value.planIdx,
-      startDate: planDTO.value.startDate.split('T')[0],
-      period: planDTO.value.period,
-      placeList:placeOrder.value,
+    planIdx: planDTO.value.planIdx,
+    startDate: planDTO.value.startDate.split('T')[0],
+    period: planDTO.value.period,
+    placeList: placeOrder.value,
   }).then((res) => {
-      console.log(res.data);
+    console.log(res.data);
   });
 }
 
-function onDragEnd(event) {
-      // 이동이 끝날 때 호출되는 콜백 함수
-      // 여기서 새로운 순서로 정렬된 배열을 사용할 수 있습니다.
-      console.log('New order:', placeOrder);
+function onOrderChange(event) {
+  // 이동이 끝날 때 호출되는 콜백 함수
+  // 여기서 새로운 순서로 정렬된 배열을 사용할 수 있습니다.
+  console.log('New order:', placeOrder);
 }
 
 </script>
@@ -149,32 +159,39 @@ function onDragEnd(event) {
       <div class="title-div">{{ planDTO.planTitle }}</div>
       <div>{{ new Date(planDTO.startDate).toLocaleDateString() }}
         ~
-        {{ new Date(new Date(planDTO.startDate).setDate(new Date(planDTO.startDate).getDate()+planDTO.period)).toLocaleDateString() }}</div>
-      <div v-show="!edit"><button @click="edit=!edit">편집</button></div>
+        {{ new Date(new Date(planDTO.startDate).setDate(new
+          Date(planDTO.startDate).getDate() + planDTO.period)).toLocaleDateString() }}</div>
+      <div v-show="!edit"><button @click="edit = !edit">편집</button></div>
       <div v-show="edit"><button @click="savePlan">저장</button></div>
       <div v-for="(day, index) in placeOrder" :key="index" class="day-div" @click="viewRoute(index)">
-        Day{{ index+1 }}
-        <div style="font-size:12px; color: gray;">{{ new Date(new Date(planDTO.startDate).setDate(new Date(planDTO.startDate).getDate()+index)).toLocaleDateString() }}</div>
-        <span v-show="dayAdd!=index && edit">
+        Day{{ index + 1 }}
+        <div style="font-size:12px; color: gray;">{{ new Date(new Date(planDTO.startDate).setDate(new
+          Date(planDTO.startDate).getDate() + index)).toLocaleDateString() }}</div>
+        <span v-show="dayAdd != index && edit">
           <button @click="dayAddBtn(index)">추가</button>
         </span>
-        <span v-show="dayAdd==index && edit">
+        <span v-show="dayAdd == index && edit">
           <button @click="closeDayAddBtn()">닫기</button>
         </span>
-        <div v-show="day.length==0">
-          <p style="font-size:10px;">day{{index+1}} 일정이 없습니다</p>
+        <div v-show="day.length == 0">
+          <p style="font-size:10px;">day{{ index + 1 }} 일정이 없습니다</p>
         </div>
-        <div v-show="day.length>0">
+        <div v-show="day.length > 0">
           <!-- <draggable v-for="(day, index) in placeOrder" :key="index" :list="day" group="placeOrder" @change="onDragEnd" > -->
+          <!-- <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
+            {{ place.placeName }}
+          </div> -->
+          <!-- </draggable> -->
+          <!-- <draggable v-for="(day, orderIndex) in placeOrder" :key="orderIndex" :list="day" group="places" @change="onOrderChange"> -->
             <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-              {{ place.placeName }}
+            {{ place.placeName }}
             </div>
           <!-- </draggable> -->
         </div>
       </div>
     </div>
-    <div class="search-div" v-show="dayAdd!=null">
-      Day{{ dayAdd+1 }} 장소 검색
+    <div class="search-div" v-show="dayAdd != null">
+      Day{{ dayAdd + 1 }} 장소 검색
       <input type="text" id="place-search" v-model="inputQuery" placeholder="검색어를 입력해주세요" @input="handleSearchInput" />
       <!-- <button @click="handleSearchInput">검색</button> -->
       <div class="search-btn-div">
@@ -190,110 +207,114 @@ function onDragEnd(event) {
         </div>
       </div>
     </div>
-    <div class="map-div split">
-      <KakaoMap 
-      :region="useRoute().params.region" 
-      :query="query"
-      :mapData="mapData"
-      @search-places="searchPlacesResult"/>
+    <div class="map-div">
+      <KakaoMap :region="useRoute().params.region" :query="query" :mapData="mapData"
+        @search-places="searchPlacesResult" />
     </div>
   </div>
 </template>
 
 <style scoped>
-
-
 .update-wrapper {
   font-family: 'Noto Sans KR', sans-serif;
-  width: 98vw;
+  width: 100vw;
   height: 100vh;
   display: flex;
   text-align: center;
   padding-top: 8vh;
-  margin: 0 auto;
 }
 
-.day-div{
+.day-div {
   background-color: rgb(200, 229, 247);
   border-radius: 20px;
   margin: 5px;
-  padding:5px;
+  padding: 5px;
 }
 
 .day-div:hover {
   background-color: rgb(228, 240, 248);
 }
 
-.placeOrder-div{
+.placeOrder-div {
   background-color: rgb(228, 240, 248);
   border-radius: 20px;
   margin: 5px;
   min-height: 15px;
-  padding:5px;
+  padding: 5px;
 }
 
-.placeOrder-div:hover{
-  background-color:white;
+.placeOrder-div:hover {
+  background-color: white;
 }
 
-.title-div{
+.title-div {
   font-size: 28px;
   font-weight: 700;
 }
-
-.split{
-  height:85vh;
-}
-
 .plan-div {
-  width: 15%;
+  width: 17vw;
   height: 92vh;
   overflow-y: scroll;
 }
 
 .plan-div::-webkit-scrollbar {
-    width: 10px;
-  }
-  .plan-div::-webkit-scrollbar-thumb {
-    background-color: rgb(228, 240, 248);
-    border-radius: 10px;
-  }
-  .plan-div::-webkit-scrollbar-track {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: inset 0px 0px 5px white;
-  }
-.search-div {
-  width: 15%;
+  width: 10px;
 }
-.map-div{
-  width:63%;
+
+.plan-div::-webkit-scrollbar-thumb {
+  background-color: rgb(228, 240, 248);
+  border-radius: 10px;
 }
+
+.plan-div::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+.map-div {
+  width: 83vw;
+  height: 92vh;
+}
+
 .search-div {
-  width: 20vw;
-  height: 85vh;
+  width: 17vw;
+  height: 92vh;
   overflow: scroll;
 }
+
+.search-div::-webkit-scrollbar {
+  width: 10px;
+}
+
+.search-div::-webkit-scrollbar-thumb {
+  background-color: rgb(228, 240, 248);
+  border-radius: 10px;
+}
+
+.search-div::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
 .place-item-div {
   background-color: rgb(208, 231, 245);
   margin: 5px;
   border-radius: 10px;
 }
 
-.place-item-div a{
+.place-item-div a {
   text-decoration: none;
   font-weight: 700;
   color: black;
 }
 
-.place-item-div a:hover{
+.place-item-div a:hover {
   font-weight: 1000;
-  color:cornflowerblue;
+  color: cornflowerblue;
 }
 
-.address-div{
+.address-div {
   color: gray;
   font-size: 10px;
-}
-
-</style>
+}</style>
