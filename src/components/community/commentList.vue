@@ -10,6 +10,11 @@ console.log(props.comment)
     <div>
         <h1>commentList</h1>
         {{ comment }}
+
+        
+
+
+        </template>
     </div>
 </template>
 
