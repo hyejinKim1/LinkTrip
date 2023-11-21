@@ -180,7 +180,7 @@ const list = ref([
       <div>{{ new Date(planDTO.startDate).toLocaleDateString() }}
         ~
         {{ new Date(new Date(planDTO.startDate).setDate(new
-        Date(planDTO.startDate).getDate() + planDTO.period)).toLocaleDateString() }}</div>
+          Date(planDTO.startDate).getDate() + planDTO.period)).toLocaleDateString() }}</div>
       <div v-show="!edit"><button @click="edit = !edit">편집</button></div>
       <div v-show="edit"><button @click="savePlan">저장</button></div>
 
@@ -201,48 +201,61 @@ const list = ref([
         <div v-show="day.length > 0">
           <!-- <draggable v-for="(day, index) in placeOrder" :key="index" :list="day" group="placeOrder" @change="onDragEnd" > -->
           <!-- <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-                {{ place.placeName }}
-              </div> -->
+                  {{ place.placeName }}
+                </div> -->
           <!-- </draggable> -->
           <!-- <draggable v-for="(day, orderIndex) in placeOrder" :key="orderIndex" :list="day" group="day" @change="onOrderChange">
-             <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-                {{ place.placeName }}
-                </div> 
-            </draggable> -->
+               <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
+                  {{ place.placeName }}
+                  </div> 
+              </draggable> -->
 
 
-          <!-- <draggable v-for="(order, orderIndex) in placeOrder" :key="orderIndex" :list="order" group="places"
+          <draggable v-for="(order, orderIndex) in placeOrder" :key="orderIndex" :list="order" group="places"
             @change="onOrderChange">
-            <div v-for="(place, placeIndex) in order" :key="placeIndex">
-               Add the item slot below 
-               <template #item="{ element }">
-            <div class="placeOrder-div">
-              {{ element }}
-            </div>
-          </template>
-            </div>
+            <!-- Add the item slot below the draggable component -->
+            <template #item="{ element }">
+              <div class="placeOrder-div" :key="element.placeIdx" style="cursor: grab;">
+                {{ element.placeName }}
+              </div>
+            </template>
+          </draggable>
+          <!-- <draggable
+              class="list-group"
+              :component-data="{
+              tag: 'ul',
+
+              type: 'transition-group',
+              name: !drag ? 'flip-list' : null
+            }"
+              v-model="placeOrder"
+              v-bind="dragOptions"
+              @start="drag = true"
+              @end="onChange"
+              item-key="order"
+          >
+            <template #item="{ element }">
+              <div class="placeOrder-div">
+                {{ element }}
+              </div>
+            </template>
           </draggable> -->
 
-          <draggable
-            class="list-group"
-            :component-data="{
-            tag: 'ul',
-
-            type: 'transition-group',
-            name: !drag ? 'flip-list' : null
-          }"
-            v-model="placeOrder"
-            v-bind="dragOptions"
-            @start="drag = true"
-            @end="onChange"
-            item-key="order"
-        >
-          <template #item="{ element }">
-            <div class="placeOrder-div">
-              {{ element }}
-            </div>
-          </template>
-        </draggable>
+          <!-- <draggable
+    class="list-group"
+    :component-data="{ tag: 'ul', type: 'transition-group', name: !drag ? 'flip-list' : null }"
+    v-model="placeOrder"
+    v-bind="dragOptions"
+    @start="drag = true"
+    @end="onChange"
+    item-key="order"
+  >
+    <template #item="{ element, index }">
+      <div class="placeOrder-div" :key="index" style="cursor: grab;">
+        {{ element.placeName }}
+      </div>
+    </template>
+  </draggable> -->
 
         </div>
       </div>
