@@ -77,6 +77,10 @@ function closeDayAddBtn(){
   dayAdd.value = null;
 }
 
+function viewRoute(index){
+  mapData.value = planData.value.placeOrder[index];
+}
+
 const mapData = ref({
   "placeIdx": 0,
   "lat": 0,
@@ -126,7 +130,7 @@ function savePlan(){
       <div>{{ planData.planDTO.startDate }}</div>
       <div v-show="!edit"><button @click="edit=!edit">편집</button></div>
       <div v-show="edit"><button @click="savePlan">저장</button></div>
-      <div v-for="(day, index) in planData.placeOrder" :key="index" class="day-div">
+      <div v-for="(day, index) in planData.placeOrder" :key="index" class="day-div" @click="viewRoute(index)">
         Day{{ index+1 }}
         <span v-show="dayAdd!=index && edit">
           <button @click="dayAddBtn(index)">추가</button>
@@ -184,14 +188,21 @@ function savePlan(){
 }
 
 .day-div{
-  min-height: 10vh;
+  background-color: rgb(208, 231, 245);
+  border-radius: 20px;
+  margin: 5px;
+  padding:5px;
+}
 
+.day-div:hover {
+  background-color: rgb(228, 240, 248);
 }
 
 .placeOrder-div{
-  border: 1px solid black;
+  background-color: rgb(228, 240, 248);
   border-radius: 20px;
   margin: 5px;
+  min-height: 10px;
 }
 
 .split{
@@ -215,7 +226,7 @@ function savePlan(){
   overflow: scroll;
 }
 .place-item-div {
-  border: 1px solid black;
+  background-color: rgb(208, 231, 245);
   margin: 5px;
   border-radius: 10px;
 }
