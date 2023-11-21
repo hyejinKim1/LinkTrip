@@ -1,6 +1,6 @@
 <script setup>
 import { useMemberStore } from "@/stores/member";
-import { delelteComment } from "@/api/community";
+import { deleteComment } from "@/api/community";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -20,13 +20,14 @@ function submitComment() {
     console.log(submitComment);
 }
 
-async function deleteComment(commentIdx) {
+async function onDeleteComment(commentIdx) {
     console.log(deleteComment);
     console.log("param: ", commentIdx);
-    await delelteComment(commentIdx);
+    await deleteComment({ commentIdx : commentIdx});
 
     console.log("***************~!!", props.articleIdx);
-    router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
+    // router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
+    router.go(0)
 }
 
 </script>
@@ -58,7 +59,7 @@ async function deleteComment(commentIdx) {
           <p class="comment-date">{{ commentOne.createAt }}</p>
           <!-- <p>{{commentOne.commentIdx}}</p> -->
           <template v-if="commentOne.userId===userId">
-            <button @click="deleteComment(commentOne.commentIdx)" class="delete-button">삭제</button>
+            <button @click="onDeleteComment(commentOne.commentIdx)" class="delete-button">삭제</button>
         </template>
           
         </div>

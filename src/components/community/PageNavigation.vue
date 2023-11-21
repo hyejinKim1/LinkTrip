@@ -47,7 +47,7 @@ console.log(props.currentPage)
 
 <style scoped>
 
-.active {
+/* .active {
     background-color: blue;
 }
 
@@ -57,5 +57,32 @@ console.log(props.currentPage)
     text-align: center;
     display: inline-block;
     border: 2px solid rgb(202, 202, 202);
+} */
+
+.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
+
+.button {
+  cursor: pointer;
+  padding: 8px 16px;
+  margin: 0 4px;
+  border: 1px solid #3498db;
+  color: #3498db;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.active {
+  background-color: #3498db;
+  color: #fff;
+}
+
 </style>

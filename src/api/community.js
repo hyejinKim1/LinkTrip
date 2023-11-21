@@ -8,12 +8,12 @@ async function getArticleList(param) {
     return result.data;
 }
 
-async function delelteComment(param) {
+async function deleteComment(param) {
     console.log(param);
-    await local.delete(`community/deleteComment`, { params: param });
+    await local.delete(`community/deleteComment`, { params: param  });
 }
 
 export {
     getArticleList,
-    delelteComment
+    deleteComment
 }
