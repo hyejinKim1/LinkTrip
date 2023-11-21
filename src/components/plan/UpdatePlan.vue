@@ -1,6 +1,6 @@
 <script setup>
 import KakaoMap from "@/components/map/KakaoMap.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import draggable from 'vuedraggable';
@@ -70,7 +70,7 @@ function getCafe() {
 }
 function searchPlacesResult(result) {
   +
-  console.log("emit result:");
+    console.log("emit result:");
   console.log(result);
   places.value = result;
 }
@@ -80,16 +80,16 @@ function dayAddBtn(index) {
   dayAdd.value = index;
   mapData.value = placeOrder.value[dayAdd.value];
   var map = document.getElementsByClassName("map-div");
-  for(var i = 0; i <map.length; i++){
+  for (var i = 0; i < map.length; i++) {
     map[i].style.width = "66vw";
   }
-  
+
 }
 
 function closeDayAddBtn() {
   dayAdd.value = null;
   var map = document.getElementsByClassName("map-div");
-  for(var i = 0; i <map.length; i++){
+  for (var i = 0; i < map.length; i++) {
     map[i].style.width = "83vw";
   }
 }
@@ -151,6 +151,26 @@ function onOrderChange(event) {
   console.log('New order:', placeOrder);
 }
 
+const drag = ref(false)
+const dragOptions = computed(() => {
+  return {
+    animation: 200,
+    group: "description",
+    disabled: false,
+    ghostClass: "ghost"
+  };
+})
+
+function onChange() {
+  console.log('sdf')
+}
+const list = ref([
+  { name: 1, order: 1 },
+  { name: 2, order: 2 },
+  { name: 3, order: 3 },
+  { name: 4, order: 4 },
+])
+
 </script>
 
 <template>
@@ -160,9 +180,11 @@ function onOrderChange(event) {
       <div>{{ new Date(planDTO.startDate).toLocaleDateString() }}
         ~
         {{ new Date(new Date(planDTO.startDate).setDate(new
-          Date(planDTO.startDate).getDate() + planDTO.period)).toLocaleDateString() }}</div>
+        Date(planDTO.startDate).getDate() + planDTO.period)).toLocaleDateString() }}</div>
       <div v-show="!edit"><button @click="edit = !edit">편집</button></div>
       <div v-show="edit"><button @click="savePlan">저장</button></div>
+
+
       <div v-for="(day, index) in placeOrder" :key="index" class="day-div" @click="viewRoute(index)">
         Day{{ index + 1 }}
         <div style="font-size:12px; color: gray;">{{ new Date(new Date(planDTO.startDate).setDate(new
@@ -179,14 +201,49 @@ function onOrderChange(event) {
         <div v-show="day.length > 0">
           <!-- <draggable v-for="(day, index) in placeOrder" :key="index" :list="day" group="placeOrder" @change="onDragEnd" > -->
           <!-- <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-            {{ place.placeName }}
-          </div> -->
+                {{ place.placeName }}
+              </div> -->
           <!-- </draggable> -->
-          <!-- <draggable v-for="(day, orderIndex) in placeOrder" :key="orderIndex" :list="day" group="places" @change="onOrderChange"> -->
-            <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-            {{ place.placeName }}
+          <!-- <draggable v-for="(day, orderIndex) in placeOrder" :key="orderIndex" :list="day" group="day" @change="onOrderChange">
+             <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
+                {{ place.placeName }}
+                </div> 
+            </draggable> -->
+
+
+          <!-- <draggable v-for="(order, orderIndex) in placeOrder" :key="orderIndex" :list="order" group="places"
+            @change="onOrderChange">
+            <div v-for="(place, placeIndex) in order" :key="placeIndex">
+               Add the item slot below 
+               <template #item="{ element }">
+            <div class="placeOrder-div">
+              {{ element }}
             </div>
-          <!-- </draggable> -->
+          </template>
+            </div>
+          </draggable> -->
+
+          <draggable
+            class="list-group"
+            :component-data="{
+            tag: 'ul',
+
+            type: 'transition-group',
+            name: !drag ? 'flip-list' : null
+          }"
+            v-model="placeOrder"
+            v-bind="dragOptions"
+            @start="drag = true"
+            @end="onChange"
+            item-key="order"
+        >
+          <template #item="{ element }">
+            <div class="placeOrder-div">
+              {{ element }}
+            </div>
+          </template>
+        </draggable>
+
         </div>
       </div>
     </div>
@@ -251,6 +308,7 @@ function onOrderChange(event) {
   font-size: 28px;
   font-weight: 700;
 }
+
 .plan-div {
   width: 17vw;
   height: 92vh;
@@ -271,6 +329,7 @@ function onOrderChange(event) {
   border-radius: 10px;
   box-shadow: inset 0px 0px 5px white;
 }
+
 .map-div {
   width: 83vw;
   height: 92vh;
@@ -317,4 +376,5 @@ function onOrderChange(event) {
 .address-div {
   color: gray;
   font-size: 10px;
-}</style>
+}
+</style>
