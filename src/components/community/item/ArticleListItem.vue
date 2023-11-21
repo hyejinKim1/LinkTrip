@@ -1,4 +1,5 @@
 <script setup>
+
 const props = defineProps({ article: Object });
 console.log(props.article)
 </script>
@@ -6,7 +7,7 @@ console.log(props.article)
 <template>
     
         <div class="card container" style="width: 18rem;">
-            <router-link :to="`/detailArticle/${article.articleIdx}`">
+            <router-link :to="`community/detailArticle/${article.articleIdx}`">
             <img src="@/assets/img/region/jeju/jeju1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{ article.articleTitle}}</h5>
