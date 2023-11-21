@@ -9,6 +9,7 @@ export default {
       places: [],
       locations: [],
       markers: [],
+      infowindows: [],
       polylines: [],
     }
   },
@@ -33,7 +34,11 @@ export default {
         console.log("map데이터 바뀜");
         this.removeMarker();
         this.removePolyline();
-        this.makeList(this.mapData);
+        if (this.mapData.length == 0) {
+          this.map.setCenter(new kakao.maps.LatLng(33.450701, 126.570667))
+        } else {
+          this.makeList(this.mapData);
+        }
         return this.mapData;
       },
       deep: true
@@ -84,6 +89,7 @@ export default {
 
         let markerInfo = {
           title: area.placeName,
+          url: area.placeUrl,
           latlng: new kakao.maps.LatLng(area.lon, area.lat),
         };
         this.positions.push(markerInfo);
@@ -93,19 +99,33 @@ export default {
       this.map.setBounds(bounds);
     },
     displayMarker() {
+      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
       for (var i = 0; i < this.positions.length; i++) {
-        var content = `<div class ="label"><span class="left"></span><span class="center">${i+1}</span><span class="right"></span></div>`;
+        var imageSize = new kakao.maps.Size(24, 35);
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        var marker = new kakao.maps.Marker({
+          map: this.map, // 마커를 표시할 지도
+          position: this.positions[i].latlng, // 마커를 표시할 위치
+          title: this.positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image: markerImage, // 마커 이미지
+        });
+        marker.setMap(this.map);
+
+        this.markers.push(marker);
+
+        var content = `<div class="customoverlay" style="padding: 5px;">${i + 1} <a href=${this.positions[i].url} target="_blank" style="text-decoration:none;"><span class="title">${this.positions[i].title}</span></a></div>`;
 
         // 커스텀 오버레이를 생성
-        var customOverlay = new kakao.maps.CustomOverlay({
+        var infoWindow = new kakao.maps.InfoWindow({
           position: this.positions[i].latlng,
           content: content
         });
 
         // 커스텀 오버레이를 지도에 표시
-        customOverlay.setMap(this.map);
+        infoWindow.open(this.map, marker);
 
-        this.markers.push( customOverlay);
+        this.infowindows.push(infoWindow);
       }
     },
     displayLink() {
@@ -123,8 +143,10 @@ export default {
     removeMarker() {
       for (var i = 0; i < this.markers.length; i++) {
         this.markers[i].setMap(null);
+        this.infowindows[i].setMap(null);
       }
       this.markers = [];
+      this.infowindows = [];
     },
     // 지도 위에 표시되고 있는 polyline 모두 제거
     removePolyline() {
@@ -158,4 +180,5 @@ export default {
 .place-item-div {
   border: 1px solid black;
 }
+
 </style>

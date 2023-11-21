@@ -49,13 +49,13 @@ const { isLogin } = storeToRefs(memberStore);
         <div class="header-dropdown">
           <template v-if="isLogin">
             <router-link to="/myPage">
-            <img src="@/assets/img/user.png" alt="user" style="width:45px;" />
+            <img src="@/assets/img/user.png" alt="user" style="width:30px;" />
           </router-link>
 
           </template>
           <template v-else>
             <router-link to="/login">
-              <img src="@/assets/img/user.png" alt="user" style="width:45px;" />
+              <img src="@/assets/img/user.png" alt="user" style="width:30px;" />
             </router-link>
           </template>
           
@@ -66,6 +66,10 @@ const { isLogin } = storeToRefs(memberStore);
 </template>
 
 <style scoped>
+.navbar{
+  height:9vh;
+}
+
 li {
   margin-left: 30px;
 }
@@ -78,7 +82,7 @@ p {
 .nav-div {
   padding: 10px 50px;
   font-family: 'Noto Sans KR', sans-serif;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -95,12 +99,12 @@ p {
   display: none;
   position: absolute;
   background-color: white;
-  min-width: 120px;
-  padding: 0 10px;
+  min-width: 100px;
+  padding: 0 5px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1000;
+  z-index: 1;
   border-radius: 10px;
-  margin-left: -28px;
+  margin-left: -26px;
 }
 .dropdown-content p:hover {color: white;}
 

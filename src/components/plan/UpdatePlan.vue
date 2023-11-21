@@ -3,7 +3,7 @@ import KakaoMap from "@/components/map/KakaoMap.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
-
+import draggable from 'vuedraggable';
 
 const planData = ref({
   "placeOrder":[], 
@@ -28,6 +28,9 @@ const dayAdd = ref(null);
 
 const edit = ref(false);
 
+const placeOrder = ref([]);
+const planDTO = ref([]);
+
 //plan 보여주기
 
 onMounted(() => {
@@ -41,25 +44,29 @@ const getPlan = () => {
 
   axios.get(baseUrl)
     .then((res) =>{
-      console.log(res.data);
-      planData.value = res.data.data;
+      // planData.value = res.data.data;
+      planDTO.value = res.data.data.planDTO;
+      placeOrder.value = res.data.data.placeOrder;
       console.log(res.data.data);
-      console.log(planData.value.placeOrder);
-      console.log(planData.value.placeOrder.length);
+      console.log("PlaceOrder");
+      console.log(placeOrder.value);
+      mapData.value = placeOrder.value[0];
+      // console.log(planData.value.placeOrder);
+      // console.log(planData.value.placeOrder.length);
     } );
 }
 
 function handleSearchInput() {
-  query.value = planData.value.planDTO.region+" "+inputQuery.value;
+  query.value = planDTO.value.region+" "+inputQuery.value;
 }
 function getRecommend() {
-  query.value = planData.value.planDTO.region+" 명소";
+  query.value = planDTO.value.region+" 명소";
 }
 function getRestaurant() {
-  query.value = planData.value.planDTO.region+" 식당";
+  query.value = planDTO.value.region+" 식당";
 }
 function getCafe() {
-  query.value = planData.value.planDTO.region+" 카페";
+  query.value = planDTO.value.region+" 카페";
 }
 function searchPlacesResult(result){+
   console.log("emit result:");
@@ -70,7 +77,7 @@ function searchPlacesResult(result){+
 function dayAddBtn(index){
   console.log("day "+index);
   dayAdd.value = index;
-  mapData.value = planData.value.placeOrder[dayAdd.value];
+  mapData.value = placeOrder.value[dayAdd.value];
 }
 
 function closeDayAddBtn(){
@@ -78,40 +85,29 @@ function closeDayAddBtn(){
 }
 
 function viewRoute(index){
-  mapData.value = planData.value.placeOrder[index];
+  mapData.value = placeOrder.value[index];
 }
 
 const mapData = ref({
-  "placeIdx": 0,
+  // "placeIdx": 0,
   "lat": 0,
   "lon": 0,
   "placeName": '',
-  "createAt": null
+  // "createAt": null
 });
 
 function placeAddBtn(index){
-  console.log("places ");
-  console.log(places.value[index]);
-  
-  // console.log("placeOrder ");
-  // console.log(planData.value.placeOrder[dayAdd.value]);
-  // mapData.value = planData.value.placeOrder[dayAdd.value];
-
-  console.log("placeOrder ");
-  console.log(planData.value.placeOrder[dayAdd.value]);
-  planData.value.placeOrder[dayAdd.value].push({
-    "placeIdx": 0,
+  console.log("placeOrder day"+index);
+  console.log(placeOrder.value[dayAdd.value]);
+  placeOrder.value[dayAdd.value].push({
+    // "placeIdx": 0,
     "lat":  places.value[index].x,
     "lon": places.value[index].y,
     "placeName": places.value[index].place_name,
-    "createAt": null
+    "placeUrl": places.value[index].place_url
+    // "createAt": null
   });
-
-  // mapData.value.placeIdx = useRoute().params.planIdx;
-  // mapData.value.placeName = places.value[index].place_name;
-  // mapData.value.lat = places.value[index].x;
-  // mapData.value.lon = places.value[index].y;
-  mapData.value = planData.value.placeOrder[dayAdd.value];
+  mapData.value = placeOrder.value[dayAdd.value];
   console.log("mapData ");
   console.log(mapData.value);
 }
@@ -119,6 +115,30 @@ function placeAddBtn(index){
 function savePlan(){
   edit.value=false;
   dayAdd.value = null;
+
+//   int planIdx;
+// 	String startDate;
+// 	int period;
+// 	List<PlaceDTO>[] placeList;
+
+  let baseUrl = "http://localhost/plan/savePlan?";
+  console.log(baseUrl);
+  console.log("placeOrder 저장")
+  console.log(placeOrder.value);
+  axios.post(baseUrl, {
+      planIdx:planDTO.value.planIdx,
+      startDate: planDTO.value.startDate.split('T')[0],
+      period: planDTO.value.period,
+      placeList:placeOrder.value,
+  }).then((res) => {
+      console.log(res.data);
+  });
+}
+
+function onDragEnd(event) {
+      // 이동이 끝날 때 호출되는 콜백 함수
+      // 여기서 새로운 순서로 정렬된 배열을 사용할 수 있습니다.
+      console.log('New order:', placeOrder);
 }
 
 </script>
@@ -126,12 +146,15 @@ function savePlan(){
 <template>
   <div class="update-wrapper">
     <div class="plan-div split">
-      <div class="title-div">{{ planData.planDTO.planTitle }}</div>
-      <div>{{ planData.planDTO.startDate }}</div>
+      <div class="title-div">{{ planDTO.planTitle }}</div>
+      <div>{{ new Date(planDTO.startDate).toLocaleDateString() }}
+        ~
+        {{ new Date(new Date(planDTO.startDate).setDate(new Date(planDTO.startDate).getDate()+planDTO.period)).toLocaleDateString() }}</div>
       <div v-show="!edit"><button @click="edit=!edit">편집</button></div>
       <div v-show="edit"><button @click="savePlan">저장</button></div>
-      <div v-for="(day, index) in planData.placeOrder" :key="index" class="day-div" @click="viewRoute(index)">
+      <div v-for="(day, index) in placeOrder" :key="index" class="day-div" @click="viewRoute(index)">
         Day{{ index+1 }}
+        <div style="font-size:12px; color: gray;">{{ new Date(new Date(planDTO.startDate).setDate(new Date(planDTO.startDate).getDate()+index)).toLocaleDateString() }}</div>
         <span v-show="dayAdd!=index && edit">
           <button @click="dayAddBtn(index)">추가</button>
         </span>
@@ -142,9 +165,11 @@ function savePlan(){
           <p style="font-size:10px;">day{{index+1}} 일정이 없습니다</p>
         </div>
         <div v-show="day.length>0">
-          <div v-for="(place, index) in day" :key="place" class="placeOrder-div">
-          {{ place.placeName }}
-          </div>
+          <!-- <draggable v-for="(day, index) in placeOrder" :key="index" :list="day" group="placeOrder" @change="onDragEnd" > -->
+            <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
+              {{ place.placeName }}
+            </div>
+          <!-- </draggable> -->
         </div>
       </div>
     </div>
@@ -180,15 +205,16 @@ function savePlan(){
 
 .update-wrapper {
   font-family: 'Noto Sans KR', sans-serif;
-  width: 100vw;
+  width: 98vw;
   height: 100vh;
   display: flex;
   text-align: center;
-  padding-top: 15vh;
+  padding-top: 8vh;
+  margin: 0 auto;
 }
 
 .day-div{
-  background-color: rgb(208, 231, 245);
+  background-color: rgb(200, 229, 247);
   border-radius: 20px;
   margin: 5px;
   padding:5px;
@@ -202,7 +228,17 @@ function savePlan(){
   background-color: rgb(228, 240, 248);
   border-radius: 20px;
   margin: 5px;
-  min-height: 10px;
+  min-height: 15px;
+  padding:5px;
+}
+
+.placeOrder-div:hover{
+  background-color:white;
+}
+
+.title-div{
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .split{
@@ -211,9 +247,22 @@ function savePlan(){
 
 .plan-div {
   width: 15%;
-  height: 85vh;
+  height: 92vh;
   overflow-y: scroll;
 }
+
+.plan-div::-webkit-scrollbar {
+    width: 10px;
+  }
+  .plan-div::-webkit-scrollbar-thumb {
+    background-color: rgb(228, 240, 248);
+    border-radius: 10px;
+  }
+  .plan-div::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
 .search-div {
   width: 15%;
 }
