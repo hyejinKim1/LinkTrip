@@ -33,7 +33,7 @@
 .start-text{
   margin-top: 8vh;
   font-family: 'Lobster', sans-serif;
-  font-size: 20vw;
+  font-size: 18vw;
   color: white;
   text-shadow: 0px 8px 15px rgba(65, 65, 65, 0.1);
 } 
@@ -45,7 +45,6 @@
   bottom: 15vh;
 }
 
-
 .btn-div{
   display: flex;
   align-items: center;
@@ -53,8 +52,8 @@
 } 
 
 .button {
-  width: 250px;
-  height: 80px;
+  width: 190px;
+  height: 60px;
   font-family: 'Montserrat', sans-serif;
   font-size: 30px;
   font-weight: 700;

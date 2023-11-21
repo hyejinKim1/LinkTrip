@@ -83,13 +83,13 @@ import HomeText from '../components/home/HomeText.vue';
   left: 25%;
   top: 15%;
   border-radius: 100%;
-  width: 170px;
+  width: 160px;
   height: 60px;
   z-index: 1;
 }
 
 .cloud:before {
-  width: 125px;
+  width: 120px;
   height: 65px;
   top: -22px;
   border-radius: 50%;
@@ -97,8 +97,8 @@ import HomeText from '../components/home/HomeText.vue';
 }
 
 .cloud:after {
-  width: 58px;
-  height: 48px;
+  width: 50px;
+  height: 40px;
   top: -35px;
   left: 57px;
 }
@@ -163,7 +163,7 @@ import HomeText from '../components/home/HomeText.vue';
 .ground {
   position: absolute;
   width: 80%;
-  height: 120px;
+  height: 110px;
   border-radius: 100%;
   background: #75bf8d;
   left: 10%;
@@ -176,12 +176,12 @@ import HomeText from '../components/home/HomeText.vue';
 ----------------------------------*/
 .tree {
   width: 20px;
-  height: 100px;
+  height: 90px;
   background: rgb(252, 206, 132);
   z-index: 1;
   display: block;
   position: absolute;
-  bottom: 74px;
+  bottom: 70px;
   left: 62%;
   -webkit-transform: rotate(6deg);
   -ms-transform: rotate(6deg);
@@ -195,9 +195,9 @@ import HomeText from '../components/home/HomeText.vue';
   content: "";
   background: rgb(255, 235, 103);
   border-radius: 90%;
-  width: 90px;
+  width: 70px;
   top: -50px;
-  height: 100px;
+  height: 80px;
   position: absolute;
   left: -30px;
   z-index: 1;
