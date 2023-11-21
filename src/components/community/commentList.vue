@@ -1,19 +1,32 @@
 <script setup>
 import { useMemberStore } from "@/stores/member";
+import { delelteComment } from "@/api/community";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const memberStore = useMemberStore();
 
 
 const props = defineProps({
-    comment : Object
+    comment: Object,
+    articleIdx : Number
 });
 
 const userId = ref('');
 userId.value = memberStore.userInfo.userId;
 
-async function submitComment() {
+function submitComment() {
     console.log(submitComment);
+}
+
+async function deleteComment(commentIdx) {
+    console.log(deleteComment);
+    console.log("param: ", commentIdx);
+    await delelteComment(commentIdx);
+
+    console.log("***************~!!", props.articleIdx);
+    router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
 }
 
 </script>
@@ -37,14 +50,15 @@ async function submitComment() {
     <div class="comment-container">
     <h1 class="comment-title">댓글 목록</h1>
     <div class="comment-list">
-        <template v-for="commentIdx in comment" :key="commentIdx">
+        <template v-for="commentOne in comment" :key="commentOne">
             <div class="comment-item">
             <!-- {{ commentIdx }} -->
-          <p class="user-id">{{ commentIdx.userId }}</p>
-          <p class="comment-content">{{ commentIdx.content }}</p>
-          <p class="comment-date">{{ commentIdx.createAt }}</p>
-          <template v-if="commentIdx.userId===userId">
-            <button @click="deleteComment(comment.id)" class="delete-button">삭제</button>
+          <p class="user-id">{{ commentOne.userId }}</p>
+          <p class="comment-content">{{ commentOne.content }}</p>
+          <p class="comment-date">{{ commentOne.createAt }}</p>
+          <!-- <p>{{commentOne.commentIdx}}</p> -->
+          <template v-if="commentOne.userId===userId">
+            <button @click="deleteComment(commentOne.commentIdx)" class="delete-button">삭제</button>
         </template>
           
         </div>

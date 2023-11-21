@@ -43,7 +43,7 @@ init();
             <!-- <button @click="mvList()">목록 보기</button> -->
             <articleDetail :article="articleDetailResponse?.articleData"></articleDetail>
             <planDetail :plan="articleDetailResponse?.planData"></planDetail>
-            <commentList :comment="articleDetailResponse?.commentData"></commentList>
+            <commentList :comment="articleDetailResponse?.commentData" :articleIdx="param.articleIdx"></commentList>
         </div>
     </div>
 </template>
