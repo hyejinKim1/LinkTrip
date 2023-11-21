@@ -8,7 +8,7 @@ console.log(props.article);
 
 <template>
     <div class="center font">
-        <!-- {{ article }} -->
+        {{ article }}
         <h2>{{ article.articleTitle }}</h2>
         <h6>{{ article.createAt }}</h6>
         <br>

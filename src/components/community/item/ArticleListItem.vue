@@ -1,13 +1,16 @@
 <script setup>
 
-const props = defineProps({ article: Object });
+const props = defineProps({
+    article: Object,
+    pgno : Number
+});
 console.log(props.article)
 </script>
 
 <template>
     
         <div class="card container" style="width: 18rem;">
-            <router-link :to="`community/detailArticle/${article.articleIdx}`">
+            <router-link :to="`community/detailArticle/${article.articleIdx}`" :pgno="pgno">
             <img src="@/assets/img/region/jeju/jeju1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{ article.articleTitle}}</h5>
