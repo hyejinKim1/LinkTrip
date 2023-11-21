@@ -61,7 +61,7 @@ function getRestaurant() {
 function getCafe() {
   query.value = planData.value.planDTO.region+" 카페";
 }
-function searchPlacesResult(result){
+function searchPlacesResult(result){+
   console.log("emit result:");
   console.log(result);
   places.value = result;
@@ -70,6 +70,7 @@ function searchPlacesResult(result){
 function dayAddBtn(index){
   console.log("day "+index);
   dayAdd.value = index;
+  mapData.value = planData.value.placeOrder[dayAdd.value];
 }
 
 function closeDayAddBtn(){
@@ -102,10 +103,11 @@ function placeAddBtn(index){
     "createAt": null
   });
 
-  mapData.value.placeIdx = useRoute().params.planIdx;
-  mapData.value.placeName = places.value[index].place_name;
-  mapData.value.lat = places.value[index].x;
-  mapData.value.lon = places.value[index].y;
+  // mapData.value.placeIdx = useRoute().params.planIdx;
+  // mapData.value.placeName = places.value[index].place_name;
+  // mapData.value.lat = places.value[index].x;
+  // mapData.value.lon = places.value[index].y;
+  mapData.value = planData.value.placeOrder[dayAdd.value];
   console.log("mapData ");
   console.log(mapData.value);
 }
@@ -136,7 +138,7 @@ function savePlan(){
           <p style="font-size:10px;">day{{index+1}} 일정이 없습니다</p>
         </div>
         <div v-show="day.length>0">
-          <div v-for="(place, index) in day" :key="place">
+          <div v-for="(place, index) in day" :key="place" class="placeOrder-div">
           {{ place.placeName }}
           </div>
         </div>
@@ -171,9 +173,7 @@ function savePlan(){
 
 <style scoped>
 
-.day-div{
-  min-height: 10vh;
-}
+
 .update-wrapper {
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
@@ -181,6 +181,17 @@ function savePlan(){
   display: flex;
   text-align: center;
   padding-top: 15vh;
+}
+
+.day-div{
+  min-height: 10vh;
+
+}
+
+.placeOrder-div{
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: 5px;
 }
 
 .split{
