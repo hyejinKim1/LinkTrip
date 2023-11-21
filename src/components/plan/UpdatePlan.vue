@@ -145,31 +145,44 @@ function savePlan() {
   });
 }
 
-function onOrderChange(event) {
+function onChange(index) {
   // 이동이 끝날 때 호출되는 콜백 함수
   // 여기서 새로운 순서로 정렬된 배열을 사용할 수 있습니다.
+  mapData.value = placeOrder[index];
   console.log('New order:', placeOrder);
+
 }
 
-const drag = ref(false)
-const dragOptions = computed(() => {
-  return {
-    animation: 200,
-    group: "description",
-    disabled: false,
-    ghostClass: "ghost"
-  };
-})
+// const onDragStart = () => {
+//   // You can perform any action when drag starts
+// };
 
-function onChange() {
-  console.log('sdf')
-}
-const list = ref([
-  { name: 1, order: 1 },
-  { name: 2, order: 2 },
-  { name: 3, order: 3 },
-  { name: 4, order: 4 },
-])
+// const onDragEnd = () => {
+//   // You can perform any action when drag ends
+//   // This is where you may want to update the order of places in each day
+//   // savePlan(); // Assuming you want to save the plan after dragging
+//   console.log('New order:', placeOrder);
+// };
+
+// const drag = ref(false)
+// const dragOptions = computed(() => {
+//   return {
+//     animation: 200,
+//     group: "description",
+//     disabled: false,
+//     ghostClass: "ghost"
+//   };
+// })
+
+// function onChange() {
+//   console.log('sdf')
+// }
+// const list = ref([
+//   { name: 1, order: 1 },
+//   { name: 2, order: 2 },
+//   { name: 3, order: 3 },
+//   { name: 4, order: 4 },
+// ])
 
 </script>
 
@@ -199,28 +212,7 @@ const list = ref([
           <p style="font-size:10px;">day{{ index + 1 }} 일정이 없습니다</p>
         </div>
         <div v-show="day.length > 0">
-          <!-- <draggable v-for="(day, index) in placeOrder" :key="index" :list="day" group="placeOrder" @change="onDragEnd" > -->
-          <!-- <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-                  {{ place.placeName }}
-                </div> -->
-          <!-- </draggable> -->
-          <!-- <draggable v-for="(day, orderIndex) in placeOrder" :key="orderIndex" :list="day" group="day" @change="onOrderChange">
-               <div v-for="(place, placeIndex) in day" :key="placeIndex" class="placeOrder-div">
-                  {{ place.placeName }}
-                  </div> 
-              </draggable> -->
-
-
-          <draggable v-for="(order, orderIndex) in placeOrder" :key="orderIndex" :list="order" group="places"
-            @change="onOrderChange">
-            <!-- Add the item slot below the draggable component -->
-            <template #item="{ element }">
-              <div class="placeOrder-div" :key="element.placeIdx" style="cursor: grab;">
-                {{ element.placeName }}
-              </div>
-            </template>
-          </draggable>
-          <!-- <draggable
+          <draggable
               class="list-group"
               :component-data="{
               tag: 'ul',
@@ -228,34 +220,18 @@ const list = ref([
               type: 'transition-group',
               name: !drag ? 'flip-list' : null
             }"
-              v-model="placeOrder"
+              v-model="placeOrder[index]"
               v-bind="dragOptions"
               @start="drag = true"
-              @end="onChange"
+              @end="onChange(index)"
               item-key="order"
           >
             <template #item="{ element }">
               <div class="placeOrder-div">
-                {{ element }}
+                {{ element.placeName }}
               </div>
             </template>
-          </draggable> -->
-
-          <!-- <draggable
-    class="list-group"
-    :component-data="{ tag: 'ul', type: 'transition-group', name: !drag ? 'flip-list' : null }"
-    v-model="placeOrder"
-    v-bind="dragOptions"
-    @start="drag = true"
-    @end="onChange"
-    item-key="order"
-  >
-    <template #item="{ element, index }">
-      <div class="placeOrder-div" :key="index" style="cursor: grab;">
-        {{ element.placeName }}
-      </div>
-    </template>
-  </draggable> -->
+          </draggable>
 
         </div>
       </div>
