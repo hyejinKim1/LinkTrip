@@ -126,11 +126,6 @@ function savePlan() {
   edit.value = false;
   dayAdd.value = null;
 
-  //   int planIdx;
-  // 	String startDate;
-  // 	int period;
-  // 	List<PlaceDTO>[] placeList;
-
   let baseUrl = "http://localhost/plan/savePlan?";
   console.log(baseUrl);
   console.log("placeOrder 저장")
@@ -148,41 +143,11 @@ function savePlan() {
 function onChange(index) {
   // 이동이 끝날 때 호출되는 콜백 함수
   // 여기서 새로운 순서로 정렬된 배열을 사용할 수 있습니다.
-  mapData.value = placeOrder[index];
-  console.log('New order:', placeOrder);
+  mapData.value = placeOrder.value[index];
+  console.log('New order:', placeOrder.value);
+  console.log(placeOrder.value[index]);
 
 }
-
-// const onDragStart = () => {
-//   // You can perform any action when drag starts
-// };
-
-// const onDragEnd = () => {
-//   // You can perform any action when drag ends
-//   // This is where you may want to update the order of places in each day
-//   // savePlan(); // Assuming you want to save the plan after dragging
-//   console.log('New order:', placeOrder);
-// };
-
-// const drag = ref(false)
-// const dragOptions = computed(() => {
-//   return {
-//     animation: 200,
-//     group: "description",
-//     disabled: false,
-//     ghostClass: "ghost"
-//   };
-// })
-
-// function onChange() {
-//   console.log('sdf')
-// }
-// const list = ref([
-//   { name: 1, order: 1 },
-//   { name: 2, order: 2 },
-//   { name: 3, order: 3 },
-//   { name: 4, order: 4 },
-// ])
 
 </script>
 
