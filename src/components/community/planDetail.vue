@@ -10,6 +10,8 @@ console.log(props.plan)
     <div>
         <h1>planDetail</h1>
         <h2>{{ plan }}</h2>
+
+        <template v-for="comment"></template>
     </div>
 </template>
 

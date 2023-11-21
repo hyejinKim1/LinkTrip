@@ -2,16 +2,20 @@
 const props = defineProps({
     article : Object
 });
+console.log(props.article);
+
 </script>
 
 <template>
     <div class="center font">
-        {{ article }}
-        <img class="logo block" src="@/assets/img/여권사진.png"/>
-        
+        <!-- {{ article }} -->
         <h2>{{ article.articleTitle }}</h2>
         <h6>{{ article.createAt }}</h6>
+        <br>
         {{ article.content }}
+        <img class="logo block" src="@/assets/img/여권사진.png"/>
+        
+        
         <div class="divider"></div>
         <div class="divider back"></div>
         
