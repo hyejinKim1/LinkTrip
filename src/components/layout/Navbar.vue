@@ -1,19 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
-
-// function openMenu() {
-//   document.getElementById("mySidenav").style.width = "250px";
-//   document.getElementById("main").style.marginLeft = "250px";
-// }
-
-// function closeMenu() {
-//   document.getElementById("mySidenav").style.width = "0";
-//   document.getElementById("main").style.marginLeft = "0";
-// }
+import axios from "axios";
 
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
+
+const { userLogout } = memberStore;
+
 
 function openMyPage(){
   document.getElementById("mySidenav").style.width = "250px";
@@ -24,7 +18,15 @@ function closeMyPage() {
 }
 
 function logout(){
-  
+  let baseUrl = "http://localhost/user/logout/" + "&userId=" + memberStore.userInfo.userId;
+  console.log(baseUrl);
+  closeMyPage();
+  console.log(memberStore.userInfo.userId);
+  axios.get(baseUrl)
+    .then((res) => {
+      userLogout();
+      
+    });
 }
 
 </script>
@@ -73,12 +75,20 @@ function logout(){
       </div>
     </div>
 
-    <div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" @click="closeMyPage">&times;</a>
-  <a href="#" @click="logout">로그아웃</a>
-  <a href="#">Services</a>
-  <a href="#">Clients</a>
-  <a href="#">Contact</a>
+<div id="mySidenav" class="sidenav">
+  <div href="javascript:void(0)" class="closebtn btn-hover" @click="closeMyPage" style="font-size:25px;">&times;</div>
+
+  <!-- 이름, 아이디, 로그아웃, 좋아요한 article, 내 일정, 담은 일정 -->
+  <div>
+    <img src="@/assets/img/person-circle.svg" alt="user" style="width:40px; height:40px;"/>
+  </div>
+  <div style="font-size:18px;" v-if="isLogin">
+    {{ memberStore.userInfo.userName }} 님
+  </div>
+  <div @click="logout" class="btn-hover">로그아웃</div>
+  <div class="btn-hover">나의 여행 계획</div>
+  <div class="btn-hover">담은 여행 계획</div>
+  <div class="btn-hover">좋아요한 여행 후기</div>
 </div>
 
   </nav>
@@ -129,35 +139,41 @@ p {
 
 .dropdown:hover .dropdown-content {display: block;}
 
+path{
+  fill:rgb(161, 161, 161);
+  color: #818181;
+}
 
 /* mypage */
 
 /* The side navigation menu */
 .sidenav {
+  font-family: 'Noto Sans KR', sans-serif;
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
+  right: 0;
+  background-color: white; /* Black*/
+  overflow: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  white-space:nowrap;
 }
 
 /* The navigation menu links */
-.sidenav a {
+.sidenav div{
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
   color: #818181;
   display: block;
   transition: 0.3s;
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
+.btn-hover:hover {
   color: #f1f1f1;
 }
 
@@ -179,6 +195,6 @@ p {
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+  .sidenav div {font-size: 18px;}
 }
 </style>
