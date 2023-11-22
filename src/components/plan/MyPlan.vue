@@ -59,8 +59,8 @@ init();
 
 .outer{
   width: 100vw;
-  margin-top: 9vh;
-  height: 90vh;
+  padding-top: 9vh;
+  height: 100vh;
   overflow-x: hidden;
 }
 .container{

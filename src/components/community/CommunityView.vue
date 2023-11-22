@@ -89,10 +89,11 @@ init();
 <style scoped>
 .outer {
   /* padding: 150px; */
-  margin-top: 170px;
+  padding-top: 9vh;
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .container {

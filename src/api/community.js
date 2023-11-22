@@ -40,7 +40,16 @@ async function createLikeArticle(param) {
 }
 
 async function deleteLikeArticle(param) {
-    await local.delete(`/community/deleteLikeArticle`, { params: param } );
+    await local.delete(`/community/deleteLikeArticle`, { params: param });
+}
+async function updateArticle(param) {
+    console.log(param);
+    await local.patch(`community/updateArticle`, param);
+}
+
+async function createArticle(param) {
+    console.log(param);
+    await local.post(`community/createArticle`, param);
 }
 
 export {
@@ -51,5 +60,7 @@ export {
     createScrap,
     checkLikeArticle,
     createLikeArticle,
-    deleteLikeArticle
+    deleteLikeArticle,
+    updateArticle,
+    createArticle
 }

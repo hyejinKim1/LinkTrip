@@ -1,25 +1,26 @@
 <script setup>
 import KakaoMap from "@/components/map/KakaoMap.vue";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import draggable from 'vuedraggable';
+const { VITE_VUE_API_URL } = import.meta.env;
 
-const planData = ref({
-  "placeOrder": [],
-  "planDTO": {
-    "planIdx": 0,
-    "planTitle": "",
-    "region": "",
-    "startDate": "",
-    "period": 0,
-    "userIdx": 0,
-    "scrap": "F",
-    "createAt": "",
-    "updateAt": null,
-    "deleteAt": null
-  }
-});
+// const planData = ref({
+//   "placeOrder": [],
+//   "planDTO": {
+//     "planIdx": 0,
+//     "planTitle": "",
+//     "region": "",
+//     "startDate": "",
+//     "period": 0,
+//     "userIdx": 0,
+//     "scrap": "F",
+//     "createAt": "",
+//     "updateAt": null,
+//     "deleteAt": null
+//   }
+// });
 
 const query = ref('');
 const inputQuery = ref('');
@@ -38,7 +39,7 @@ onMounted(() => {
 
 const getPlan = () => {
   console.log(useRoute().params.planIdx);
-  let baseUrl = "http://localhost/plan/viewPlan?" + "&planIdx=" + useRoute().params.planIdx;
+  let baseUrl = VITE_VUE_API_URL+"plan/viewPlan?" + "&planIdx=" + useRoute().params.planIdx;
   console.log(baseUrl);
 
   axios.get(baseUrl)
@@ -70,7 +71,7 @@ function searchPlacesResult(result) {
   places.value = result;
 }
 
-function closeSearch(){
+function closeSearch() {
   var map = document.getElementsByClassName("map-div");
   for (var i = 0; i < map.length; i++) {
     map[i].style.width = "83vw";
@@ -78,7 +79,7 @@ function closeSearch(){
   var map = document.getElementsByClassName("search-div")[0].style.width = "0vw";
 }
 
-function openSearch(){
+function openSearch() {
   var map = document.getElementsByClassName("map-div");
   for (var i = 0; i < map.length; i++) {
     map[i].style.width = "66vw";
@@ -93,8 +94,12 @@ function closeDayAddBtn() {
 
 function selectDay(index) {
   dayAdd.value = index;
-  openSearch();
   mapData.value = placeOrder.value[index];
+}
+
+function openSearchBtn (){
+  openSearch();
+  dayAdd.value = index;
 }
 
 const mapData = ref({
@@ -152,21 +157,34 @@ function onChange(index) {
   <div class="update-wrapper">
     <div class="plan-div split">
       <div class="title-div">{{ planDTO.planTitle }}</div>
+
       <div>{{ new Date(planDTO.startDate).toLocaleDateString() }}
         ~
         {{ new Date(new Date(planDTO.startDate).setDate(new
           Date(planDTO.startDate).getDate() + planDTO.period)).toLocaleDateString() }}</div>
 
+      <div>
+        {{ planDTO.region }}
+      </div>
       <div v-for="(day, index) in placeOrder" :key="index" class="day-div" @click="selectDay(index)">
         <h5>Day{{ index + 1 }}</h5>
         <div style="font-size:12px; color: gray;">{{ new Date(new Date(planDTO.startDate).setDate(new
           Date(planDTO.startDate).getDate() + index)).toLocaleDateString() }}</div>
         <!-- <span v-show="dayAdd != index">
-              <button @click="dayAddBtn(index)">추가</button>
-            </span> -->
+                <button @click="dayAddBtn(index)">추가</button>
+              </span> -->
         <div v-show="day.length == 0">
           <p style="font-size:10px;">day{{ index + 1 }} 일정이 없습니다</p>
         </div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-calendar-plus hover-scale"
+          viewBox="0 0 16 16" @click="openSearchBtn">
+          <path
+            d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7" />
+          <path
+            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+        </svg>
+
         <div v-show="day.length > 0">
           <draggable class="list-group" :component-data="{
             tag: 'ul',
@@ -187,8 +205,8 @@ function onChange(index) {
     </div>
     <div class="search-div">
       Day{{ dayAdd + 1 }} 장소 검색
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square-fill close-btn hover-scale"
-        viewBox="0 0 20 20" @click="closeDayAddBtn()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+        class="bi bi-x-square-fill close-btn hover-scale" viewBox="0 0 20 20" @click="closeDayAddBtn()">
         <path
           d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708" />
       </svg>
@@ -204,6 +222,7 @@ function onChange(index) {
         <button @click="getRestaurant" class="button">식당</button>
         <button @click="getCafe" class="button">카페</button>
       </div>
+
       <div v-if="places.length">
         <div v-for="(place, index) in places" :key="index" class="place-item-div">
           <a :href="place.place_url" target="_blank" rel="noopener noreferrer">{{ place.place_name }}</a>
@@ -219,8 +238,7 @@ function onChange(index) {
       </div>
     </div>
     <div class="map-div">
-      <KakaoMap :region="region" :query="query" :mapData="mapData" 
-        @search-places="searchPlacesResult" />
+      <KakaoMap :region="region" :query="query" :mapData="mapData" @search-places="searchPlacesResult" />
     </div>
   </div>
 </template>
@@ -236,7 +254,7 @@ function onChange(index) {
 }
 
 .day-div {
-  background-color: rgb(200, 229, 247);
+  background-color: #c4e3fd;
   border-radius: 20px;
   margin: 5px;
   padding: 5px;
@@ -334,11 +352,10 @@ function onChange(index) {
 }
 
 .button {
-  width: 80px;
-  height: 30px;
-  font-size: 15px;
+  width: 63px;
+  height: 35px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 5px;
   font-weight: 800;
   color: #000;
   background-color: rgb(208, 231, 245);
@@ -362,25 +379,25 @@ function onChange(index) {
   transform: scale(1.1);
 }
 
-.close-btn{
+.close-btn {
   float: right;
-  margin:10px;
+  margin: 10px;
 }
 
 /* input */
 
 .input-search-div div {
   position: relative;
-  width: 300px;
+  width: 200px;
   margin-left: 50px;
   margin-top: 100px;
   box-sizing: border-box;
-} 
+}
 
 .input-search-div input {
   font-size: 15px;
   color: #222222;
-  width: 300px;
+  width: 230px;
   border: none;
   border-bottom: solid #aaaaaa 1px;
   padding-bottom: 10px;
@@ -390,20 +407,24 @@ function onChange(index) {
   z-index: 5;
 }
 
-.input-search-div input::placeholder { color: #aaaaaa; }
-.input-search-div input:focus { outline: none; }
+.input-search-div input::placeholder {
+  color: #aaaaaa;
+}
+
+.input-search-div input:focus {
+  outline: none;
+}
 
 .input-search-div span {
   display: block;
   position: absolute;
   bottom: 0;
-  left: 50%;  /* right로만 바꿔주면 오 - 왼 */
+  left: 50%;
+  /* right로만 바꿔주면 오 - 왼 */
   background-color: #666;
   width: 0;
   height: 2px;
   border-radius: 2px;
   transform: translateX(-50%);
   transition: 0.5s;
-}
-
-</style>
+}</style>
