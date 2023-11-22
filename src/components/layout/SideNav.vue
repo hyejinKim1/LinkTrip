@@ -4,7 +4,6 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
-
 const { userLogout } = memberStore;
 const emit = defineEmits(['closeMypage']);
 
@@ -19,7 +18,7 @@ function logout() {
         });
 }
 
-function closeMyPage(newWidth){
+function closeMyPage(){
     document.getElementById("mySidenav").style.width = "0";
     emit("closeMypage", "0");
 }
