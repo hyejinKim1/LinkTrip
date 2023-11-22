@@ -23,9 +23,6 @@ const newScrapPlanIdx = ref(0); //새로 createScrap하고 나서 생긴 plan의
 const isScrap = ref(props.article.scrap);
 
 async function onClickScrap() {
-  // console.log("onClickScrap");
-  // console.log("B*****",isScrap.value)
-
   //1. 디비 안에 있는 스크랩 칼럼의 값을 수정함
   //2. props.article.articleIdx 글에서 scrap 부분을 반대로 수정해줘야 함 
   // if (isScrap.value === 'F') {
@@ -41,8 +38,6 @@ async function onClickScrap() {
   // else {
   //   isScrap.value = 'F';
   //   //createScrap해서 plan에 넣은 plan을 삭제해줌
-
-
   // }
   
   //그냥 지금 article안에 plan값을 그대로 param으로 넘겨주면 됨! 
@@ -53,8 +48,6 @@ async function onClickScrap() {
     userId: memberStore.userInfo.userId,
     articleIdx : props.article.articleIdx
   })
-
-  console.log('@@@@');
 
   //확인창 띄우기
   alert("담은 일정에 추가되었어요. 자신만의 일정으로 수정해보세요!");
