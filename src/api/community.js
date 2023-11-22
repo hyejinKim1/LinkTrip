@@ -28,10 +28,16 @@ async function createScrap(param) {
     await local.post(`community/createScrap`, param);
 }
 
+async function updateArticle(param) {
+    console.log(param);
+    await local.patch(`community/updateArticle`, param);
+}
+
 export {
     getArticleList,
     deleteComment,
     createComment,
     createLike,
-    createScrap
+    createScrap,
+    updateArticle
 }
