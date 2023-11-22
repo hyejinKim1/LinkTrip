@@ -112,7 +112,7 @@ const mapData = ref({
 
 function savePlan() {
   // dayAdd.value = null;
-  let baseUrl = "http://localhost/plan/savePlan?";
+  let baseUrl = VITE_VUE_API_URL+"plan/savePlan?";
   console.log(baseUrl);
   console.log("placeOrder 저장")
   console.log(placeOrder.value);

@@ -27,7 +27,7 @@ console.log(props.plan.planDTO.region);
             <p>{{ el }}</p>
         
         </template> -->
-    <div class="center">
+        <div class="center">
         <div class="title">
         <h1>Plan</h1>
         </div>
@@ -51,6 +51,7 @@ console.log(props.plan.planDTO.region);
 .map-div{
     width: 63vw;
     height: 40vh;
+    border-radius:10px;
 }
 
 .day-div{

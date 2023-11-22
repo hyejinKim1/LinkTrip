@@ -9,8 +9,8 @@ const memberStore = useMemberStore();
 
 
 const props = defineProps({
-    comment: Object,
-    articleIdx : Number
+  comment: Object,
+  articleIdx: Number
 });
 
 const userId = ref('');
@@ -20,26 +20,26 @@ const newComment = ref();
 
 async function submitComment() {
 
-    console.log('submit');
+  console.log('submit');
 
-    await createComment({
-        content: newComment.value,
-        articleIdx: props.articleIdx,
-        userId : userId.value
-    })
+  await createComment({
+    content: newComment.value,
+    articleIdx: props.articleIdx,
+    userId: userId.value
+  })
 
-    console.log("@@@@@");
-    router.go(0);
+  console.log("@@@@@");
+  router.go(0);
 }
 
 async function onDeleteComment(commentIdx) {
-    console.log(deleteComment);
-    console.log("param: ", commentIdx);
-    await deleteComment({ commentIdx : commentIdx});
+  console.log(deleteComment);
+  console.log("param: ", commentIdx);
+  await deleteComment({ commentIdx: commentIdx });
 
-    console.log("***************~!!", props.articleIdx);
-    // router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
-    router.go(0);
+  console.log("***************~!!", props.articleIdx);
+  // router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
+  router.go(0);
 }
 
 
@@ -47,37 +47,37 @@ console.log(userId.value);
 
 </script>
 <template>
-    <!-- <div>
-        <h1>commentList</h1>
-        <template v-for="commentIdx in comment" :key="commentIdx">
-            <p>{{ commentIdx.userId }}</p>
-            <p>{{ commentIdx.content }}</p>
-        </template>
+  <!-- <div>
+          <h1>commentList</h1>
+          <template v-for="commentIdx in comment" :key="commentIdx">
+              <p>{{ commentIdx.userId }}</p>
+              <p>{{ commentIdx.content }}</p>
+          </template>
         
         
-        <div>
-            <textarea v-model="newComment" placeholder="댓글을 입력하세요"></textarea>
-            <button @click="submitComment">댓글 등록</button>
-        </div>
+          <div>
+              <textarea v-model="newComment" placeholder="댓글을 입력하세요"></textarea>
+              <button @click="submitComment">댓글 등록</button>
+          </div>
 
 
         
-    </div> -->
-    <div class="comment-container">
+      </div> -->
+  <div class="comment-container">
     <h1 class="comment-title">댓글 목록</h1>
     <div class="comment-list">
-        <template v-for="commentOne in comment" :key="commentOne">
-            <div class="comment-item">
-            <!-- {{ commentIdx }} -->
-            
+      <template v-for="commentOne in comment" :key="commentOne">
+        <div class="comment-item">
+          <!-- {{ commentIdx }} -->
+
           <p class="user-id">{{ commentOne.userId }}</p>
           <p class="comment-content">{{ commentOne.content }}</p>
           <p class="comment-date">{{ commentOne.createAt }}</p>
           <!-- <p>{{commentOne.commentIdx}}</p> -->
-          <template v-if="commentOne.userId===userId">
+          <template v-if="commentOne.userId === userId">
             <button @click="onDeleteComment(commentOne.commentIdx)" class="delete-button">삭제</button>
-        </template>
-          
+          </template>
+
         </div>
       </template>
     </div>
@@ -148,7 +148,6 @@ console.log(userId.value);
   max-width: 600px;
   margin: auto;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
 }
 
 .comment-title {

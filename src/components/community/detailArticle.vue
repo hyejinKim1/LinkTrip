@@ -55,8 +55,12 @@ init();
 
 .container{
     width: 100vw;
-    height: 100vh;
     padding-top: 9vh;
     font-family: 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+}
+
+.btn{
+    margin: 5px;
 }
 </style>
