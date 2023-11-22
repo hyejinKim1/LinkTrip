@@ -44,12 +44,11 @@ const router = createRouter({
       name: 'savedplan',
       component: () => import('../components/plan/SavedPlan.vue')
     },
-    // {
-    //   path: '/updateplan/:planIdx',
-    //   name: 'updateplan',
-    //   component: () => import('../components/plan/UpdatePlan.vue'),
-    //   props: true
-    // },
+    {
+      path: '/likearticle',
+      name: 'likearticle',
+      component: () => import('../components/community/LikeArticle.vue')
+    },
     {
       path: '/community',
       name: 'community',
