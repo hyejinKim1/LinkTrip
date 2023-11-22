@@ -36,23 +36,25 @@ init();
 </script>
 
 <template>
-    <div class="outer">
+    <!-- <div class="outer"> -->
+        <!-- <button type="button" class="btn btn-outline-dark" @click="$router.push('/community')" style="margin-left:20px;">목록 보기</button> -->
+
         <div class="container">
             <!-- <button type="button" class="btn btn-light" @click="mvList()">목록 보기</button> -->
-            <button type="button" class="btn btn-outline-dark" @click="$router.push('/community')">목록 보기</button>
             <!-- <button @click="mvList()">목록 보기</button> -->
             <articleDetail :article="articleDetailResponse?.articleData"></articleDetail>
             <planDetail :plan="articleDetailResponse?.planData"></planDetail>
             <commentList :comment="articleDetailResponse?.commentData" :articleIdx="param.articleIdx"></commentList>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 
 <style scoped>
+
 .container{
-    margin-top: 170px;
-  /* display: flex; */
-  justify-content: center;
-  
+    width: 100vw;
+    height: 100vh;
+    padding-top: 9vh;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 </style>
