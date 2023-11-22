@@ -33,11 +33,17 @@ async function updateArticle(param) {
     await local.patch(`community/updateArticle`, param);
 }
 
+async function createArticle(param) {
+    console.log(param);
+    await local.post(`community/createArticle`, param);
+}
+
 export {
     getArticleList,
     deleteComment,
     createComment,
     createLike,
     createScrap,
-    updateArticle
+    updateArticle,
+    createArticle
 }
