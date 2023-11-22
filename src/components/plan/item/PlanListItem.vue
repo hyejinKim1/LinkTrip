@@ -13,7 +13,7 @@ console.log(props.planList);
         </div>
     </router-link> -->
 
-    <div class="card col card-container" style="width: 25vw;">
+    <div class="card col-md-3 mx-4 my-1 card-container">
         <router-link :to="`/detailPlan/${planList.planIdx}`" style="text-decoration:none; color: black">
         <img src="@/assets/img/region/jeju/jeju2.jpg" class="card-img-top" alt="...">
         <div class="card-body">
@@ -43,14 +43,11 @@ img{
 .card{
     display:inline-block;
     padding: 10px;
-    margin: 10px;
-    /* width: 33%; */
-    /* height: 150px; */
 }
 
 .card-container{
     background-color:rgb(224, 241, 251);
-    border: none;
+    border: none;  
 }
 
 .card-container:hover {

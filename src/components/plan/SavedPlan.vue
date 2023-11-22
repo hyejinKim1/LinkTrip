@@ -20,9 +20,8 @@ init();
 </script>
 
 <template>
-  <div class="div">
+  <div class="saved-div">
     <!-- <h1>SavedPlan</h1> -->
-
     <div class="container">
       <template  v-for="planList in planLists"
         :key="planList.planIdx">
@@ -35,14 +34,13 @@ init();
 </template>
 
 <style scoped>
-.div{
-  margin-top: 170px;
-  display: flex;
-  justify-content: center;
-
+.saved-div{
+  width: 100vw;
+  margin-top: 9vh;
+  height: 88vh;
 }
 
-.container{
+/* .container{
   width: 800px;
-}
+} */
 </style>

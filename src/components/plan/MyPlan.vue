@@ -36,7 +36,7 @@ init();
     </div> -->
     
     <div class="container">
-      <div class="container row">
+      <div class="row">
       <template  v-for="planList in planLists" :key="planList.planIdx">
       <PlanListItem :planList="planList"> </PlanListItem>
       </template>
@@ -58,15 +58,14 @@ init();
 } */
 
 .outer{
-  /* padding: 150px; */
-  display: flex;
-  justify-content: center;
   width: 100vw;
-  padding-top: 8vh;
-  height: 100vh;
-  overflow-y: scroll;
+  margin-top: 9vh;
+  height: 90vh;
+  overflow-x: hidden;
 }
-/* .container{
-} */
+.container{
+  width: 100vw;
+  height: 90vh;
+}
 
 </style>
