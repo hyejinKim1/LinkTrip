@@ -4,11 +4,8 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
-<<<<<<< HEAD
-=======
 const { VITE_VUE_API_URL } = import.meta.env;
 
->>>>>>> d019886d107242bb5901679715433dc2257d4f8a
 const { userLogout } = memberStore;
 const emit = defineEmits(['closeMypage']);
 
