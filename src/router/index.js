@@ -63,7 +63,12 @@ const router = createRouter({
       path: '/community/detailArticle/:articleIdx',
       name: 'detailArticle',
       component: () => import('@/components/community/detailArticle.vue')
-    }
+    },
+    {
+      path: '/community/modifyArticle/:articleIdx',
+      name: 'modifyArticle',
+      component: () => import('@/components/community/articleModify.vue')
+    },
 
     // {
     //   path: '/about',
