@@ -73,8 +73,6 @@ async function onClickCard() {
 
 <template>
 
-<!-- {{ article }} -->
-
         <div class="card container" @click="onClickCard()">
             <!-- <router-link :to="`community/detailArticle/${article.articleIdx}`" :pgno="pgno"> -->
               <div style="position:relative; height: 200px;">
