@@ -4,12 +4,13 @@ import { ref } from "vue";
 import router from "../../router";
 import axios from "axios";
 import { useMemberStore } from "@/stores/member";
+const { VITE_VUE_API_URL } = import.meta.env;
 const memberStore = useMemberStore();
 
-const planname = ref('여행');
+const planname = ref('');
 const datePage = ref(false);
 const savePage = ref(false);
-const region = ref('대전');
+const region = ref('서울');
 
 const startdate = ref(new Date().toISOString());
 const enddate = ref(new Date().toISOString());
@@ -33,18 +34,9 @@ const setendDate = (e) =>{
 }
 
 const savePlan = () => {
-  let baseUrl = "http://localhost/plan/createPlan?";
+  let baseUrl = VITE_VUE_API_URL+"plan/createPlan";
 
   const period = getDateDiff(startdate.value, enddate.value);
-
-  // var str = startdate.value;
-  // str = str.substring(2);
-
-  // baseUrl += "&planname=" + planname.value;
-  // baseUrl += "&region=" + region.value;
-  // baseUrl += "&period="+period;
-  // baseUrl += "&startDate=" + startdate.value;
-
   console.log(baseUrl);
 
 
@@ -52,9 +44,6 @@ function toTimestamp(strDate){
    var datum = Date.parse(strDate);
    return datum/1000;
 }
-    // axios.post(baseUrl)
-    // .then((res) => console.log(res.data));
-
   console.log(memberStore.userInfo.userId);
   
     axios.post(baseUrl, {
@@ -88,7 +77,7 @@ const getDateDiff = (d1, d2) => {
       <div class="name-div slider">
         <div class="title">새로운 여행의 이름을 입력해주세요!</div>
         <div>
-          <input type="title" class="name" v-model="planname" />
+          <input type="title" class="name trip-name" v-model="planname" placeholder="LinkTrip" style="font-family: 'Montserrat', sans-serif;"/>
         </div>
         <div v-show="planname != ''">
           <button class="button" @click="todate">Next</button>
@@ -97,9 +86,12 @@ const getDateDiff = (d1, d2) => {
       <div class="date-div slider">
         <div class="title">여행 기간이 어떻게 되시나요?</div>
         <!-- <Calender/> -->
-        <Input type="date" @input="setstartDate($event)"/>
+        <div class="date-input-div">
+          <Input type="date" @input="setstartDate($event)"/>
         ~
         <Input type="date" @input="setendDate($event)"/>
+        </div>
+        
         <div v-show="startdate != null && enddate != null">
           <button class="button" @click="tosave">Next</button>
         </div>
@@ -129,8 +121,11 @@ const getDateDiff = (d1, d2) => {
         </select>
         </div>
         <div class="result-div">
-          <p>Plan 이름 : {{ planname }}</p>
-          <p>여행 일정 : {{ startdate }} ~ {{ enddate }}</p>
+          <p>{{ planname }}</p>
+          <p>여행 일정 : {{ new Date(startdate).toLocaleDateString() }}
+        ~
+        {{ new Date(enddate).toLocaleDateString() }}</p>
+
         </div>
         <button class="button"
             @click="savePlan">save</button>
@@ -140,6 +135,7 @@ const getDateDiff = (d1, d2) => {
 </template>
 
 <style scoped>
+
 .todate{
   transform: translate(-100vw);
 }
@@ -156,6 +152,10 @@ const getDateDiff = (d1, d2) => {
 
 #sliderWrap{
   transition: transform 1s; 
+}
+
+.date-input-div{
+  margin:20px;
 }
 
 .result-div{
@@ -191,7 +191,7 @@ const getDateDiff = (d1, d2) => {
 .name-div input {
   margin: 50px;
   width: 40vw;
-  padding: 40px;
+  padding: 30px;
   border: 4px solid black;
   border-radius: 20px;
   font-size: 30px;

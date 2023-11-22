@@ -28,10 +28,39 @@ async function createScrap(param) {
     await local.post(`community/createScrap`, param);
 }
 
+async function checkLikeArticle(param) {
+    console.log(param);
+    const result = await local.get(`community/checkLikeArticle`, { params: param })
+    return result.data.isLike;
+}
+
+async function createLikeArticle(param) {
+    console.log(param);
+    await local.post(`community/createLikeArticle`, null, { params: param });
+}
+
+async function deleteLikeArticle(param) {
+    await local.delete(`/community/deleteLikeArticle`, { params: param });
+}
+async function updateArticle(param) {
+    console.log(param);
+    await local.patch(`community/updateArticle`, param);
+}
+
+async function createArticle(param) {
+    console.log(param);
+    await local.post(`community/createArticle`, param);
+}
+
 export {
     getArticleList,
     deleteComment,
     createComment,
     createLike,
-    createScrap
+    createScrap,
+    checkLikeArticle,
+    createLikeArticle,
+    deleteLikeArticle,
+    updateArticle,
+    createArticle
 }

@@ -110,6 +110,11 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
       this.ps = new kakao.maps.services.Places();
+
+      console.log(this.mapData);
+      if (this.mapData.length > 0) {
+          this.makeList(this.mapData);
+        }
     },
     placesSearchCB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
@@ -141,11 +146,17 @@ export default {
       this.map.setBounds(bounds);
     },
     displayMarker() {
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'
 
       for (var i = 0; i < this.positions.length; i++) {
-        var imageSize = new kakao.maps.Size(24, 35);
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        var imageSize = new kakao.maps.Size(36, 37);
+        //var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        var imgOptions =  {
+            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+            spriteOrigin : new kakao.maps.Point(0, (i*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        }
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions)
         var marker = new kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
           position: this.positions[i].latlng, // 마커를 표시할 위치
@@ -156,9 +167,9 @@ export default {
 
         this.markers.push(marker);
 
-        var content = `<div class="customoverlay" style="padding: 5px;">${i + 1} <a href=${this.positions[i].url} target="_blank" style="text-decoration:none;"><span class="title">${this.positions[i].title}</span></a></div>`;
+        var content = `<div class="customoverlay" style="padding: 5px;z-index:1"><a href=${this.positions[i].url} target="_blank" style="text-decoration:none;">${this.positions[i].title}</a></div>`;
 
-        // 커스텀 오버레이를 생성
+        // 커스텀 오버레이를 생성<span
         var infoWindow = new kakao.maps.InfoWindow({
           position: this.positions[i].latlng,
           content: content
@@ -173,9 +184,9 @@ export default {
     displayLink() {
       var polyline = new kakao.maps.Polyline({
         path: this.locations, // 선을 구성하는 좌표배열 
-        strokeWeight: 5, // 선의 두께 
+        strokeWeight: 7, // 선의 두께 
         strokeColor: '#FFAE00', // 선의 색깔
-        strokeOpacity: 0.7, // 선의 불투명도
+        strokeOpacity: 0.5, // 선의 불투명도
         strokeStyle: 'solid' // 선의 스타일
       });
       polyline.setMap(this.map);
