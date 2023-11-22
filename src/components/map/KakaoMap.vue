@@ -14,6 +14,9 @@ export default {
     }
   },
   props: {
+    region:{
+      type:String
+    },
     query: {
       type: String
     },
@@ -29,13 +32,14 @@ export default {
     },
     mapData: {
       handler() {
+        console.log(this.region);
         console.log("mapData: ");
         console.log(this.mapData);
         console.log("map데이터 바뀜");
         this.removeMarker();
         this.removePolyline();
         if (this.mapData.length == 0) {
-          this.map.setCenter(new kakao.maps.LatLng(33.450701, 126.570667))
+          this.map.setCenter(this.setCenter(this.region));
         } else {
           this.makeList(this.mapData);
         }
@@ -59,11 +63,49 @@ export default {
         "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=36a9fd278c2c99a830e34141dcdcc950&libraries=services";
       document.head.appendChild(script);
     },
+    setCenter(region){
+      switch(region){
+        case "제주도":
+          return new kakao.maps.LatLng(33.450701, 126.570667);
+        case "서울":
+          return new kakao.maps.LatLng(37.5546788388674, 126.970606917394)
+        case "인천":
+          return new kakao.maps.LatLng(37.456004465652136, 126.7052580700657);
+        case "부산":
+          return new kakao.maps.LatLng(35.17973748292069, 129.07506783124393);
+        case "대전":
+          return new kakao.maps.LatLng(36.3504119, 127.3845475);
+        case "대구":
+          return new kakao.maps.LatLng(35.8714354, 128.601445);
+        case "광주":
+          return new kakao.maps.LatLng(35.1595454, 126.8526012);
+        case "울산":
+          return new kakao.maps.LatLng(35.5383773, 129.3113596);
+        case "세종특별자치시":
+          return new kakao.maps.LatLng(36.5040736, 127.2494855);
+        case "경기도":
+          return new kakao.maps.LatLng(37.4449168, 127.1388684);
+        case "강원도":
+          return new kakao.maps.LatLng(37.6969518, 127.8886827);
+        case "충청북도":
+          return new kakao.maps.LatLng(36.8, 127.7);
+        case "충청남도":
+          return new kakao.maps.LatLng(36.5184, 126.7);
+        case "경상북도":
+          return new kakao.maps.LatLng(36.4919, 128.8889);
+        case "경상남도":
+          return new kakao.maps.LatLng(35.4606, 128.2132);
+        case "전라북도":
+          return new kakao.maps.LatLng(35.8242238, 127.1479532);
+        case "전라남도":
+          return new kakao.maps.LatLng(34.8679, 126.991);
+      }
+    },
     initMap() {
       var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
       var options = {
         //지도를 생성할 때 필요한 기본 옵션
-        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+        center: this.setCenter(this.region), //지도의 중심좌표.
         level: 8 //지도의 레벨(확대, 축소 정도)
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
