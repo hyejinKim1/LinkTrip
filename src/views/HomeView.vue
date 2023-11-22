@@ -9,8 +9,8 @@ import HomeText from '../components/home/HomeText.vue';
     <cloud class="cloud"></cloud>
     <cloud class="cloud"></cloud>
     <cloud class="cloud"></cloud>
-    <cloud class="cloud"></cloud>
-    <!-- /cloud -->
+    <cloud class="cloud"></cloud> 
+    <!-- /cloud-->
 
     <!-- airplain -->
     <airplane class="airplane">
