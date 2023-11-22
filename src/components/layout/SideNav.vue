@@ -6,6 +6,7 @@ const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
 
 const { userLogout } = memberStore;
+const emit = defineEmits(['closeMypage']);
 
 function logout() {
     let baseUrl = "http://localhost/user/logout/" + "&userId=" + memberStore.userInfo.userId;
@@ -15,8 +16,12 @@ function logout() {
     axios.get(baseUrl)
         .then((res) => {
             userLogout();
-
         });
+}
+
+function closeMyPage(newWidth){
+    document.getElementById("mySidenav").style.width = "0";
+    emit("closeMypage", "0");
 }
 </script>
 
@@ -58,13 +63,13 @@ export default {
         </div>
         <hr style="margin:25px;" />
         <div @click="logout" class="btn-hover">로그아웃</div>
-        <router-link to="/myplan">
+        <router-link to="/myplan" style="text-decoration:none;">
             <div class="btn-hover">나의 여행 계획</div>
         </router-link>
-        <router-link to="/savedplan">
+        <router-link to="/savedplan" style="text-decoration:none;">
             <div class="btn-hover">담은 여행 계획</div>
         </router-link>
-        <router-link to="/likearticle">
+        <router-link to="/likearticle" style="text-decoration:none;">
             <div class="btn-hover">좋아요한 여행 후기</div>
         </router-link>
     </div>
