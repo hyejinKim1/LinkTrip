@@ -6,6 +6,7 @@ import { useMemberStore } from "@/stores/member";
 import { useMenuStore } from "@/stores/menu";
 
 import axios from "axios";
+import { join } from "../../api/user";
 // import router from "../../router";
 const isActive = ref(false);
 const router = useRouter();
@@ -61,24 +62,18 @@ const loginForm = async() => {
   router.push("/");
 };
 
-const joinForm = () => {
-  let baseUrl = "http://localhost/mem/join?";
-  let userid = document.getElementById("joinid")?.value;
-  let userpwd = document.getElementById("joinpw")?.value;
-  let username = document.getElementById("name")?.value;
-  let email = document.getElementById("email")?.value;
+const joinParam = ref({
+  userId: "",
+  userPwd: "",
+  userEmail: "",
+  userName: ""
+})
 
-  baseUrl += "&userid=" + userid + "&userpwd=" + userpwd+ "&username=" + username+ "&email=" + email;
-  console.log(baseUrl);
+async function joinForm() {
+  console.log(joinForm.value);
+  await join(joinParam.value);
 
-  axios.get(baseUrl)
-    .then((res) => {
-      if(res.data.resdata == 1){
-      
-      }else{
-       
-      }
-    });
+  router.go(0);
 };
 
 </script>
@@ -90,10 +85,10 @@ const joinForm = () => {
   <div class="form-container sign-up-container">
     <form v-on:submit.prevent="joinForm">
       <h1>Create Account</h1>
-      <input type="text" placeholder="Name" id="name" required/>
-      <input type="email" placeholder="Email" id="email" required/>
-      <input type="text" placeholder="ID" id="joinid" required/>
-      <input type="password" placeholder="Password" id="joinpw" required/>
+      <input v-model="joinParam.userName" type="text" placeholder="Name" id="name" required/>
+      <input v-model="joinParam.userEmail" type="email" placeholder="Email" id="email" required/>
+      <input v-model="joinParam.userId" type="text" placeholder="ID" id="joinid" required/>
+      <input v-model="joinParam.userPwd" type="password" placeholder="Password" id="joinpw" required/>
       <button >Sign Up</button>
     </form>
   </div>

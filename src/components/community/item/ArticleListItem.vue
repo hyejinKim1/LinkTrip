@@ -56,13 +56,18 @@ async function onClickScrap() {
 
   console.log('@@@@');
 
-  //확인창 띄우기 
+  //확인창 띄우기
+  alert("담은 일정에 추가되었어요. 자신만의 일정으로 수정해보세요!");
 }
 
 async function onClickCard() {
   // router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
   router.push({ name: "detailArticle", params: { articleIdx: props.article.articleIdx } });
   console.log("onClickCard");
+
+
+  //디비에서 해당 articleIdx에 대해 해당 유저가 하트를 눌렀으면 색을 바꿔줌
+  //
 }
 </script>
 
