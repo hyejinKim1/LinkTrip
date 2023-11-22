@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 // import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
+const router = useRouter();
 const { VITE_VUE_API_URL } = import.meta.env;
 
 const LikeArticle = ref([]);
@@ -23,12 +25,18 @@ const getLikeArticle = () => {
       LikeArticle.value = res.data.articleList;
     });
 }
+
+function onClickCard(articleIdx) {
+  router.push({ name: "detailArticle", params: { articleIdx: articleIdx } });
+  console.log("onClickCard");
+}
 </script>
 
 <template>
   <div id="container" class="container">
     <div class="row">
-      <div class="article col-lg-3" v-for="article in LikeArticle" :key="article.articleIdx">
+      
+      <div class="article col-lg-3" v-for="article in LikeArticle" :key="article.articleIdx" @click="onClickCard(article.articleIdx)">
         <h2 class="card-title">{{ article.articleTitle }}</h2>
         <p class="card-text">{{ article.content }}</p>
         <p class="date card-text">Created at: {{ article.createAt }}</p>

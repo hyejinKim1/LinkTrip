@@ -1,23 +1,65 @@
 <script setup>
+import KakaoMap from '../map/KakaoMap.vue';
+import { ref } from "vue";
 const props = defineProps({
     plan : Object
 });
 
-console.log(props.plan)
+const mapData = ref(props.plan.placeOrder[0]);
+const region = ref("서울");
+
+function selectDay(index){
+    mapData.value = props.plan.placeOrder[index];
+}
+
+console.log("plan")
+console.log(props.plan);
+
+console.log(props.plan.planDTO.region);
 </script>
 
 <template>
-    <div>
-        <h1>planDetail</h1>
+    <!-- <div > -->
+        <!-- <h1>planDetail</h1>
         <h2>{{ plan }}</h2>
 
         <template v-for="el in plan.placeOrder" :key="el">
             <p>{{ el }}</p>
         
-        </template>
+        </template> -->
+    <div class="center">
+        <div class="title">
+        <h1>Plan</h1>
+        </div>
+        <div v-for="(day,index) in plan.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
+            {{ index+1 }}day 
+        </div>
+        <KakaoMap :mapData="mapData" region="props.plan.planDTO.region"/>
     </div>
+        
 </template>
 
 <style scoped>
+.map-div{
+    width: 63vw;
+    height: 30vh;
+}
+
+.day-text{
+    margin: 10px;
+    display: inline-block;
+}
+
+.day-text:hover{
+    color: rgb(85, 85, 85);
+    transform: scale(1.1);
+}
+
+.center {
+    display: block;
+    width : 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 </style>

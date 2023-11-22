@@ -110,6 +110,12 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
       this.ps = new kakao.maps.services.Places();
+
+      if (this.mapData.length == 0) {
+          this.map.setCenter(this.setCenter(this.region));
+        } else {
+          this.makeList(this.mapData);
+        }
     },
     placesSearchCB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
