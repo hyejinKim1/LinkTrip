@@ -23,9 +23,15 @@ async function createLike(param) {
     await local.post(`community/createLikeArticle`, param);
 }
 
+async function createScrap(param) {
+    console.log(param);
+    await local.post(`community/createScrap`, param);
+}
+
 export {
     getArticleList,
     deleteComment,
     createComment,
-    createLike
+    createLike,
+    createScrap
 }
