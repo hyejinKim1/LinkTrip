@@ -13,7 +13,7 @@ console.log(props.planList);
         </div>
     </router-link> -->
 
-    <div class="card col-md-3 mx-4 my-1 card-container">
+    <div class="card col-lg-3 col-sm-12 mx-3 my-3 card-container">
         <router-link :to="`/detailPlan/${planList.planIdx}`" style="text-decoration:none; color: black">
         <img src="@/assets/img/region/jeju/jeju2.jpg" class="card-img-top" alt="...">
         <div class="card-body">
@@ -36,11 +36,11 @@ console.log(props.planList);
     height: 150px;
 } */
 
-img{
+/* img{
     border-radius: 10px;
-}
+} */
 
-.card{
+/* .card{
     display:inline-block;
     padding: 10px;
 }
@@ -53,13 +53,44 @@ img{
 .card-container:hover {
     background-color:rgb(235, 244, 249);
 }
-
+*/
 .title{
     font-weight: 900;
     color: rgb(91, 91, 91);
+} 
+
+.card{
+    display:inline-block;
+    padding: 10px;
+    margin: 10px;
+      width: 30%;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
 }
 
-.txt{
-    color: gray; 
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.card-text {
+  color: #555;
+  text-overflow: ellipsis; 
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>
