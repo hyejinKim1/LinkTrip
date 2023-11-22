@@ -7,7 +7,13 @@ import {getViewArticle} from "@/api/article";
 
 const route = useRoute()
 
-const article = ref()
+const article = ref(
+  {
+    articleTitle: '',
+    content: ''
+  }
+)
+console.e
 
 
 function onModify() {
@@ -25,9 +31,10 @@ init()
 </script>
 
 <template>
+  {{ article }}
   <form @submit.prevent="onModify">
-    <input type="text" v-model="article?.articleTitle">
-    <input type="text" v-model="article?.content">
+    <input type="text" v-model="article.articleTitle">
+    <input type="text" v-model="article.content">
     <input type="submit" value="수정">
   </form>
 </template>

@@ -41,6 +41,8 @@ init();
 
         <div class="container">
             <!-- <button type="button" class="btn btn-light" @click="mvList()">목록 보기</button> -->
+            <button type="button" class="btn btn-outline-dark" @click="$router.push('/community/modifyArticle/'+$route.params.articleIdx)">수정</button>
+            <button type="button" class="btn btn-outline-dark" @click="$router.push('/community')">목록 보기</button>
             <!-- <button @click="mvList()">목록 보기</button> -->
             <articleDetail :article="articleDetailResponse?.articleData"></articleDetail>
             <planDetail :plan="articleDetailResponse?.planData"></planDetail>
