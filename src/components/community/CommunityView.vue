@@ -96,8 +96,4 @@ init();
   height: 100vh;
 }
 
-.container {
-  /* width: 100%; */
-}
-
 </style>

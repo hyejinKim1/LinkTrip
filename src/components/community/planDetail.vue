@@ -32,9 +32,17 @@ console.log(props.plan.planDTO.region);
         <h1>Plan</h1>
         </div>
         <div v-for="(day,index) in plan.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
-            {{ index+1 }}day 
+        {{ index+1 }}day 
         </div>
-        <KakaoMap :mapData="mapData" region="props.plan.planDTO.region"/>
+        <div class="map-div">
+            <KakaoMap :mapData="mapData" :region="plan.planDTO.region"/>
+        </div>
+        <div v-for="(day,index) in plan.placeOrder" :key="index" class="day-div">
+            <h2>{{ index+1 }}day </h2>
+            <div v-for="place in day" :key="place.placeName" class="place-div">
+                {{ place.placeName }}
+            </div>
+        </div>
     </div>
         
 </template>
@@ -42,7 +50,15 @@ console.log(props.plan.planDTO.region);
 <style scoped>
 .map-div{
     width: 63vw;
-    height: 30vh;
+    height: 40vh;
+}
+
+.day-div{
+    margin: 15px;
+}
+
+.place-div{
+    margin: 10px;
 }
 
 .day-text{
