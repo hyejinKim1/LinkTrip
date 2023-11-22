@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { createLike, createScrap } from "@/api/community";
+import { createLike, createScrap, checkLikeArticle, createLikeArticle, deleteLikeArticle } from "@/api/community";
 import { ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
@@ -10,38 +10,45 @@ const router = useRouter();
 const props = defineProps({
     article: Object,
     pgno : Number
-});
+}); 
+
+const isLike = ref(0);
+async function onCheckLikeArticle() {
+  isLike.value = await checkLikeArticle({
+    userId: memberStore.userInfo.userId,
+    articleIdx: props.article.articleIdx
+  });
+}
+onCheckLikeArticle();
+
 async function onCreateLike() {
-  // await createLike({
-  //    userId :
-  //    articleIdx : article.articleIdx
-  //   })
   console.log("onclick");
+  console.log(isLike.value);
+
+  if (isLike.value === 0) {
+    //isLike에 데이터 생성
+    await createLikeArticle({
+      userId: memberStore.userInfo.userId,
+      articleIdx: props.article.articleIdx
+    })
+    //isLike 값 변경 
+    isLike.value = 1;
+  }
+  else {
+    //isLike에 데이터 삭제
+    await deleteLikeArticle({
+      userId: memberStore.userInfo.userId,
+      articleIdx: props.article.articleIdx
+    })
+    //isLike 값 변경 
+    isLike.value = 0;
+  }
 }
 
 const newScrapPlanIdx = ref(0); //새로 createScrap하고 나서 생긴 plan의 Idx를 저장해놔야 스크랩 취소를 했을 때 삭제할 수 있음 
 const isScrap = ref(props.article.scrap);
 
 async function onClickScrap() {
-  //1. 디비 안에 있는 스크랩 칼럼의 값을 수정함
-  //2. props.article.articleIdx 글에서 scrap 부분을 반대로 수정해줘야 함 
-  // if (isScrap.value === 'F') {
-  //   //1. db에 scrap 칼럼값을 변경시켜줘야함 
-
-  //   //2. vue 안에 있는 isScrap 변수값 변경시켜줌 
-  //   isScrap.value = 'T';
-
-  //   //3. 새로 스크랩 되는 것이므로 createScrap를 해서 내 plan으로 넣어줌
-  //   //plan을 insert하면서 새로 생긴 plan의 Idx를 이 코드의 지역변수에 저장해줘야 함 
-
-  // }
-  // else {
-  //   isScrap.value = 'F';
-  //   //createScrap해서 plan에 넣은 plan을 삭제해줌
-  // }
-  
-  //그냥 지금 article안에 plan값을 그대로 param으로 넘겨주면 됨! 
-
   console.log('createScrap');
 
   await createScrap({
@@ -81,8 +88,8 @@ async function onClickCard() {
                 <h5 class="card-title">{{ article.articleTitle}}</h5>
                 <p class="card-text">{{ article.content}}</p>
 
-                <img src="@/assets/img/icon/heart_empty.png" class="card-img-haert" alt="" @click.stop="onCreateLike()">
-                
+                <img v-if="isLike===0" src="@/assets/img/icon/heart_empty.png" class="card-img-haert" alt="" @click.stop="onCreateLike()">
+                <img v-else src="@/assets/img/icon/heart_full.png" class="card-img-haert" alt="" @click.stop="onCreateLike()">
 
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 <!-- <router-link to="/detailArticle" class="nav-link"><p>일정 생성</p></router-link> -->
