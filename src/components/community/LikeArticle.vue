@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import { storeToRefs } from "pinia";
+// import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
+const { VITE_VUE_API_URL } = import.meta.env;
 
 const LikeArticle = ref([]);
 
@@ -12,7 +13,7 @@ onMounted(() => {
 })
 
 const getLikeArticle = () => {
-  let baseUrl = "http://localhost/community/listLikedArticle?" + "userId=" + memberStore.userInfo.userId;
+  let baseUrl = VITE_VUE_API_URL+"community/listLikedArticle?" + "userId=" + memberStore.userInfo.userId;
   console.log(baseUrl);
 
   axios.get(baseUrl)

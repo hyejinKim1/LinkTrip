@@ -4,12 +4,13 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
+const { VITE_VUE_API_URL } = import.meta.env;
 
 const { userLogout } = memberStore;
 const emit = defineEmits(['closeMypage']);
 
 function logout() {
-    let baseUrl = "http://localhost/user/logout/" + "&userId=" + memberStore.userInfo.userId;
+    let baseUrl =  VITE_VUE_API_URL+"user/logout/" + "&userId=" + memberStore.userInfo.userId;
     console.log(baseUrl);
     closeMyPage();
     console.log(memberStore.userInfo.userId);

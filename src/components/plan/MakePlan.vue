@@ -4,6 +4,7 @@ import { ref } from "vue";
 import router from "../../router";
 import axios from "axios";
 import { useMemberStore } from "@/stores/member";
+const { VITE_VUE_API_URL } = import.meta.env;
 const memberStore = useMemberStore();
 
 const planname = ref('여행');
@@ -33,18 +34,9 @@ const setendDate = (e) =>{
 }
 
 const savePlan = () => {
-  let baseUrl = "http://localhost/plan/createPlan?";
+  let baseUrl = VITE_VUE_API_URL+"plan/createPlan";
 
   const period = getDateDiff(startdate.value, enddate.value);
-
-  // var str = startdate.value;
-  // str = str.substring(2);
-
-  // baseUrl += "&planname=" + planname.value;
-  // baseUrl += "&region=" + region.value;
-  // baseUrl += "&period="+period;
-  // baseUrl += "&startDate=" + startdate.value;
-
   console.log(baseUrl);
 
 
@@ -52,9 +44,6 @@ function toTimestamp(strDate){
    var datum = Date.parse(strDate);
    return datum/1000;
 }
-    // axios.post(baseUrl)
-    // .then((res) => console.log(res.data));
-
   console.log(memberStore.userInfo.userId);
   
     axios.post(baseUrl, {

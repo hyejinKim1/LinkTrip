@@ -1,25 +1,26 @@
 <script setup>
 import KakaoMap from "@/components/map/KakaoMap.vue";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import draggable from 'vuedraggable';
+const { VITE_VUE_API_URL } = import.meta.env;
 
-const planData = ref({
-  "placeOrder": [],
-  "planDTO": {
-    "planIdx": 0,
-    "planTitle": "",
-    "region": "",
-    "startDate": "",
-    "period": 0,
-    "userIdx": 0,
-    "scrap": "F",
-    "createAt": "",
-    "updateAt": null,
-    "deleteAt": null
-  }
-});
+// const planData = ref({
+//   "placeOrder": [],
+//   "planDTO": {
+//     "planIdx": 0,
+//     "planTitle": "",
+//     "region": "",
+//     "startDate": "",
+//     "period": 0,
+//     "userIdx": 0,
+//     "scrap": "F",
+//     "createAt": "",
+//     "updateAt": null,
+//     "deleteAt": null
+//   }
+// });
 
 const query = ref('');
 const inputQuery = ref('');
@@ -38,7 +39,7 @@ onMounted(() => {
 
 const getPlan = () => {
   console.log(useRoute().params.planIdx);
-  let baseUrl = "http://localhost/plan/viewPlan?" + "&planIdx=" + useRoute().params.planIdx;
+  let baseUrl = VITE_VUE_API_URL+"plan/viewPlan?" + "&planIdx=" + useRoute().params.planIdx;
   console.log(baseUrl);
 
   axios.get(baseUrl)
