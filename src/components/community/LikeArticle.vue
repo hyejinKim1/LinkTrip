@@ -38,6 +38,8 @@ init();
 
 <template>
   <div id="container" class="container">
+    <h3>좋아요한 여행후기</h3>
+    <hr/>
     <div class="row">
       <div class="article col-lg-3" v-for="article in LikeArticle.articleList" :key="article.articleIdx" @click="onClickCard(article.articleIdx)">
         <h2 class="card-title">{{ article.articleTitle }}</h2>
@@ -55,6 +57,7 @@ init();
 
 <style scoped>
 #container {
+  font-family: 'Noto Sans KR', sans-serif;
   height: 100vh;
   width: 100vw;
   padding-top: 9vh;

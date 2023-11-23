@@ -76,9 +76,8 @@ console.log(userId.value);
 <style scoped>
 .comment-container {
   display: block;
-  width : 75%;
-  margin-left: auto;
-  margin-right: auto;
+  width : 60%;
+  margin:30px auto;
 }
 
 .comment-title {
@@ -135,7 +134,7 @@ console.log(userId.value);
 }
 
 .submit-button:hover {
-  background-color: rgb(147, 248, 255);
+  background-color: #9ad0f5;
 }
 
 .delete-button {

@@ -65,8 +65,7 @@ function getCafe() {
   query.value = planDTO.value.region + " 카페";
 }
 function searchPlacesResult(result) {
-  +
-    console.log("emit result:");
+  console.log("emit result:");
   console.log(result);
   places.value = result;
 }
@@ -74,7 +73,7 @@ function searchPlacesResult(result) {
 function closeSearch() {
   var map = document.getElementsByClassName("map-div");
   for (var i = 0; i < map.length; i++) {
-    map[i].style.width = "83vw";
+    map[i].style.width = "82vw";
   }
   var map = document.getElementsByClassName("search-div")[0].style.width = "0vw";
 }
@@ -82,7 +81,7 @@ function closeSearch() {
 function openSearch() {
   var map = document.getElementsByClassName("map-div");
   for (var i = 0; i < map.length; i++) {
-    map[i].style.width = "66vw";
+    map[i].style.width = "64vw";
   }
   var map = document.getElementsByClassName("search-div")[0].style.width = "17vw";
 }
@@ -304,8 +303,10 @@ function onChange(index) {
 }
 
 .map-div {
-  width: 83vw;
-  height: 92vh;
+  width: 82vw;
+  height: 90vh;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .search-div {

@@ -65,7 +65,7 @@ init();
 }
 
 .button-container {
-  width : 30%;
+  width : 37%;
   float: right;
 }
 

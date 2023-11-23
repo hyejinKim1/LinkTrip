@@ -514,7 +514,4 @@ div.window:nth-child(2):after {
     left: 25%;
   }
 }
-.cloud {
-  cursor: grab;
-}
 </style>
