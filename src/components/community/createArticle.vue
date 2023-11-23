@@ -4,6 +4,8 @@ import { createArticle } from "@/api/community";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import KakaoMap from "../map/KakaoMap.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const { VITE_VUE_API_URL } = import.meta.env;
 
 
@@ -45,7 +47,8 @@ function selectDay(index) {
 }
 
 function onCreate() {
-  createArticle(article.value)
+  createArticle(article.value);
+  router.push("/community");
 }
 
 </script>
@@ -83,10 +86,6 @@ function onCreate() {
   border-radius: 5px; */
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-.day-text:hover {
-  /* background-color: #45a049; */
 }
 
 .plan-div {

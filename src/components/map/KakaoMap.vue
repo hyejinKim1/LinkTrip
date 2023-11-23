@@ -11,7 +11,6 @@ export default {
       markers: [],
       infowindows: [],
       polylines: [],
-      bounds: null,
     }
   },
   props: {
@@ -113,7 +112,6 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
       this.ps = new kakao.maps.services.Places();
-      this.bounds = new kakao.maps.LatLngBounds();
 
       // console.log(this.mapData);
       // if (this.mapData.length > 0) {
@@ -131,10 +129,11 @@ export default {
       this.positions = [];
       this.locations = [];
       console.log("length" + data.length);
+      var bounds = new kakao.maps.LatLngBounds();
       data.forEach((area) => {
         console.log(area);
 
-        this.bounds.extend(new kakao.maps.LatLng(area.lon, area.lat));
+        bounds.extend(new kakao.maps.LatLng(area.lon, area.lat));
         this.locations.push(new kakao.maps.LatLng(area.lon, area.lat))
 
         let markerInfo = {
@@ -146,7 +145,7 @@ export default {
       });
       this.displayMarker();
       this.displayLink();
-      this.map.setBounds(this.bounds);
+      this.map.setBounds(bounds);
     },
     displayMarker() {
       var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'
