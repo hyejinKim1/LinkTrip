@@ -1,35 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { listMyArticle } from "@/api/community.js";
 import { useMemberStore } from "@/stores/member";
-import { listLikedArticle } from "@/api/community.js";
 import PageNavigation from "./PageNavigation.vue"
+
 const memberStore = useMemberStore();
 const router = useRouter();
 
-
-const LikeArticle = ref([]);
-
-// onMounted(() => {
-//   getLikeArticle();
-// })
-
-const param = ref({
-    pgno: 1,
-    userId : memberStore.userInfo.userId
-});
-
-// const getLikeArticle = () => {
-//   let baseUrl = VITE_VUE_API_URL + "community/listLikedArticle?" + "userId=" + memberStore.userInfo.userId;
-//   console.log(baseUrl);
-
-//   axios.get(baseUrl)
-//     .then((res) => {
-//       console.log(res);
-//       console.log(res.data.articleList);
-//       LikeArticle.value = res.data.articleList;
-//     });
-// }
 const currentPage = ref(1);
 function changeCurrentPage(pageNumber) {
   currentPage.value = pageNumber;
@@ -37,14 +15,19 @@ function changeCurrentPage(pageNumber) {
   init();
 }
 
-async function init() {
-  LikeArticle.value = await listLikedArticle(param.value);
 
-  // const arr = await listLikedArticle(param.value);
-  // LikeArticle.value =arr.LikeArticle
-  console.log("LikeArticle : ", LikeArticle.value);
-    // console.log("$$$$ : "+ LikeArticle.)
+const myArticle = ref([]);
+
+//param을 가지고 myArticle list를 뽑아옴 
+const param = ref({
+    pgno: 1,
+    userId : memberStore.userInfo.userId
+});
+async function init() {
+    myArticle.value = await listMyArticle(param.value);
+    console.log("myArticle : ", myArticle);
 }
+
 init();
 
 
@@ -58,15 +41,16 @@ function onClickCard(articleIdx) {
   <div id="container" class="container">
     <div class="row">
       
-      <div class="article col-lg-3" v-for="article in LikeArticle.articleList" :key="article.articleIdx" @click="onClickCard(article.articleIdx)">
+      <div class="article col-lg-3" v-for="article in myArticle.articleList" :key="article.articleIdx" @click="onClickCard(article.articleIdx)">
         <h2 class="card-title">{{ article.articleTitle }}</h2>
         <p class="card-text">{{ article.content }}</p>
         <p class="date card-text">Created at: {{ article.createAt }}</p>
       </div>
-    </div>
 
+      
+    </div>
     <page-navigation
-          :total-page="LikeArticle.totalCount"
+          :total-page="myArticle.totalCount"
           :current-page="currentPage"
           @click-button="changeCurrentPage"
       >
