@@ -88,12 +88,46 @@ init();
 
 <style scoped>
 .outer {
-  /* padding: 150px; */
-  padding-top: 9vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100vw;
   height: 100vh;
 }
+
+form {
+  position: fixed;
+  top: 10vh;
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+form select, form input {
+  margin-right: 10px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 70px; /* Adjust margin to provide space for the fixed form */
+}
+
+/* Adjusting the width of each ArticleListItem to fit 3 per row */
+.article-item {
+  width: 30%; /* Adjust as needed */
+  margin: 10px;
+}
+
+.page-navigation {
+  margin-top: 20px;
+}
+
+
 
 </style>

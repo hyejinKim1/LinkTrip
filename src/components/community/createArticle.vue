@@ -62,13 +62,13 @@ function onCreate() {
       </div>
     </div>
     <form @submit.prevent="onCreate" class="article-form">
-      <label for="articleTitle">Title:</label>
-      <input type="text" id="articleTitle" v-model="article.articleTitle" class="input-field" placeholder="Enter title">
+      <label for="articleTitle">제목</label>
+      <input type="text" id="articleTitle" v-model="article.articleTitle" class="input-field" placeholder="제목을 입력해주세요">
 
-      <label for="content">Content:</label>
-      <textarea id="content" v-model="article.content" class="input-field" placeholder="Enter your content"></textarea>
+      <label for="content">내용</label>
+      <textarea id="content" v-model="article.content" class="input-field" placeholder="여행 후기를 입력해주세요!"></textarea>
 
-      <button type="submit" class="submit-button">Create Article</button>
+      <button type="submit" class="button">save</button>
     </form>
   </div>
 </template>
@@ -116,7 +116,7 @@ function onCreate() {
 .article-form {
   width: 50vw;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 15px;
   text-align: center;
 }
 
@@ -169,9 +169,8 @@ textarea:focus {
   font-family: 'Montserrat', sans-serif;
   font-size: 25px;
   font-weight: 700;
-  padding: 10px;
+  padding: 10px 20px;
   text-transform: uppercase;
-  letter-spacing: 5px;
   font-weight: 800;
   color: #000;
   background-color: rgba(255, 255, 255, 0.7);

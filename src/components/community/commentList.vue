@@ -47,22 +47,6 @@ console.log(userId.value);
 
 </script>
 <template>
-  <!-- <div>
-          <h1>commentList</h1>
-          <template v-for="commentIdx in comment" :key="commentIdx">
-              <p>{{ commentIdx.userId }}</p>
-              <p>{{ commentIdx.content }}</p>
-          </template>
-        
-        
-          <div>
-              <textarea v-model="newComment" placeholder="댓글을 입력하세요"></textarea>
-              <button @click="submitComment">댓글 등록</button>
-          </div>
-
-
-        
-      </div> -->
   <div class="comment-container">
     <h1 class="comment-title">댓글 목록</h1>
     <div class="comment-list">
@@ -89,63 +73,9 @@ console.log(userId.value);
   </div>
 </template>
 
-<!-- <style scoped>
-.comment-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-}
-
-.comment-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.comment-list {
-  margin-bottom: 20px;
-}
-
-.comment-item {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.user-id {
-  font-weight: bold;
-}
-
-.comment-content {
-  margin-top: 5px;
-}
-
-.comment-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.comment-input {
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-}
-
-.submit-button {
-  padding: 8px;
-  background-color: #a7a7a7;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-</style> -->
-
 <style scoped>
 .comment-container {
-  max-width: 600px;
+  width: 60vw;
   margin: auto;
   padding: 20px;
 }

@@ -40,7 +40,7 @@ function clickPlan(){
       </div>
 
       <div class="create-article">
-        <div style="font-size:10px; color: gray;">다른 사용자들과 일정을 공유해보세요! </div> 
+        <div style="font-size:10px; color: gray;">여행후기를 작성하고 다른 사용자들과 일정을 공유해보세요! </div> 
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-pencil-square"
         viewBox="0 0 16 16" @click.stop="createArticle()">
