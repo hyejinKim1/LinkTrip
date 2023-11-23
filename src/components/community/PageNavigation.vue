@@ -62,7 +62,7 @@ console.log(props.currentPage)
 .center {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin: 20px;
 }
 
 .button {

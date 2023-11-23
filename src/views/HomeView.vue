@@ -1,6 +1,49 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 import HomeText from '../components/home/HomeText.vue';
 
+const clouds = ref([]);
+let isDragging = false;
+let startX = 0;
+let startY = 0;
+let currentCloud = null;
+
+onMounted(() => {
+  clouds.value = document.querySelectorAll('.cloud');
+
+  clouds.value.forEach((cloud) => {
+    cloud.addEventListener('mousedown', (e) => handleMouseDown(e, cloud));
+  });
+
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+});
+
+const handleMouseDown = (e, cloud) => {
+  isDragging = true;
+  startX = e.clientX;
+  startY = e.clientY;
+  currentCloud = cloud;
+};
+
+const handleMouseMove = (e) => {
+  if (isDragging && currentCloud) {
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+
+    const rect = currentCloud.getBoundingClientRect();
+    currentCloud.style.left = rect.left + deltaX + 'px';
+    currentCloud.style.top = rect.top + deltaY + 'px';
+
+    startX = e.clientX;
+    startY = e.clientY;
+  }
+};
+
+const handleMouseUp = () => {
+  isDragging = false;
+  currentCloud = null;
+};
 </script>
 
 <template>
@@ -45,9 +88,7 @@ import HomeText from '../components/home/HomeText.vue';
       </tree>
     </ground>
     <!-- /ground -->
-
     <HomeText />
-
   </div>
 </template>
 
@@ -472,4 +513,8 @@ div.window:nth-child(2):after {
   100% {
     left: 25%;
   }
-}</style>
+}
+.cloud {
+  cursor: grab;
+}
+</style>

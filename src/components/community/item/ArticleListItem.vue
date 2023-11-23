@@ -131,14 +131,11 @@ function mouseleave (){
 .card{
     display:inline-block;
     padding: 10px;
-    margin: 10px;
     /* width: 33%; */
     /* height: 150px; */
-      width: 30%;
-  margin: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
-
+  margin: 10px;
 }
 
 .card:hover {

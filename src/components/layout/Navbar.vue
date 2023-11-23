@@ -42,6 +42,15 @@ function closeMyPage(newWidth){
             </div>
           </li>
           <li class="nav-item">
+            <div class="dropdown">
+              <p class="dropbtn nav-btn">여행 후기</p>
+              <div class="dropdown-content dropdown-article">
+                <router-link to="/myArticle" class="nav-link"><p>나의 여행 후기</p></router-link>
+                <router-link to="/likeArticle" class="nav-link"><p>좋아요한 여행 후기</p></router-link>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
             <router-link to="/community" class="nav-link">
               <p class="nav-btn">커뮤니티</p>
             </router-link>
@@ -74,7 +83,8 @@ function closeMyPage(newWidth){
 
 <style scoped>
 .navbar{
-  height:9vh;
+  height:7vh;
+  background-color: white;
 }
 
 li {
@@ -113,6 +123,12 @@ p {
   border-radius: 10px;
   margin-left: -26px;
 }
+
+.dropdown-article{
+  min-width: 150px;
+  margin-left: -30px;
+}
+
 .dropdown-content p:hover {color: white;}
 
 .dropdown:hover .dropdown-content {display: block;}
