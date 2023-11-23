@@ -20,30 +20,45 @@ init();
 </script>
 
 <template>
-  <div class="saved-div">
-    <!-- <h1>SavedPlan</h1> -->
-    <div class="container">
+  <div class="outer">
+    <div class="title-div">
       <h3>담은 일정</h3>
       <hr/>
-      <template  v-for="planList in planLists"
+    </div>
+    <div class="container">
+      <div class="row">
+        <template  v-for="planList in planLists"
         :key="planList.planIdx">
       <PlanListItem :planList="planList">
       </PlanListItem>
     </template>
+      </div>
     </div>
     
   </div>
 </template>
 
 <style scoped>
-.saved-div{
+
+.title-div{
+  width:15vw;
+  margin: 0 auto;
+  text-align: center;
+}
+.outer{
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
-  margin-top: 9vh;
-  height: 88vh;
+  padding-top: 9vh;
+}
+.container{
+  width: 100vw;
+  height: 90vh;
 }
 
-/* .container{
-  width: 800px;
-} */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 </style>

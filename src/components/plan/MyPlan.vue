@@ -25,9 +25,11 @@ init();
 
 <template>
   <div class="outer">
-    <div class="container">
+    <div class="title-div">
       <h3>나의 일정</h3>
       <hr/>
+    </div>
+    <div class="container">
       <div class="row">
       <template  v-for="planList in planLists" :key="planList.planIdx">
       <PlanListItem :planList="planList"> </PlanListItem>
@@ -38,6 +40,11 @@ init();
 </template>
 
 <style scoped>
+.title-div{
+  width:15vw;
+  margin: 0 auto;
+  text-align: center;
+}
 .outer{
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;

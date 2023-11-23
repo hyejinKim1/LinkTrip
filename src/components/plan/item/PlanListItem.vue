@@ -41,7 +41,6 @@ function deletePlan(){
 
   <div class="card col-lg-3 col-sm-12 mx-3 my-3 card-container">
     <div style="text-decoration:none; color: black" @click="clickPlan">
-      <img src="@/assets/img/region/jeju/jeju2.jpg" class="card-img-top" alt="...">
       <div class="card-body">
         <h2 class="card-title title">{{ planList.planTitle }}</h2>
         <p class="card-text txt">
