@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { listMyArticle } from "@/api/community.js";
 import { useMemberStore } from "@/stores/member";
 import PageNavigation from "./PageNavigation.vue";
+import ArticleListItem from "./item/ArticleListItem.vue";
 
 const memberStore = useMemberStore();
 const router = useRouter();
@@ -38,15 +39,13 @@ init();
 </script>
 
 <template>
-  <div id="container" class="container">
+  <div id="container" class="container card-div">
     <h3>나의 여행후기</h3>
     <hr/>
-    <div class="row">
-      <div class="article" v-for="article in myArticle.articleList" :key="article.articleIdx" @click="onClickCard(article.articleIdx)">
-        <h2 class="card-title">{{ article.articleTitle }}</h2>
-        <p class="card-text">{{ article.content }}</p>
-        <p class="date card-text">Created at: {{ article.createAt }}</p>
-      </div>
+    <div class=" container d-flex row">
+      <template v-for="article in myArticle.articleList" :key="article.articleIdx" >
+        <ArticleListItem class="col-3" :article="article" :pgno="pgno"></ArticleListItem>
+      </template>
     </div>
     <page-navigation
       :total-page="myArticle.totalCount"
@@ -58,11 +57,19 @@ init();
 
 <style scoped>
 #container {
-  font-family: 'Noto Sans KR', sans-serif;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100vw;
-  padding-top: 9vh;
-  overflow: hidden;
+  padding-top: 10vh;
+  overflow-x: hidden;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .row {
@@ -76,7 +83,6 @@ init();
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 8px;
-  width: 40vw;
   box-sizing: border-box;
   transition: background-color 0.3s;
   cursor: pointer;
