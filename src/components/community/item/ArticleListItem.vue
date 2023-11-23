@@ -65,6 +65,15 @@ async function onClickCard() {
   router.push({ name: "detailArticle", params: { articleIdx: props.article.articleIdx } });
   console.log("onClickCard");
 }
+
+let img = document.getElementById('img1');
+function mouseover (){
+  img.setAttribute("src","@/assets/img/icon/save_empty.png");
+}
+
+function mouseleave (){
+  img.setAttribute("src","@/assets/img/icon/save_full.png");
+} 
 </script>
 
 <template>
@@ -73,7 +82,15 @@ async function onClickCard() {
             <!-- <router-link :to="`community/detailArticle/${article.articleIdx}`" :pgno="pgno"> -->
               <div style="position:relative; height: 200px;">
                 <img src="@/assets/img/region/jeju/jeju1.jpg" class="card-img-top" alt="...">
-                <img src="@/assets/img/icon/save_empty.png" class="card-img-haert in_box" alt="" @click.stop="onClickScrap()">
+                <!-- <div class="box" onmouseover="mouseover()" onmouseleave="mouseleave()"> -->
+                  <!-- <img src="@/assets/img/icon/save_empty.png" 
+                  onmouseover="this.src='@/assets/img/icon/save_full.png'" onmouseleave="mouseleave()"
+                  onmouseout="this.src='@/assets/img/icon/save_empty.png'"
+                  class="card-img-haert in_box" id="img1" alt="" @click.stop="onClickScrap()">
+                   -->
+                   <img src="@/assets/img/icon/save_empty.png" class="card-img-haert in_box" id="img1" alt="" @click.stop="onClickScrap()">
+                <!-- </div> -->
+                
                 <!-- <img src="@/assets/img/icon/dowload_icon.png" class="card-img-haert in_box" alt="" @click.stop="onClickScrap()"> -->
               
               </div>
