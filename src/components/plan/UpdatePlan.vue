@@ -65,8 +65,7 @@ function getCafe() {
   query.value = planDTO.value.region + " 카페";
 }
 function searchPlacesResult(result) {
-  +
-    console.log("emit result:");
+  console.log("emit result:");
   console.log(result);
   places.value = result;
 }

@@ -26,6 +26,8 @@ init();
 <template>
   <div class="outer">
     <div class="container">
+      <h3>나의 일정</h3>
+      <hr/>
       <div class="row">
       <template  v-for="planList in planLists" :key="planList.planIdx">
       <PlanListItem :planList="planList"> </PlanListItem>
@@ -37,6 +39,7 @@ init();
 
 <style scoped>
 .outer{
+  font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
   padding-top: 9vh;
   height: 100vh;
