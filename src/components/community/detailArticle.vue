@@ -27,33 +27,24 @@ async function init() {
 
 init();
 
-// async function mvList() {
-//     console.log("****", pgno);
-//     router.push();
-    
-
-// }
 </script>
 
 <template>
-    <!-- <div class="outer"> -->
-        <!-- <button type="button" class="btn btn-outline-dark" @click="$router.push('/community')" style="margin-left:20px;">목록 보기</button> -->
-
         <div class="container">
-            <!-- <button type="button" class="btn btn-light" @click="mvList()">목록 보기</button> -->
-            <button type="button" class="btn btn-outline-dark" @click="$router.push('/community/modifyArticle/'+$route.params.articleIdx)">수정</button>
-            <button type="button" class="btn btn-outline-dark" @click="$router.push('/community')">목록 보기</button>
-            <!-- <button @click="mvList()">목록 보기</button> -->
+            <div class="button-container">
+            <button @click="goToList" class="btn btn-light">목록 보기</button>
+            <button @click="onDelete" class="btn btn-danger">삭제</button>
+            <button @click="goToModify" class="btn btn-outline-dark">수정</button>
+            </div>
             <articleDetail :article="articleDetailResponse?.articleData"></articleDetail>
             <planDetail :plan="articleDetailResponse?.planData"></planDetail>
             <commentList :comment="articleDetailResponse?.commentData" :articleIdx="param.articleIdx"></commentList>
         </div>
-    <!-- </div> -->
 </template>
 
 <style scoped>
 
-.container{
+/* .container{
     width: 100vw;
     padding-top: 9vh;
     font-family: 'Noto Sans KR', sans-serif;
@@ -61,6 +52,21 @@ init();
 }
 
 .btn{
+    margin: 5px;
+} */
+
+.container {
+    width: 100vw;
+    padding-top: 9vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+}
+
+.button-container {
+    margin: 10px 0;
+}
+
+.btn {
     margin: 5px;
 }
 </style>
