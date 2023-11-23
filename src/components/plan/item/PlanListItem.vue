@@ -7,8 +7,13 @@ console.log(123123)
 console.log(props.planList);
 
 function createArticle(){
-  console.log("onClickCard");
+  console.log("onClickcreate");
   router.push({ name: "createArticle", params: { planIdx: props.planList.planIdx } });
+}
+
+function clickPlan(){
+  console.log("onClickcard");
+  router.push({ name: "detailPlan", params: { planIdx: props.planList.planIdx } });
 }
 </script>
 
@@ -22,7 +27,7 @@ function createArticle(){
       </router-link> -->
 
   <div class="card col-lg-3 col-sm-12 mx-3 my-3 card-container">
-    <router-link :to="`/detailPlan/${planList.planIdx}`" style="text-decoration:none; color: black">
+    <div style="text-decoration:none; color: black" @click="clickPlan">
       <img src="@/assets/img/region/jeju/jeju2.jpg" class="card-img-top" alt="...">
       <div class="card-body">
         <h2 class="card-title title">{{ planList.planTitle }}</h2>
@@ -34,48 +39,31 @@ function createArticle(){
         <p class="card-text txt">{{ planList.region }}</p>
       </div>
 
-      <div >
-        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-pencil-square create-article"
-        viewBox="0 0 16 16" @click="createArticle">
+      <div class="create-article">
+        <div style="font-size:10px; color: gray;">다른 사용자들과 일정을 공유해보세요! </div> 
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-pencil-square"
+        viewBox="0 0 16 16" @click.stop="createArticle()">
         <path
           d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
         <path fill-rule="evenodd"
           d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
         </svg>
+        </div>
       </div>
       
-    </router-link>
+    </div>
   </div>
 </template>
 <style scoped>
-/* .planList{
-
-    display:inline-block;
-    width: 33%;
-    height: 150px;
-} */
-
-/* img{
-    border-radius: 10px;
-} */
-
-/* .card{
-    display:inline-block;
-    padding: 10px;
-}
-
-.card-container{
-    background-color:rgb(224, 241, 251);
-    border: none;  
-}
-
-.card-container:hover {
-    background-color:rgb(235, 244, 249);
-}
-*/
 .create-article{
   float: right;
   margin: 5px;
+}
+
+.create-article div{
+  display: inline-block;
+  margin:5px;
 }
 
 .create-article:hover {
