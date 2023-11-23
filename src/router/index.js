@@ -72,7 +72,7 @@ const router = createRouter({
     {
       path: '/plan/:planIdx/article/create',
       name: 'createArticle',
-      component: () => import('../components/community/createArticle.vue'),
+      component: () => import('@/components/community/createArticle.vue'),
     },
 
     // {

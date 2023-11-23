@@ -20,7 +20,7 @@ function logout() {
         });
 }
 
-function closeMyPage(){
+function closeMyPage(newWidth){
     document.getElementById("mySidenav").style.width = "0";
     emit("closeMypage", "0");
 }

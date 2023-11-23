@@ -11,11 +11,12 @@ export default {
       markers: [],
       infowindows: [],
       polylines: [],
+      bounds: null,
     }
   },
   props: {
-    region:{
-      type:String
+    region: {
+      type: String
     },
     query: {
       type: String
@@ -60,15 +61,15 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=36a9fd278c2c99a830e34141dcdcc950&libraries=services";
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=88eb08e9160e48bfdd48150ca34249a4&libraries=services";
       document.head.appendChild(script);
     },
-    setCenter(region){
-      switch(region){
+    setCenter(region) {
+      switch (region) {
         case "제주도":
           return new kakao.maps.LatLng(33.450701, 126.570667);
         case "서울":
-          return new kakao.maps.LatLng(37.5546788388674, 126.970606917394)
+          return new kakao.maps.LatLng(37.5546788388674, 126.970606917394);
         case "인천":
           return new kakao.maps.LatLng(37.456004465652136, 126.7052580700657);
         case "부산":
@@ -99,6 +100,8 @@ export default {
           return new kakao.maps.LatLng(35.8242238, 127.1479532);
         case "전라남도":
           return new kakao.maps.LatLng(34.8679, 126.991);
+        default:
+          return new kakao.maps.LatLng(37.5546788388674, 126.970606917394);
       }
     },
     initMap() {
@@ -110,11 +113,12 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
       this.ps = new kakao.maps.services.Places();
+      this.bounds = new kakao.maps.LatLngBounds();
 
-      console.log(this.mapData);
-      if (this.mapData.length > 0) {
-          this.makeList(this.mapData);
-        }
+      // console.log(this.mapData);
+      // if (this.mapData.length > 0) {
+      //     this.makeList(this.mapData);
+      //   }
     },
     placesSearchCB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
@@ -127,11 +131,10 @@ export default {
       this.positions = [];
       this.locations = [];
       console.log("length" + data.length);
-      var bounds = new kakao.maps.LatLngBounds();
       data.forEach((area) => {
         console.log(area);
 
-        bounds.extend(new kakao.maps.LatLng(area.lon, area.lat));
+        this.bounds.extend(new kakao.maps.LatLng(area.lon, area.lat));
         this.locations.push(new kakao.maps.LatLng(area.lon, area.lat))
 
         let markerInfo = {
@@ -143,7 +146,7 @@ export default {
       });
       this.displayMarker();
       this.displayLink();
-      this.map.setBounds(bounds);
+      this.map.setBounds(this.bounds);
     },
     displayMarker() {
       var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'
@@ -151,35 +154,47 @@ export default {
       for (var i = 0; i < this.positions.length; i++) {
         var imageSize = new kakao.maps.Size(36, 37);
         //var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-        var imgOptions =  {
-            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-            spriteOrigin : new kakao.maps.Point(0, (i*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        var imgOptions = {
+          spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+          spriteOrigin: new kakao.maps.Point(0, (i * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+          offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
         }
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions)
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
+
         var marker = new kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
           position: this.positions[i].latlng, // 마커를 표시할 위치
           title: this.positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
           image: markerImage, // 마커 이미지
         });
+
         marker.setMap(this.map);
 
         this.markers.push(marker);
 
-        var content = `<div class="customoverlay" style="padding: 5px;z-index:1"><a href=${this.positions[i].url} target="_blank" style="text-decoration:none;">${this.positions[i].title}</a></div>`;
+        var content = `<div style="padding: 5px; z-index:1"><a href=${this.positions[i].url} target="_blank" style="text-decoration:none;">${this.positions[i].title}</a></div>`;
 
-        // 커스텀 오버레이를 생성<span
-        var infoWindow = new kakao.maps.InfoWindow({
-          position: this.positions[i].latlng,
-          content: content
-        });
-
-        // 커스텀 오버레이를 지도에 표시
-        infoWindow.open(this.map, marker);
-
-        this.infowindows.push(infoWindow);
+        this.addListeners(marker, content);
       }
+    },
+    addListeners(marker, content) {
+      var infoWindow = new kakao.maps.InfoWindow({
+        position: marker.getPosition(),
+        content: content
+      });
+
+      // 마커에 마우스를 올렸을 때 이벤트 처리
+      kakao.maps.event.addListener(marker, 'mouseover', function () {
+        infoWindow.open(marker.getMap(), marker);
+      });
+
+      this.infowindows.push(infoWindow);
+
+
+      // 마커에 마우스를 내렸을 때 이벤트 처리 (선택 사항)
+      // kakao.maps.event.addListener(marker, 'mouseout', function () {
+      //   infoWindow.close();
+      // });
     },
     displayLink() {
       var polyline = new kakao.maps.Polyline({
@@ -213,14 +228,13 @@ export default {
 </script>
 
 <template>
-    <!-- kakao map start -->
-    <div id="map" class="map-div"></div>
-    <!-- kakao map end -->
+  <!-- kakao map start -->
+  <div id="map" class="map-div"></div>
+  <!-- kakao map end -->
 </template>
 
 <style scoped>
 .place-item-div {
   border: 1px solid black;
 }
-
 </style>

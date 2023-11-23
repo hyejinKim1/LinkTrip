@@ -1,16 +1,19 @@
 <script setup>
 import KakaoMap from '../map/KakaoMap.vue';
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const props = defineProps({
     plan : Object
 });
 
-const mapData = ref(props.plan.placeOrder[0]);
-const region = ref("서울");
+const mapData = ref([]);
 
 function selectDay(index){
     mapData.value = props.plan.placeOrder[index];
 }
+
+onMounted(() => {
+    mapData.value = props.plan.placeOrder[0];
+})
 
 console.log("plan")
 console.log(props.plan);
