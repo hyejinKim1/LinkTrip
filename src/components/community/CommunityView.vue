@@ -144,6 +144,7 @@ form {
 }
 
 .top-bar {
+  padding-top: 10px;
   width: 65vw;
   display: flex;
   justify-content: space-between;

@@ -61,11 +61,12 @@ export default {
         <div>
             <img src="@/assets/img/person-circle.svg" alt="user" style="width:40px; height:40px;" />
         </div>
-        <div style="font-size:15px; margin-bottom:20px;" v-if="isLogin">
+        <div style="font-size:15px; margin-bottom:10px;" v-if="isLogin">
             {{ memberStore.userInfo.userName }} 님
         </div>
-        <hr style="margin:25px;" />
         <div @click="logout" class="btn-hover">로그아웃</div>
+        <hr style="margin:25px;" />
+        
         <router-link to="/myplan" style="text-decoration:none;">
             <div class="btn-hover">나의 여행 계획</div>
         </router-link>
