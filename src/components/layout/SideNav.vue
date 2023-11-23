@@ -2,11 +2,13 @@
 import axios from "axios";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import { useRouter } from "vue-router";
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
 const { VITE_VUE_API_URL } = import.meta.env;
 
 const { userLogout } = memberStore;
+const router = useRouter();
 const emit = defineEmits(['closeMypage']);
 
 function logout() {
@@ -69,6 +71,9 @@ export default {
         </router-link>
         <router-link to="/savedplan" style="text-decoration:none;">
             <div class="btn-hover">담은 여행 계획</div>
+        </router-link>
+        <router-link to="/myArticle" style="text-decoration:none;">
+            <div class="btn-hover">나의 여행 후기</div>
         </router-link>
         <router-link to="/likearticle" style="text-decoration:none;">
             <div class="btn-hover">좋아요한 여행 후기</div>

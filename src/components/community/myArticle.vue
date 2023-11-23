@@ -8,6 +8,14 @@ import PageNavigation from "./PageNavigation.vue"
 const memberStore = useMemberStore();
 const router = useRouter();
 
+const myArticle = ref([]);
+
+//param을 가지고 myArticle list를 뽑아옴 
+const param = ref({
+    pgno: 1,
+    userId : memberStore.userInfo.userId
+});
+
 const currentPage = ref(1);
 function changeCurrentPage(pageNumber) {
   currentPage.value = pageNumber;
@@ -16,16 +24,11 @@ function changeCurrentPage(pageNumber) {
 }
 
 
-const myArticle = ref([]);
 
-//param을 가지고 myArticle list를 뽑아옴 
-const param = ref({
-    pgno: 1,
-    userId : memberStore.userInfo.userId
-});
 async function init() {
+    console.log("my article 함수 호출");
     myArticle.value = await listMyArticle(param.value);
-    console.log("myArticle : ", myArticle);
+    console.log("myArticle : ", myArticle.value);
 }
 
 init();

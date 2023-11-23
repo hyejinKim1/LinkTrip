@@ -74,7 +74,8 @@ function closeMyPage(newWidth){
 
 <style scoped>
 .navbar{
-  height:9vh;
+  height:7vh;
+  background-color: white;
 }
 
 li {
