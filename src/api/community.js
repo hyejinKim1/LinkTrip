@@ -49,11 +49,7 @@ async function updateArticle(param) {
 
 async function createArticle(param) {
     console.log(param);
-    await local.post(`community/createArticle`, param, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+    await local.post(`community/createArticle`, paramzzz);
 }
 
 async function listMyArticle(param) {

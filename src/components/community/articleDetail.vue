@@ -4,30 +4,24 @@ const props = defineProps({
     article : Object
 });
 console.log(props.article);
-
-const imgs = ref([
-  {"imgurl": 'C:/Users/hyejin/Pictures/Enermy.jpg'},
-  {"imgurl": 'C:/Users/hyejin/Pictures/Enermy.jpg'},
-  {"imgurl": '@/assets/img/여권사진.png'},
-]);
-
-
+// console.log("files", props.article.value.files);
 </script>
 
 <template>
   <div class="center font margin-top">
         <!-- {{ article }} -->
+        <!-- {{ article.files }} -->
         <div class="article-title">
       <h2>{{ article.articleTitle }}</h2>
       <h6>{{ article.createAt }}</h6>
       </div>
         <br>
         {{ article.content }}
-        <img class="logo block" src="@/assets/img/여권사진.png"/>
+        <!-- <img class="logo block" src="@/assets/img/여권사진.png"/> -->
         <div class="img-div">
-          <div v-for="(img, index) in imgs" :key="index" class="img-wrapper">
-            {{ img.imgurl }}
-            <img :src="img.imgurl"/>
+          <div v-for="(img, index) in article.files" :key="index" class="img-wrapper">
+            
+            <img :src="img"/>
           </div>
         </div>
         <div class="divider"></div>
