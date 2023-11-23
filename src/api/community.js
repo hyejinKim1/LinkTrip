@@ -52,6 +52,21 @@ async function createArticle(param) {
     await local.post(`community/createArticle`, param);
 }
 
+async function listMyArticle(param) {
+    console.log(param);
+    const result = await local.get(`community/listMyArticle`, { params: param });
+    return result.data;
+}
+
+async function listLikedArticle(param) {
+    console.log(param);
+    const result = await local.get(`community/listLikedArticle`, { params: param });
+    return result.data;
+}
+
+
+
+
 export {
     getArticleList,
     deleteComment,
@@ -62,5 +77,7 @@ export {
     createLikeArticle,
     deleteLikeArticle,
     updateArticle,
-    createArticle
+    createArticle,
+    listMyArticle,
+    listLikedArticle
 }

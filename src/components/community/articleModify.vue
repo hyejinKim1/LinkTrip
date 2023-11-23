@@ -4,41 +4,228 @@ import {ref} from "vue";
 import {updateArticle} from "@/api/community";
 import {useRoute} from "vue-router";
 import {getViewArticle} from "@/api/article";
+import axios from "axios";
+import KakaoMap from "../map/KakaoMap.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const { VITE_VUE_API_URL } = import.meta.env;
 
 const route = useRoute()
 
 const article = ref(
   {
     articleTitle: '',
-    content: ''
+    content: '',
+    open:'F'
   }
 )
-console.e
 
+const articleInfo = ref({
+  title : '',
+  content : '',
+  open : '',
+})
+
+const mapData = ref([]);
+
+
+function selectDay(index) {
+  mapData.value = article.value.planData.placeOrder[index];
+}
 
 function onModify() {
+  article.value.articleData.articleTitle = articleInfo.value.title
+  article.value.articleData.content = articleInfo.value.content
+  article.value.articleData.open = articleInfo.value.open 
   console.log(article.value)
-  updateArticle(article.value)
+  updateArticle(article.value.articleData)
+  router.push("/community");
 }
 
 async function init() {
   article.value = await getViewArticle({
     articleIdx: route.params.articleIdx
   });
+  articleInfo.value.title = article.value.articleData.articleTitle
+  articleInfo.value.content = article.value.articleData.content
+  articleInfo.value.open = article.value.articleData.open
+}
+
+function toggleVisibility(){
+  if(articleInfo.value.open == 'T'){
+    articleInfo.value.open = 'F';
+  }else{
+    articleInfo.value.open = 'T';
+  }
 }
 
 init()
 </script>
 
 <template>
-  {{ article }}
-  <form @submit.prevent="onModify">
-    <input type="text" v-model="article.articleTitle">
-    <input type="text" v-model="article.content">
-    <input type="submit" value="수정">
-  </form>
+  <div class="create-article-div">
+    <div class="plan-div">
+      <h2>{{ article.planData.planDTO.planTitle }}</h2>
+      <div v-for="(day, index) in article.planData.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
+        <button class="button">{{ index + 1 }}day</button>
+      </div>
+      <div class="map-div">
+        <KakaoMap :mapData="mapData" :region="article.planData.planDTO.region" />
+      </div>
+    </div>
+    <form @submit.prevent="onModify" class="article-form">
+      <label for="articleTitle">제목</label>
+      <input type="text" id="articleTitle" v-model="articleInfo.title" class="input-field" placeholder="제목을 입력해주세요">
+
+      <label for="content">내용</label>
+      <textarea id="content" v-model="articleInfo.content" class="input-field" placeholder="여행 후기를 입력해주세요!"></textarea>
+
+      <div class="toggle-button">
+        <label for="visibility">글 공개 여부:</label>
+        <button type="button" @click="toggleVisibility" :class="{ 'active': articleInfo.open == 'T' }">
+          {{ articleInfo.open == 'T' ? '공개' : '비공개' }}
+        </button>
+      </div>
+
+      <button type="submit" class="button">save</button>
+    </form>
+  </div>
+
 </template>
 
 <style scoped>
+.day-text {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px;
+  /* background-color: #4CAF50; */
+  /* color: white;
+  border-radius: 5px; */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.plan-div {
+  width: 50vw;
+  margin: auto;
+  text-align: center;
+}
+
+.map-div {
+  width: 50vw;
+  height: 35vh;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.create-article-div {
+  font-family: 'Noto Sans KR', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  padding-top:5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-form {
+  width: 50vw;
+  margin: auto;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  border-color: #4CAF50;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+textarea:focus {
+  border-color: #4CAF50;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.button {
+  width: 200px;
+  height: 60px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(65, 65, 65, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: rgb(163, 217, 248);
+  box-shadow: 0px 15px 20px rgba(145, 211, 255, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+.toggle-button {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-button label {
+  margin-right: 10px;
+}
+
+.toggle-button button {
+  background-color: #ccc;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-button button.active {
+  background-color: #4CAF50;
+}
 
 </style>

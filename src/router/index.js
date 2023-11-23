@@ -70,9 +70,9 @@ const router = createRouter({
       component: () => import('@/components/community/articleModify.vue')
     },
     {
-      path: '/plan/:planIdx/article/create',
+      path: '/createArticle/:planIdx',
       name: 'createArticle',
-      component: () => import('../components/community/createArticle.vue'),
+      component: () => import('@/components/community/createArticle.vue'),
     },
 
     // {

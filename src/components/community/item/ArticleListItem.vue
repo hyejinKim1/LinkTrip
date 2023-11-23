@@ -64,10 +64,6 @@ async function onClickCard() {
   // router.push({ name: 'detailArticle', params: { articleIdx: props.articleIdx }});
   router.push({ name: "detailArticle", params: { articleIdx: props.article.articleIdx } });
   console.log("onClickCard");
-
-
-  //디비에서 해당 articleIdx에 대해 해당 유저가 하트를 눌렀으면 색을 바꿔줌
-  //
 }
 </script>
 
