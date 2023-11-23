@@ -91,7 +91,7 @@ console.log(props.plan.planDTO.region);
 
 .center {
   display: block;
-  width: 60vw;
+  width : 75%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -122,10 +122,11 @@ console.log(props.plan.planDTO.region);
 }
 
 .map-div {
-  width: 60vw;
   height: 35vh;
+  width : 100%;
   border-radius: 15px;
   overflow: hidden;
+  display: block;
 }
 
 .button {

@@ -75,9 +75,10 @@ console.log(userId.value);
 
 <style scoped>
 .comment-container {
-  width: 60vw;
-  margin: auto;
-  padding: 20px;
+  display: block;
+  width : 75%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .comment-title {
