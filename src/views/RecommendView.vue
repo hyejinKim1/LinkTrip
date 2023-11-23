@@ -6,20 +6,26 @@ import { ref } from "vue";
 const inputQuery = ref("");
 const places = ref([]);
 
-const mapData = ref({
-  // "placeIdx": 0,
-  "lat": 0,
-  "lon": 0,
-  "placeName": '',
-  "placeUrl":''
-  // "createAt": null
-});
+const mapData = ref([]);
+const place=ref([]);
 
 
 function searchPlacesResult(result) {
   console.log("emit result:");
   console.log(result);
   places.value = result;
+}
+
+function searchPlace(index){
+  place.value = [];
+  place.value.push({
+    "lat": places.value[index].x,
+    "lon": places.value[index].y,
+    "placeName": places.value[index].place_name,
+    "placeUrl": places.value[index].place_url
+  })
+  mapData.value = place.value;
+  console.log(mapData.value);
 }
 </script>
 
@@ -36,7 +42,7 @@ function searchPlacesResult(result) {
           <a :href="place.place_url" target="_blank" rel="noopener noreferrer">{{ place.place_name }}</a>
           <div class="address-div">{{ place.address_name }}</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search hover-scale"
-            viewBox="0 0 16 16">
+            viewBox="0 0 16 16" @click="searchPlace(index)">
             <path
               d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
           </svg>
@@ -63,14 +69,14 @@ function searchPlacesResult(result) {
 
 .chat-div {
   width: 30vw;
-  padding-left: 10px;
+  padding: 15px;
 }
 
 .map-div {
   padding: 5px;
   border-radius: 10px;
   width: 50vw;
-  height: 92vh;
+  height: 90vh;
 }
 
 .search-div {

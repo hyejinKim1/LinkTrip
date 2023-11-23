@@ -99,7 +99,7 @@ console.log(props.plan.planDTO.region);
 
 .center {
   display: block;
-  width : 75%;
+  width : 60%;
   margin-left: auto;
   margin-right: auto;
 }

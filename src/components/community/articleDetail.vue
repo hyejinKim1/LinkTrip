@@ -1,8 +1,16 @@
 <script setup>
+import {ref} from "vue";
 const props = defineProps({
     article : Object
 });
 console.log(props.article);
+
+const imgs = ref([
+  {"imgurl": 'C:/Users/hyejin/Pictures/Enermy.jpg'},
+  {"imgurl": 'C:/Users/hyejin/Pictures/Enermy.jpg'},
+  {"imgurl": '@/assets/img/여권사진.png'},
+]);
+
 
 </script>
 
@@ -12,10 +20,16 @@ console.log(props.article);
         <div class="article-title">
       <h2>{{ article.articleTitle }}</h2>
       <h6>{{ article.createAt }}</h6>
-  </div>
+      </div>
         <br>
         {{ article.content }}
         <img class="logo block" src="@/assets/img/여권사진.png"/>
+        <div class="img-div">
+          <div v-for="(img, index) in imgs" :key="index" class="img-wrapper">
+            {{ img.imgurl }}
+            <img :src="img.imgurl"/>
+          </div>
+        </div>
         <div class="divider"></div>
         <div class="divider back"></div>
   </div>
@@ -33,6 +47,15 @@ console.log(props.article);
   margin-right: auto;
 }
 
+.img-div{
+  display: flex;
+}
+
+.img-wrapper{
+  margin:10px;
+  max-width: 100px;
+}
+
 .block {
     margin-left: auto;
   margin-right: auto;
@@ -42,7 +65,7 @@ console.log(props.article);
 
 .center {
   display: block;
-  width : 75%;
+  width : 60%;
   margin-left: auto;
   margin-right: auto;
 }

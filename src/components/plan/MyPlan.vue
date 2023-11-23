@@ -42,8 +42,6 @@ init();
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
   padding-top: 9vh;
-  height: 100vh;
-  overflow-x: hidden;
 }
 .container{
   width: 100vw;

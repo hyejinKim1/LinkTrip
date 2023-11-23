@@ -67,7 +67,7 @@ function toggleVisibility(){
     <div class="plan-div">
       <h2>{{ planDTO.planTitle }}</h2>
       <div v-for="(day, index) in placeOrder" :key="index" class="day-text " @click="selectDay(index)">
-        <button class="button">{{ index + 1 }}day</button>
+        <bitton class="button">{{ index + 1 }}day</bitton>
       </div>
       <div class="map-div">
         <KakaoMap :mapData="mapData" :region="region" />
@@ -120,12 +120,12 @@ function toggleVisibility(){
 .create-article-div {
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
-  padding:9vh;
+  height: 100vh;
+  padding-top:5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-x: hidden;
 }
 
 .article-form {
@@ -179,10 +179,10 @@ textarea:focus {
 }
 
 .button {
-  width: 100px;
-  height: 50px;
+  width: 200px;
+  height: 60px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 700;
   padding: 10px 20px;
   text-transform: uppercase;
