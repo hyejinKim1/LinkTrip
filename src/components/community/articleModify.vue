@@ -81,12 +81,20 @@ init()
       <label for="content">내용</label>
       <textarea id="content" v-model="articleInfo.content" class="input-field" placeholder="여행 후기를 입력해주세요!"></textarea>
 
+      <!--
+      <div class="mb-3">
+        <label for="upfile" class="form-label">파일:</label>
+				<input type="file" class="form-control border" id="upfile" name="upfile" multiple="multiple">
+			</div>
+      -->
+
       <div class="toggle-button">
         <label for="visibility">글 공개 여부:</label>
         <button type="button" @click="toggleVisibility" :class="{ 'active': articleInfo.open == 'T' }">
           {{ articleInfo.open == 'T' ? '공개' : '비공개' }}
         </button>
       </div>
+
 
       <button type="submit" class="button">save</button>
     </form>
