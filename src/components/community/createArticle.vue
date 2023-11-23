@@ -18,7 +18,8 @@ const region = ref("");
 const article = ref({
   articleTitle: '',
   content: '',
-  planIdx: route.params.planIdx
+  planIdx: route.params.planIdx,
+  open: 'F'
 })
 
 const mapData = ref([]);
@@ -51,6 +52,14 @@ function onCreate() {
   router.push("/community");
 }
 
+function toggleVisibility(){
+  if(article.value.open == 'T'){
+    article.value.open = 'F';
+  }else{
+    article.value.open = 'T';
+  }
+}
+
 </script>
 
 <template>
@@ -70,6 +79,13 @@ function onCreate() {
 
       <label for="content">내용</label>
       <textarea id="content" v-model="article.content" class="input-field" placeholder="여행 후기를 입력해주세요!"></textarea>
+
+      <div class="toggle-button">
+        <label for="visibility">글 공개 여부:</label>
+        <button type="button" @click="toggleVisibility" :class="{ 'active': article.open == 'T' }">
+          {{ article.open == 'T' ? '공개' : '비공개' }}
+        </button>
+      </div>
 
       <button type="submit" class="button">save</button>
     </form>
@@ -187,4 +203,28 @@ textarea:focus {
   color: #fff;
   transform: translateY(-7px);
 }
+.toggle-button {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-button label {
+  margin-right: 10px;
+}
+
+.toggle-button button {
+  background-color: #ccc;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-button button.active {
+  background-color: #4CAF50;
+}
+
 </style>
