@@ -34,9 +34,12 @@ console.log(props.plan.planDTO.region);
         <div class="title">
         <h1 style="margin-top:20px;">{{plan.planDTO.planTitle}}</h1>
         </div>
-        <div v-for="(day,index) in plan.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
-        <button class="button">{{ index+1 }}day </button>
+        <div class="day-btn-div">
+            <div v-for="(day,index) in plan.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
+            <button class="button">{{ index+1 }}day </button>
         </div>
+        </div>
+        
         <div class="map-div">
             <KakaoMap :mapData="mapData" :region="plan.planDTO.region"/>
         </div>
@@ -76,13 +79,18 @@ console.log(props.plan.planDTO.region);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Soft box shadow */
 }
 
-/* .day-text {
+.day-text {
   margin: 10px;
   padding: 10px;
   display: inline-block;
   cursor: pointer;
   transition: color 0.3s, transform 0.3s;
-} */
+} 
+
+.day-btn-div{
+    width: 60vw;
+    margin: 0 auto;
+}
 
 .day-text:hover {
   color: #555; /* Dark grey on hover */

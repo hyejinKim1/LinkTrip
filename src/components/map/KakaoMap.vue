@@ -187,13 +187,12 @@ export default {
         infoWindow.open(marker.getMap(), marker);
       });
 
-      this.infowindows.push(infoWindow);
-
-
       // 마커에 마우스를 내렸을 때 이벤트 처리 (선택 사항)
-      // kakao.maps.event.addListener(marker, 'mouseout', function () {
-      //   infoWindow.close();
-      // });
+      kakao.maps.event.addListener(marker, 'click', function () {
+        infoWindow.close();
+      });
+
+      this.infowindows.push(infoWindow);
     },
     displayLink() {
       var polyline = new kakao.maps.Polyline({

@@ -65,7 +65,7 @@ init()
 <template>
   <div class="create-article-div">
     <div class="plan-div">
-      <h2>{{ article.planData.planDTO.planTitle }}</h2>
+      <p>{{ article.planData.planDTO.planTitle }}</p>
       <div v-for="(day, index) in article.planData.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
         <button class="button">{{ index + 1 }}day</button>
       </div>
@@ -73,7 +73,8 @@ init()
         <KakaoMap :mapData="mapData" :region="article.planData.planDTO.region" />
       </div>
     </div>
-    <form @submit.prevent="onModify" class="article-form">
+    <div>
+      <form @submit.prevent="onModify" class="article-form">
       <label for="articleTitle">제목</label>
       <input type="text" id="articleTitle" v-model="articleInfo.title" class="input-field" placeholder="제목을 입력해주세요">
 
@@ -89,30 +90,29 @@ init()
 
       <button type="submit" class="button">save</button>
     </form>
+    </div>
   </div>
 
 </template>
 
 <style scoped>
+
 .day-text {
+  margin: 10px;
+  padding: 10px;
   display: inline-block;
-  margin: 5px;
-  padding: 8px;
-  /* background-color: #4CAF50; */
-  /* color: white;
-  border-radius: 5px; */
   cursor: pointer;
-  transition: background-color 0.3s;
-}
+  transition: color 0.3s, transform 0.3s;
+} 
 
 .plan-div {
-  width: 50vw;
-  margin: auto;
+  width: 100vw;
+  margin-top: 10vh;
   text-align: center;
 }
 
 .map-div {
-  width: 50vw;
+  width: 100vw;
   height: 35vh;
   border-radius: 15px;
   overflow: hidden;
@@ -121,16 +121,14 @@ init()
 .create-article-div {
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
-  height: 100vh;
-  padding-top:5vh;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto; /* Added to enable vertical scrolling */
+  margin-top: 10vh; /* Added top margin */
 }
 
 .article-form {
-  width: 50vw;
+  width: 100vw;
   margin: auto;
   margin-top: 15px;
   text-align: center;
@@ -180,10 +178,10 @@ textarea:focus {
 }
 
 .button {
-  width: 200px;
-  height: 60px;
+  width: 100px;
+  height: 50px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 25px;
+  font-size: 15px;
   font-weight: 700;
   padding: 10px 20px;
   text-transform: uppercase;
@@ -204,6 +202,7 @@ textarea:focus {
   color: #fff;
   transform: translateY(-7px);
 }
+
 .toggle-button {
   margin-bottom: 15px;
   display: flex;

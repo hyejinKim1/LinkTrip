@@ -98,7 +98,7 @@ const getDateDiff = (d1, d2) => {
       </div>
       <div class="save-div slider">
         <div class="title">저장 버튼을 누르고 나만의 여행 일정을 만들어 보세요!</div>
-        <div>
+        <div style="margin-top:10px;">
           <select v-model="region">
           <option value="">지역</option>
           <option value="서울">서울</option>
@@ -122,7 +122,7 @@ const getDateDiff = (d1, d2) => {
         </div>
         <div class="result-div">
           <p>{{ planname }}</p>
-          <p>여행 일정 : {{ new Date(startdate).toLocaleDateString() }}
+          <p>{{ new Date(startdate).toLocaleDateString() }}
         ~
         {{ new Date(enddate).toLocaleDateString() }}</p>
 

@@ -7,7 +7,6 @@ import { useMenuStore } from "@/stores/menu";
 
 import axios from "axios";
 import { join } from "../../api/user";
-// import router from "../../router";
 const isActive = ref(false);
 const router = useRouter();
 const memberStore = useMemberStore();
@@ -32,22 +31,6 @@ const toSignin = () => {
 };
 
 const loginForm = async() => {
-  // let baseUrl = "http://localhost/mem/login?";
-  // let userid = document.getElementById("loginid")?.value;
-  // let userpwd = document.getElementById("loginpw")?.value;
-
-  // baseUrl += "&userid=" + userid + "&userpwd=" + userpwd;
-  // console.log(baseUrl);
-
-  // axios.post(baseUrl)
-  //   .then((res) => {
-  //     if(res.data.resdata == 1){
-  //       router.replace({path:'/home'});
-  //       console.log("로그인 성공");
-  //     }else{
-  //       console.log("로그인 실패");
-  //     }
-  //   });
   console.log(loginUser.value);
   console.log(loginUser.userId);
   console.log(loginUser.userPwd);
@@ -224,9 +207,9 @@ input {
       0 10px 10px rgba(0,0,0,0.22);
   position: relative;
   overflow: hidden;
-  width: 1000px;
-  max-width: 100%;
-  min-height: 700px;
+  width: 900px;
+  max-width: 90vw;
+  min-height: 70vh;
 }
 
 .form-container {
