@@ -65,7 +65,7 @@ init()
 <template>
   <div class="create-article-div">
     <div class="plan-div">
-      <p>{{ article.planData.planDTO.planTitle }}</p>
+      <h3>{{ article.planData.planDTO.planTitle }}</h3>
       <div v-for="(day, index) in article.planData.placeOrder" :key="index" class="day-text " @click="selectDay(index)">
         <button class="button">{{ index + 1 }}day</button>
       </div>
@@ -105,22 +105,25 @@ init()
 
 <style scoped>
 
-.day-text {
-  margin: 10px;
-  padding: 10px;
+.day-text  {
   display: inline-block;
+  margin: 5px;
+  padding: 8px;
+  /* background-color: #4CAF50; */
+  /* color: white;
+  border-radius: 5px; */
   cursor: pointer;
-  transition: color 0.3s, transform 0.3s;
-} 
+  transition: background-color 0.3s;
+}
 
 .plan-div {
-  width: 100vw;
-  margin-top: 10vh;
+  width: 50vw;
+  margin: auto;
   text-align: center;
 }
 
 .map-div {
-  width: 100vw;
+  width: 50vw;
   height: 35vh;
   border-radius: 15px;
   overflow: hidden;
@@ -129,14 +132,16 @@ init()
 .create-article-div {
   font-family: 'Noto Sans KR', sans-serif;
   width: 100vw;
+  padding:9vh;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-y: auto; /* Added to enable vertical scrolling */
-  margin-top: 10vh; /* Added top margin */
+  overflow-x: hidden;
 }
 
 .article-form {
-  width: 100vw;
+  width: 50vw;
   margin: auto;
   margin-top: 15px;
   text-align: center;
@@ -210,7 +215,6 @@ textarea:focus {
   color: #fff;
   transform: translateY(-7px);
 }
-
 .toggle-button {
   margin-bottom: 15px;
   display: flex;
