@@ -68,6 +68,7 @@ function onCreate() {
 
   createArticle(form);
   router.push("/community");
+  location.reload("true");
 }
 
 function toggleVisibility(){

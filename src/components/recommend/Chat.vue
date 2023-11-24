@@ -66,7 +66,6 @@ const getChatGPTResponse = async () => {
           { role: 'system', content: '당신은 여행지를 간략하게 잘 추천해주는 챗봇입니다.' },
           { role: 'user', content: newMessage.value },
         ],
-        max_tokens: 200,
       }),
     });
 
