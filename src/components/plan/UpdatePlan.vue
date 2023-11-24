@@ -81,7 +81,7 @@ function closeSearch() {
 function openSearch() {
   var map = document.getElementsByClassName("map-div");
   for (var i = 0; i < map.length; i++) {
-    map[i].style.width = "64vw";
+    map[i].style.width = "65vw";
   }
   var map = document.getElementsByClassName("search-div")[0].style.width = "17vw";
 }

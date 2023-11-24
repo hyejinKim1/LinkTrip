@@ -63,12 +63,10 @@ function onCreate() {
     // console.log(32132131231)
     form.append("files", article.value.files[i]);
   }
-
   console.log(form)
 
   createArticle(form);
   router.push("/community");
-  location.reload("true");
 }
 
 function toggleVisibility(){

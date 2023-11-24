@@ -43,7 +43,7 @@ init();
     <hr/>
     <div class=" container d-flex row">
       <template v-for="article in LikeArticle.articleList" :key="article.articleIdx" >
-        <ArticleListItem class="col-3" :article="article" :pgno="pgno"></ArticleListItem>
+        <ArticleListItem class="col-3" :article="article" :pgno="param.pgno"></ArticleListItem>
       </template>
     </div>
     <page-navigation

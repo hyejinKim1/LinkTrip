@@ -11,6 +11,7 @@ const props = defineProps({
     article: Object,
     pgno : Number
 }); 
+console.log("article");
 console.log(props.article);
 const isLike = ref(0);
 async function onCheckLikeArticle() {
@@ -81,7 +82,7 @@ function mouseleave (){
         <div class="card container" @click="onClickCard()">
             <!-- <router-link :to="`community/detailArticle/${article.articleIdx}`" :pgno="pgno"> -->
               <div style="position:relative; height: 200px;">
-                <!-- <img src="@/assets/img/region/jeju/jeju1.jpg" class="card-img-top" alt="..."> -->
+                <img :src="article.files[0]" class="card-img-top" alt="...">
                 <!-- <div class="box" onmouseover="mouseover()" onmouseleave="mouseleave()"> -->
                   <!-- <img src="@/assets/img/icon/save_empty.png" 
                   onmouseover="this.src='@/assets/img/icon/save_full.png'" onmouseleave="mouseleave()"
